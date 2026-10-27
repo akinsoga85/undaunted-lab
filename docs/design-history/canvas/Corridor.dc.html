@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Undaunted Lab — The Corridor</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#CFEAF6}
+a{color:#17181C}a:hover{color:#17181C}
+.p3{position:absolute;transform-style:preserve-3d}
+.f{position:absolute;box-sizing:border-box;border:2.5px solid #17181C}
+.bb{position:absolute;transform-origin:50% 100%;transform:rotateZ(45deg) rotateX(-60deg);pointer-events:none}
+.bbc{position:absolute;transform-origin:50% 50%;transform:rotateZ(45deg) rotateX(-60deg);pointer-events:none}
+.bld{display:block;transition:transform .35s cubic-bezier(.2,.8,.2,1);cursor:pointer;outline:none}
+.ripple{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border:2.5px solid #9DD2EA;border-radius:50%;box-sizing:border-box;animation:rip 4.5s ease-out infinite;pointer-events:none}
+@keyframes rip{0%{transform:scale(.3);opacity:0}15%{opacity:1}100%{transform:scale(1.6);opacity:0}}
+.bob{animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.float{animation:flt 3s ease-in-out infinite}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.beat{animation:beat 1.6s ease-in-out infinite;transform-origin:50% 60%}
+@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+.beam{animation:beam 3s ease-in-out infinite}
+@keyframes beam{0%,100%{opacity:.25}50%{opacity:.9}}
+.smoke{animation:smk 3.2s ease-out infinite}
+@keyframes smk{0%{transform:translate(0,0) scale(.6);opacity:0}20%{opacity:.9}100%{transform:translate(10px,-34px) scale(1.3);opacity:0}}
+.hook{animation:hook 3.5s ease-in-out infinite}
+@keyframes hook{0%,100%{transform:translateY(0)}50%{transform:translateY(22px)}}
+.car{animation:car 5s linear infinite}
+@keyframes car{0%{left:-6px}100%{left:110px}}
+.car2{animation:car 6.5s linear infinite reverse}
+.cloudA{animation:cldA 46s linear infinite}
+@keyframes cldA{0%{transform:translate3d(-160px,-160px,250px)}100%{transform:translate3d(560px,560px,250px)}}
+.cloudB{animation:cldA 60s linear infinite;animation-delay:-28s}
+.plane{transition:transform 2.6s cubic-bezier(.45,0,.2,1)}
+.aim{transition:transform .9s cubic-bezier(.3,.7,.3,1)}
+.pill{transition:background .2s,transform .2s}
+.pill:hover{background:#FFE3D8}
+.btn{transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #17181C}
+.card{animation:cardIn .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.scale{transform:scale(1)}
+@media (min-width:1360px) and (min-height:820px){.scale{transform:scale(1.08)}}
+@media (max-width:1180px){.scale{transform:scale(.78)}}
+@media (max-width:900px){.scale{transform:scale(.6)}}
+@media (max-width:640px){.scale{transform:scale(.42)}.hide-sm{display:none !important}}
+@media (max-width:420px){.scale{transform:scale(.31)}}
+@media (max-width:640px){.ctl{left:50% !important;right:auto !important;bottom:132px !important;transform:translateX(-50%)}.navx{flex-wrap:nowrap !important}}
+a:focus-visible,button:focus-visible{outline:3px solid #F47B5A;outline-offset:3px}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="position: relative; height: 100vh; min-height: 640px; overflow: hidden; background: #CFEAF6; color: #17181C; font-family: Inter, system-ui, sans-serif">
+
+<div class="scale" style="position: absolute; left: 50%; top: 50%; width: 0; height: 0">
+<div class="p3" style="left: -585px; top: -370px; width: 1000px; height: 1000px; transform: rotateX(60deg) rotateZ(-45deg)">
+
+<div class="ripple" style="left: 480px; top: 250px"></div>
+<div class="ripple" style="left: 600px; top: 430px; animation-delay: -1.5s"></div>
+<div class="ripple" style="left: 370px; top: 650px; animation-delay: -3s"></div>
+<div class="ripple" style="left: 200px; top: 560px; animation-delay: -.7s"></div>
+<div class="ripple" style="left: 720px; top: 600px; animation-delay: -2.2s"></div>
+<div class="ripple" style="left: 300px; top: 880px; animation-delay: -3.6s"></div>
+<div class="ripple" style="left: 950px; top: 590px; animation-delay: -1.1s"></div>
+<div class="ripple" style="left: 570px; top: 110px; animation-delay: -2.8s"></div>
+
+<!-- CALGARY island -->
+<div class="p3" style="left: 90px; top: 170px; width: 260px; height: 260px">
+<div class="f" style="left: 0; top: 232px; width: 260px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F47B5A; border-width: 3px"></div>
+<div class="f" style="left: 0; top: 0; width: 28px; height: 260px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D45E3E; border-width: 3px"></div>
+<div class="f p3" style="left: 0; top: 0; width: 260px; height: 260px; transform: translateZ(28px); background: #FFF3E4; border-width: 3px">
+<div style="position: absolute; left: 20px; top: 24px; width: 120px; height: 70px; border-radius: 22px; background: #CFEBC6"></div>
+<div style="position: absolute; left: 150px; top: 170px; width: 90px; height: 70px; border-radius: 22px; background: #CFEBC6"></div>
+<div class="bb" style="left: 140px; top: -60px; width: 150px; height: 112px"><svg width="150" height="112" viewBox="0 0 150 112" fill="none" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round"><polygon points="4,110 58,18 112,110" fill="#A9BED1"></polygon><polygon points="58,18 44,42 54,38 61,47 70,39 76,44" fill="#FFFFFF"></polygon><polygon points="58,110 104,38 148,110" fill="#C3D3E2"></polygon><polygon points="104,38 92,57 101,53 108,61 116,54 121,59" fill="#FFFFFF"></polygon></svg></div>
+<div class="bb" style="left: 43px; top: 42px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#6CC08B"></circle></svg></div>
+<div class="bb" style="left: 78px; top: 12px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#58B07C"></circle></svg></div>
+<div class="bb" style="left: 18px; top: 92px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#6CC08B"></circle></svg></div>
+<div class="bb" style="left: 203px; top: 168px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#58B07C"></circle></svg></div>
+
+<a href="https://nestlo.ca" class="p3 bld" aria-label="Nestlo — your Alberta settlement plan" onMouseEnter="{{h.nestlo}}" onFocus="{{h.nestlo}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 120px; top: 110px; width: 70px; height: 60px; transform: translateZ({{lift.nestlo}}px)">
+<div style="position: absolute; left: -14px; top: -14px; width: 98px; height: 88px; border: 3px dashed #F47B5A; border-radius: 50%; box-sizing: border-box; opacity: {{ring.nestlo}}; transition: opacity .3s"></div>
+<div class="f" style="left: 0; top: 0; width: 70px; height: 60px; transform: translateZ(48px); background: #1F6F6B"></div>
+<div class="f" style="left: 0; top: 12px; width: 70px; height: 48px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F7EFE2; display: flex; align-items: flex-end; justify-content: space-around; padding: 0 6px"><div style="width: 14px; height: 24px; background: #E3A33B; border: 2.5px solid #17181C; border-bottom: 0; border-radius: 7px 7px 0 0"></div><div style="width: 16px; height: 14px; margin-bottom: 14px; background: #FFE7A0; border: 2.5px solid #17181C"></div></div>
+<div class="f" style="left: 0; top: 0; width: 48px; height: 60px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #E6D6BC"></div>
+<div class="p3" style="left: 0; top: 0; width: 70px; height: 60px; transform: translateZ(48px)">
+<div class="p3" style="left: 46px; top: 10px; width: 12px; height: 12px">
+<div class="f" style="left: 0; top: 0; width: 12px; height: 12px; transform: translateZ(16px); background: #B9774E; border-width: 2px"></div>
+<div class="f" style="left: 0; top: -4px; width: 12px; height: 16px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #C98A62; border-width: 2px"></div>
+<div class="f" style="left: 0; top: 0; width: 16px; height: 12px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #A0653F; border-width: 2px"></div>
+<div class="bb" style="left: -6px; top: -34px; width: 24px; height: 34px"><div class="smoke" style="width: 16px; height: 16px; border-radius: 50%; background: #FFFFFF; border: 2.5px solid #17181C"></div></div>
+</div>
+</div>
+</a>
+
+<a href="#notify" class="p3 bld" aria-label="Coming soon — a new product is being built here" onMouseEnter="{{h.soon1}}" onFocus="{{h.soon1}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 30px; top: 180px; width: 70px; height: 60px; transform: translateZ({{lift.soon1}}px)">
+<div style="position: absolute; inset: 0; border: 2.5px dashed #17181C; border-radius: 10px; background: #FFE3D8"></div>
+<div class="bb" style="left: 18px; top: -20px; width: 34px; height: 50px"><svg width="34" height="50" viewBox="0 0 34 50" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round"><rect x="15" y="22" width="4" height="26" fill="#B9774E"></rect><rect x="2" y="2" width="30" height="24" rx="5" fill="#F6C343"></rect><text x="17" y="21" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="19" font-weight="800" fill="#17181C" stroke="none">?</text></svg></div>
+</a>
+
+<div class="bb" style="left: 90px; top: 214px; width: 120px; height: 30px"><div style="display: inline-block; padding: 5px 12px; background: #FFFFFF; border: 2.5px solid #17181C; border-radius: 99px; font: 700 11px/1.2 Inter, sans-serif; letter-spacing: .08em; white-space: nowrap">CALGARY · CA</div></div>
+</div>
+</div>
+
+<!-- HQ islet -->
+<div class="p3" style="left: 430px; top: 480px; width: 110px; height: 110px">
+<div class="f" style="left: 0; top: 88px; width: 110px; height: 22px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F47B5A; border-width: 3px"></div>
+<div class="f" style="left: 0; top: 0; width: 22px; height: 110px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D45E3E; border-width: 3px"></div>
+<div class="f p3" style="left: 0; top: 0; width: 110px; height: 110px; transform: translateZ(22px); background: #FFF3E4; border-width: 3px">
+<a href="#story" class="p3 bld" aria-label="Undaunted Lab — our story" onMouseEnter="{{h.hq}}" onFocus="{{h.hq}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 25px; top: 25px; width: 60px; height: 60px; transform: translateZ({{lift.hq}}px)">
+<div style="position: absolute; inset: -6px; border: 3px dashed #F47B5A; border-radius: 50%; opacity: {{ring.hq}}; transition: opacity .3s"></div>
+<div class="bb" style="left: 2px; top: -92px; width: 56px; height: 122px; pointer-events: auto"><svg width="56" height="122" viewBox="0 0 56 122" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round"><polygon class="beam" points="28,18 -40,4 -40,30" fill="#FFE07A" stroke="none"></polygon><polygon class="beam" points="28,18 96,4 96,30" fill="#FFE07A" stroke="none"></polygon><polygon points="14,118 18,34 38,34 42,118" fill="#FFFFFF"></polygon><polygon points="16,92 40,92 41,108 15,108" fill="#F47B5A"></polygon><polygon points="17,58 39,58 40,74 16,74" fill="#F47B5A"></polygon><rect x="16" y="14" width="24" height="20" rx="3" fill="#5BB8E6"></rect><path d="M12 14 L28 3 L44 14 Z" fill="#F47B5A"></path><rect x="10" y="32" width="36" height="5" rx="2" fill="#17181C"></rect></svg></div>
+</a>
+</div>
+</div>
+
+<!-- LONDON island -->
+<div class="p3" style="left: 700px; top: 160px; width: 270px; height: 280px">
+<div class="f" style="left: 0; top: 252px; width: 270px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F47B5A; border-width: 3px"></div>
+<div class="f" style="left: 0; top: 0; width: 28px; height: 280px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D45E3E; border-width: 3px"></div>
+<div class="f p3" style="left: 0; top: 0; width: 270px; height: 280px; transform: translateZ(28px); background: #FFF3E4; border-width: 3px">
+<div style="position: absolute; left: 150px; top: 18px; width: 100px; height: 110px; border-radius: 24px; background: #CFEBC6"></div>
+<div class="bb" style="left: 208px; top: 12px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#6CC08B"></circle></svg></div>
+<div class="bb" style="left: 233px; top: 72px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#58B07C"></circle></svg></div>
+<div class="bb" style="left: 13px; top: -8px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#6CC08B"></circle></svg></div>
+<div class="bb" style="left: 228px; top: 202px; width: 34px; height: 48px"><svg width="34" height="48" viewBox="0 0 34 48" stroke="#17181C" stroke-width="2.5"><rect x="14" y="28" width="6" height="18" fill="#B9774E"></rect><circle cx="17" cy="17" r="14" fill="#58B07C"></circle></svg></div>
+<div class="p3" style="left: 146px; top: 96px; width: 12px; height: 12px">
+<div class="f" style="left: 0; top: 0; width: 12px; height: 12px; transform: translateZ(28px); background: #E5484D; border-width: 2px"></div>
+<div class="f" style="left: 0; top: -16px; width: 12px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #E5484D; border-width: 2px"></div>
+<div class="f" style="left: 0; top: 0; width: 28px; height: 12px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #C23338; border-width: 2px"></div>
+</div>
+
+<a href="https://scamfendr.uk" class="p3 bld" aria-label="Scamfendr — check a business before you pay" onMouseEnter="{{h.scamfendr}}" onFocus="{{h.scamfendr}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 60px; top: 70px; width: 70px; height: 70px; transform: translateZ({{lift.scamfendr}}px)">
+<div style="position: absolute; left: -14px; top: -14px; width: 98px; height: 98px; border: 3px dashed #F47B5A; border-radius: 50%; box-sizing: border-box; opacity: {{ring.scamfendr}}; transition: opacity .3s"></div>
+<div class="f" style="left: 0; top: 0; width: 70px; height: 70px; transform: translateZ(110px); background: #2E86C1"></div>
+<div class="f" style="left: 0; top: -40px; width: 70px; height: 110px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #FFFFFF; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; padding: 10px 9px 24px"><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #FFE07A; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div><div style="background: #5BB8E6; border: 2px solid #17181C"></div></div>
+<div class="f" style="left: 0; top: 0; width: 110px; height: 70px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D6E6F2"></div>
+<div class="p3" style="left: 0; top: 0; width: 70px; height: 70px; transform: translateZ(110px)">
+<div class="bb" style="left: 11px; top: -21px; width: 48px; height: 56px"><div class="float"><svg width="48" height="56" viewBox="0 0 48 56" stroke="#17181C" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round"><path d="M24 3 L44 10 V26 C44 39 35 48 24 53 C13 48 4 39 4 26 V10 Z" fill="#5BB8E6"></path><path d="M15 27 L21 33 L33 20" fill="none"></path></svg></div></div>
+</div>
+</a>
+
+<a href="https://vervethq.com" class="p3 bld" aria-label="Vervet — in development: compliance records for cross-border payments" onMouseEnter="{{h.vervet}}" onFocus="{{h.vervet}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 160px; top: 160px; width: 70px; height: 70px; transform: translateZ({{lift.vervet}}px)">
+<div style="position: absolute; left: -14px; top: -14px; width: 98px; height: 98px; border: 3px dashed #F47B5A; border-radius: 50%; box-sizing: border-box; opacity: {{ring.vervet}}; transition: opacity .3s"></div>
+<div class="f" style="left: 0; top: 0; width: 70px; height: 70px; transform: translateZ(44px); background: #FFE7A8"></div>
+<div class="f" style="left: 0; top: 26px; width: 70px; height: 44px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #FFE7A8; display: flex; gap: 8px; padding: 9px; align-items: flex-start"><div style="width: 14px; height: 12px; background: #FFFFFF; border: 2px solid #17181C"></div><div style="width: 14px; height: 12px; background: #FFFFFF; border: 2px solid #17181C"></div><div style="width: 14px; height: 12px; background: #FFFFFF; border: 2px solid #17181C"></div></div>
+<div class="f" style="left: 0; top: 0; width: 44px; height: 70px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #F0CC76"></div>
+<div class="p3" style="left: 0; top: 0; width: 70px; height: 70px; transform: translateZ(44px)">
+<div class="f" style="left: 0; top: 30px; width: 70px; height: 40px; transform-origin: 50% 100%; transform: rotateX(-90deg); border-style: dashed; background: transparent"></div>
+<div class="f" style="left: 0; top: 0; width: 40px; height: 70px; transform-origin: 0 50%; transform: rotateY(-90deg); border-style: dashed; background: transparent"></div>
+<div class="f" style="left: 0; top: 0; width: 70px; height: 70px; transform: translateZ(40px); border-style: dashed; background: transparent"></div>
+</div>
+<div class="bb" style="left: 10px; top: -130px; width: 96px; height: 150px"><svg width="96" height="150" viewBox="0 0 96 150" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><rect x="20" y="20" width="10" height="128" fill="#F6C343"></rect><path d="M20 40 L30 30 M20 60 L30 50 M20 80 L30 70 M20 100 L30 90 M20 120 L30 110" fill="none"></path><rect x="4" y="12" width="90" height="10" fill="#F6C343"></rect><rect x="2" y="22" width="16" height="12" fill="#17181C"></rect><line x1="25" y1="2" x2="25" y2="12"></line><line x1="25" y1="2" x2="90" y2="12"></line><g class="hook"><line x1="78" y1="22" x2="78" y2="50"></line><path d="M74 50 h8 v6 a4 4 0 0 1 -8 0 Z" fill="#F47B5A"></path></g></svg></div>
+</a>
+
+<a href="#notify" class="p3 bld" aria-label="Coming soon — a new product is being built here" onMouseEnter="{{h.soon2}}" onFocus="{{h.soon2}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 40px; top: 190px; width: 70px; height: 60px; transform: translateZ({{lift.soon2}}px)">
+<div style="position: absolute; inset: 0; border: 2.5px dashed #17181C; border-radius: 10px; background: #FFE3D8"></div>
+<div class="bb" style="left: 18px; top: -20px; width: 34px; height: 50px"><svg width="34" height="50" viewBox="0 0 34 50" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round"><rect x="15" y="22" width="4" height="26" fill="#B9774E"></rect><rect x="2" y="2" width="30" height="24" rx="5" fill="#F6C343"></rect><text x="17" y="21" text-anchor="middle" font-family="Bricolage Grotesque, sans-serif" font-size="19" font-weight="800" fill="#17181C" stroke="none">?</text></svg></div>
+</a>
+
+<div class="bb" style="left: 80px; top: 238px; width: 110px; height: 30px"><div style="display: inline-block; padding: 5px 12px; background: #FFFFFF; border: 2.5px solid #17181C; border-radius: 99px; font: 700 11px/1.2 Inter, sans-serif; letter-spacing: .08em; white-space: nowrap">LONDON · UK</div></div>
+</div>
+</div>
+
+<!-- LAGOS mainland -->
+<div class="p3" style="left: 520px; top: 700px; width: 250px; height: 260px">
+<div class="f" style="left: 0; top: 232px; width: 250px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F47B5A; border-width: 3px"></div>
+<div class="f" style="left: 0; top: 0; width: 28px; height: 260px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D45E3E; border-width: 3px"></div>
+<div class="f p3" style="left: 0; top: 0; width: 250px; height: 260px; transform: translateZ(28px); background: #FFF3E4; border-width: 3px">
+<div style="position: absolute; left: 130px; top: 14px; width: 100px; height: 64px; border-radius: 22px; background: #CFEBC6"></div>
+<div class="bb" style="left: 182px; top: 6px; width: 36px; height: 56px"><svg width="36" height="56" viewBox="0 0 36 56" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 54 C17 40 19 28 18 16" fill="none"></path><path d="M18 16 C10 8 4 12 2 18 C8 14 13 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C26 8 32 12 34 18 C28 14 23 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C14 6 18 2 24 2 C20 6 19 10 18 16 Z" fill="#6CC08B"></path></svg></div>
+<div class="bb" style="left: 207px; top: 162px; width: 36px; height: 56px"><svg width="36" height="56" viewBox="0 0 36 56" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 54 C17 40 19 28 18 16" fill="none"></path><path d="M18 16 C10 8 4 12 2 18 C8 14 13 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C26 8 32 12 34 18 C28 14 23 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C14 6 18 2 24 2 C20 6 19 10 18 16 Z" fill="#6CC08B"></path></svg></div>
+<div class="bb" style="left: 12px; top: 136px; width: 36px; height: 56px"><svg width="36" height="56" viewBox="0 0 36 56" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 54 C17 40 19 28 18 16" fill="none"></path><path d="M18 16 C10 8 4 12 2 18 C8 14 13 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C26 8 32 12 34 18 C28 14 23 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C14 6 18 2 24 2 C20 6 19 10 18 16 Z" fill="#6CC08B"></path></svg></div>
+<div class="p3" style="left: 170px; top: 150px; width: 40px; height: 28px">
+<div class="f" style="left: 0; top: 0; width: 40px; height: 28px; transform: translateZ(22px); background: #1E4D3A"></div>
+<div class="f" style="left: 0; top: 6px; width: 40px; height: 22px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F6C343"></div>
+<div class="f" style="left: 0; top: 0; width: 22px; height: 28px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D9A72A"></div>
+</div>
+
+<a href="https://notis.care" class="p3 bld" aria-label="NotisCare — early warning for care homes" onMouseEnter="{{h.notiscare}}" onFocus="{{h.notiscare}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 40px; top: 50px; width: 110px; height: 70px; transform: translateZ({{lift.notiscare}}px)">
+<div style="position: absolute; left: -14px; top: -16px; width: 138px; height: 102px; border: 3px dashed #F47B5A; border-radius: 50%; box-sizing: border-box; opacity: {{ring.notiscare}}; transition: opacity .3s"></div>
+<div class="f" style="left: 0; top: 0; width: 110px; height: 70px; transform: translateZ(46px); background: #24304F"></div>
+<div class="f" style="left: 0; top: 24px; width: 110px; height: 46px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #FFFFFF; display: flex; gap: 8px; padding: 9px 10px; align-items: flex-start"><div style="width: 16px; height: 14px; background: #FFE07A; border: 2px solid #17181C"></div><div style="width: 16px; height: 14px; background: #FFE07A; border: 2px solid #17181C"></div><div style="width: 16px; height: 26px; background: #F47B5A; border: 2px solid #17181C"></div><div style="width: 16px; height: 14px; background: #FFE07A; border: 2px solid #17181C"></div></div>
+<div class="f" style="left: 0; top: 0; width: 46px; height: 70px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #E3E7EF"></div>
+<div class="p3" style="left: 0; top: 0; width: 110px; height: 70px; transform: translateZ(46px)">
+<div class="bb" style="left: 33px; top: -9px; width: 44px; height: 44px"><div class="float"><svg class="beat" width="44" height="44" viewBox="0 0 44 44" stroke="#17181C" stroke-width="2.8" stroke-linejoin="round"><path d="M22 39 C10 30 3 23 3 14 C3 8 8 4 13 4 C17 4 20 6 22 10 C24 6 27 4 31 4 C36 4 41 8 41 14 C41 23 34 30 22 39 Z" fill="#F47B5A"></path><path d="M9 20 H16 L19 14 L24 26 L27 20 H35" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"></path></svg></div></div>
+</div>
+</a>
+
+<div class="bb" style="left: 60px; top: 218px; width: 130px; height: 30px"><div style="display: inline-block; padding: 5px 12px; background: #FFFFFF; border: 2.5px solid #17181C; border-radius: 99px; font: 700 11px/1.2 Inter, sans-serif; letter-spacing: .08em; white-space: nowrap">LAGOS · NIGERIA</div></div>
+</div>
+</div>
+
+<!-- VI islet -->
+<div class="p3" style="left: 880px; top: 760px; width: 150px; height: 170px">
+<div class="f" style="left: 0; top: 142px; width: 150px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F47B5A; border-width: 3px"></div>
+<div class="f" style="left: 0; top: 0; width: 28px; height: 170px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D45E3E; border-width: 3px"></div>
+<div class="f p3" style="left: 0; top: 0; width: 150px; height: 170px; transform: translateZ(28px); background: #FFF3E4; border-width: 3px">
+<div class="p3" style="left: 30px; top: 30px; width: 50px; height: 50px">
+<div class="f" style="left: 0; top: 0; width: 50px; height: 50px; transform: translateZ(100px); background: #5BB8E6"></div>
+<div class="f" style="left: 0; top: -50px; width: 50px; height: 100px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: repeating-linear-gradient(180deg, #E6F2FB 0 10px, #9ACBE8 10px 13px)"></div>
+<div class="f" style="left: 0; top: 0; width: 100px; height: 50px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #C3DAEA"></div>
+</div>
+<div class="p3" style="left: 95px; top: 100px; width: 36px; height: 36px">
+<div class="f" style="left: 0; top: 0; width: 36px; height: 36px; transform: translateZ(62px); background: #F47B5A"></div>
+<div class="f" style="left: 0; top: -26px; width: 36px; height: 62px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: repeating-linear-gradient(180deg, #FFFFFF 0 9px, #FFD7C9 9px 12px)"></div>
+<div class="f" style="left: 0; top: 0; width: 62px; height: 36px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #E8E3DD"></div>
+</div>
+<div class="bb" style="left: 102px; top: -6px; width: 36px; height: 56px"><svg width="36" height="56" viewBox="0 0 36 56" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"><path d="M18 54 C17 40 19 28 18 16" fill="none"></path><path d="M18 16 C10 8 4 12 2 18 C8 14 13 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C26 8 32 12 34 18 C28 14 23 15 18 16 Z" fill="#58B07C"></path><path d="M18 16 C14 6 18 2 24 2 C20 6 19 10 18 16 Z" fill="#6CC08B"></path></svg></div>
+</div>
+</div>
+
+<!-- Ganusii bridge -->
+<a href="https://ganusii.com" class="p3 bld" aria-label="Ganusii — Lagos commutes, shared" onMouseEnter="{{h.ganusii}}" onFocus="{{h.ganusii}}" onMouseLeave="{{unhover}}" onBlur="{{unhover}}" style="left: 765px; top: 840px; width: 120px; height: 24px; transform: translateZ({{lift.ganusii}}px)">
+<div style="position: absolute; left: -10px; top: -30px; width: 140px; height: 84px; border: 3px dashed #F47B5A; border-radius: 50%; box-sizing: border-box; opacity: {{ring.ganusii}}; transition: opacity .3s"></div>
+<div class="f" style="left: 0; top: 0; width: 120px; height: 24px; transform: translateZ(28px); background: #8A8F98; background-image: linear-gradient(90deg, transparent 0 8px, #FFFFFF 8px 16px, transparent 16px 30px, #FFFFFF 30px 38px, transparent 38px 52px, #FFFFFF 52px 60px, transparent 60px 74px, #FFFFFF 74px 82px, transparent 82px 96px, #FFFFFF 96px 104px, transparent 104px); background-size: 100% 2px; background-position: 0 50%; background-repeat: no-repeat"></div>
+<div class="f" style="left: 0; top: -4px; width: 120px; height: 28px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #E8DCCB; display: flex; justify-content: space-around; align-items: flex-end; padding: 0 6px"><div style="width: 16px; height: 14px; background: #CFEAF6; border: 2.5px solid #17181C; border-bottom: 0; border-radius: 8px 8px 0 0"></div><div style="width: 16px; height: 14px; background: #CFEAF6; border: 2.5px solid #17181C; border-bottom: 0; border-radius: 8px 8px 0 0"></div><div style="width: 16px; height: 14px; background: #CFEAF6; border: 2.5px solid #17181C; border-bottom: 0; border-radius: 8px 8px 0 0"></div></div>
+<div class="p3" style="left: 0; top: 0; width: 120px; height: 24px; transform: translateZ(28px)">
+<div class="p3 car" style="top: 2px; width: 16px; height: 9px">
+<div class="f" style="left: 0; top: 0; width: 16px; height: 9px; transform: translateZ(10px); background: #F6C343; border-width: 2px"></div>
+<div class="f" style="left: 0; top: -1px; width: 16px; height: 10px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #F6C343; border-width: 2px"></div>
+<div class="f" style="left: 0; top: 0; width: 10px; height: 9px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #D9A72A; border-width: 2px"></div>
+</div>
+<div class="p3 car2" style="top: 13px; width: 16px; height: 9px">
+<div class="f" style="left: 0; top: 0; width: 16px; height: 9px; transform: translateZ(10px); background: #1E4D3A; border-width: 2px"></div>
+<div class="f" style="left: 0; top: -1px; width: 16px; height: 10px; transform-origin: 50% 100%; transform: rotateX(-90deg); background: #2F6B52; border-width: 2px"></div>
+<div class="f" style="left: 0; top: 0; width: 10px; height: 9px; transform-origin: 0 50%; transform: rotateY(-90deg); background: #163A2B; border-width: 2px"></div>
+</div>
+</div>
+</a>
+
+<!-- clouds -->
+<div class="p3 cloudA" style="left: 60px; top: 60px; width: 0; height: 0"><div class="bbc" style="left: -45px; top: -22px; width: 90px; height: 44px"><svg width="90" height="44" viewBox="0 0 90 44" stroke="#17181C" stroke-width="2.5" stroke-linejoin="round"><path d="M14 40 C4 40 2 28 12 26 C10 14 26 10 32 18 C36 6 56 4 60 18 C70 12 84 18 80 30 C90 32 88 40 80 40 Z" fill="#FFFFFF"></path></svg></div></div>
+<div class="p3 cloudB" style="left: 260px; top: -40px; width: 0; height: 0"><div class="bbc" style="left: -35px; top: -17px; width: 70px; height: 34px"><svg width="70" height="34" viewBox="0 0 90 44" stroke="#17181C" stroke-width="3" stroke-linejoin="round"><path d="M14 40 C4 40 2 28 12 26 C10 14 26 10 32 18 C36 6 56 4 60 18 C70 12 84 18 80 30 C90 32 88 40 80 40 Z" fill="#FFFFFF"></path></svg></div></div>
+
+<!-- paper plane + shadow -->
+<div class="p3 plane" aria-hidden="true" style="left: 0; top: 0; width: 0; height: 0; transform: {{shadowT}}"><div style="position: absolute; left: -24px; top: -24px; width: 48px; height: 48px; border-radius: 50%; background: rgba(23,24,28,0.16)"></div></div>
+<div class="p3 plane" aria-hidden="true" style="left: 0; top: 0; width: 0; height: 0; transform: {{planeT}}">
+<div class="bbc" style="left: -44px; top: -32px; width: 88px; height: 64px"><div class="bob"><div class="aim" style="transform: rotate({{planeA}}deg)"><svg width="88" height="64" viewBox="-10 -4 92 64" stroke="#17181C" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><line x1="-6" y1="40" x2="14" y2="31" fill="none"></line><line x1="-2" y1="52" x2="22" y2="40" fill="none"></line><line x1="16" y1="50" x2="26" y2="44" fill="none"></line><polygon points="4,20 78,6 30,34" fill="#5BB8E6"></polygon><polygon points="30,34 78,6 34,50" fill="#2E86C1"></polygon><polygon points="40,38 78,6 56,48" fill="#5BB8E6"></polygon></svg></div></div></div>
+</div>
+
+</div>
+</div>
+
+<!-- UI layer -->
+<header style="position: absolute; left: 0; right: 0; top: 0; padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; z-index: 5; pointer-events: none">
+<a href="#top" class="btn" aria-label="Undaunted Lab home" style="pointer-events: auto; display: flex; align-items: center; gap: 12px; text-decoration: none; background: #FFFFFF; border: 3px solid #17181C; border-radius: 99px; padding: 5px 18px 5px 5px; box-shadow: 4px 4px 0 #17181C"><img src="/_blob/5d4442bdebf7c39fd9f4bf9740c61714" alt="" width="46" height="46" style="width: 46px; height: 46px; border-radius: 50%; display: block"><span class="hide-sm" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 19px; letter-spacing: -0.02em">undaunted lab</span></a>
+<nav aria-label="Main" class="navx" style="pointer-events: auto; position: relative; display: flex; align-items: center; gap: 2px; background: #FFFFFF; border: 3px solid #17181C; border-radius: 99px; padding: 5px; box-shadow: 4px 4px 0 #17181C; flex-wrap: wrap; justify-content: flex-end">
+<button type="button" class="pill" onClick="{{toggleMenu}}" aria-expanded="{{menuOpen}}" style="background: transparent; border: 0; border-radius: 99px; padding: 10px 16px; font: 600 15px Inter, sans-serif; color: #17181C; cursor: pointer; min-height: 44px">Products {{caret}}</button>
+<a href="#story" class="pill hide-sm" style="text-decoration: none; border-radius: 99px; padding: 12px 16px; font: 600 15px Inter, sans-serif">Our story</a>
+<a href="#notes" class="pill hide-sm" style="text-decoration: none; border-radius: 99px; padding: 12px 16px; font: 600 15px Inter, sans-serif">Lab notes</a>
+<a href="#contact" style="text-decoration: none; border-radius: 99px; padding: 12px 18px; font: 600 15px Inter, sans-serif; background: #F47B5A; border: 2.5px solid #17181C">Say hello</a>
+<sc-if value="{{menu}}" hint-placeholder-val="{{false}}">
+<div class="card" style="position: absolute; right: 0; top: calc(100% + 12px); width: 280px; background: #FFFFFF; border: 3px solid #17181C; border-radius: 20px; box-shadow: 5px 5px 0 #17181C; padding: 8px; display: flex; flex-direction: column">
+<sc-for list="{{menuItems}}" as="m" hint-placeholder-count="5">
+<a href="{{m.url}}" class="pill" onMouseEnter="{{m.hover}}" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 12px; text-decoration: none"><span style="display: flex; align-items: center; gap: 10px"><span style="width: 12px; height: 12px; border-radius: 50%; background: {{m.color}}; border: 2px solid #17181C"></span><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 17px">{{m.name}}</strong></span><span style="font-size: 12px; color: #55565C">{{m.place}}</span></a>
+</sc-for>
+<div style="padding: 10px 14px 6px; font-size: 13px; color: #55565C">+2 more on the way</div>
+</div>
+</sc-if>
+</nav>
+</header>
+
+<div class="hide-sm" style="position: absolute; left: 24px; bottom: 28px; z-index: 5; max-width: 300px; display: flex; flex-direction: column; gap: 8px">
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px; line-height: 1.15; font-weight: 700; letter-spacing: -0.02em">Safety tools for everyday people, built with AI.</p>
+<span style="font-size: 13px; color: #33444F">Hover a place. Click to visit.</span>
+</div>
+
+<div style="position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 5; width: min(440px, calc(100% - 32px))">
+<div class="card" style="background: #FFFFFF; border: 3px solid #17181C; border-radius: 22px; box-shadow: 5px 5px 0 #17181C; padding: 14px 14px 14px 18px; display: flex; align-items: center; gap: 14px" aria-live="polite">
+<span style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 14px; background: {{cur.color}}; border: 2.5px solid #17181C"></span>
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+<div style="display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap"><strong style="font-family: 'Bricolage Grotesque', sans-serif; font-size: 21px; letter-spacing: -0.02em">{{cur.name}}</strong><span style="font-size: 12px; font-weight: 600; color: #55565C">{{cur.place}} · {{cur.status}}</span></div>
+<span style="font-size: 14px; color: #33343A">{{cur.line}}</span>
+</div>
+<a href="{{cur.url}}" class="btn" style="flex-shrink: 0; text-decoration: none; background: #17181C; color: #FFFFFF; border: 2.5px solid #17181C; border-radius: 99px; padding: 11px 16px; font-weight: 600; font-size: 14px; box-shadow: 3px 3px 0 #F47B5A">{{cur.cta}}</a>
+</div>
+</div>
+
+<div class="ctl" style="position: absolute; right: 24px; bottom: 28px; z-index: 5; display: flex; align-items: center; gap: 10px; background: #FFFFFF; border: 3px solid #17181C; border-radius: 99px; padding: 6px 6px 6px 14px; box-shadow: 4px 4px 0 #17181C">
+<div role="group" aria-label="Fly to a product" style="display: flex; gap: 2px">
+<sc-for list="{{dots}}" as="d" hint-placeholder-count="5">
+<button type="button" onClick="{{d.pick}}" aria-label="{{d.label}}" aria-pressed="{{d.pressed}}" style="width: 28px; height: 44px; background: transparent; border: 0; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center"><span style="width: {{d.w}}; height: 10px; border-radius: 99px; background: {{d.bg}}; border: 2px solid #17181C; transition: width .3s"></span></button>
+</sc-for>
+</div>
+<button type="button" onClick="{{togglePause}}" style="background: #17181C; color: #FFFFFF; border: 0; border-radius: 99px; padding: 0 16px; min-height: 40px; font: 600 13px Inter, sans-serif; cursor: pointer; white-space: nowrap">{{pauseLabel}}</button>
+</div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"tourSeconds":{"editor":"range","min":2,"max":10,"step":0.5,"default":4.2,"unit":"s"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.POS = { scamfendr: [795, 265], vervet: [895, 355], ganusii: [825, 852], notiscare: [615, 785], nestlo: [245, 310], hq: [485, 535], soon1: [155, 380], soon2: [775, 380] };
+    this.TOUR = ['scamfendr', 'vervet', 'ganusii', 'notiscare', 'nestlo'];
+    this.state = { stop: -1, hover: null, paused: false, menu: false, target: 'hq', angle: -25 };
+  }
+  componentDidMount() {
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (reduce) { this.setState({ paused: true, stop: 0 }); this.aim('scamfendr'); return; }
+    this.kick = setTimeout(() => this.next(), 900);
+    this.timer = setInterval(() => this.next(), (this.props.tourSeconds ?? 4.2) * 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.kick); }
+  next() {
+    if (this.state.hover || this.state.paused) return;
+    const s = (this.state.stop + 1) % this.TOUR.length;
+    this.setState({ stop: s });
+    this.aim(this.TOUR[s]);
+  }
+  aim(id) {
+    const a = this.POS[this.state.target], b = this.POS[id];
+    let angle = this.state.angle;
+    const dx = b[0] - a[0], dy = b[1] - a[1];
+    if (Math.abs(dx) + Math.abs(dy) > 4) {
+      const sx = 0.7071 * (dx + dy), sy = 0.3536 * (dy - dx);
+      angle = Math.round(Math.atan2(sy, sx) * 180 / Math.PI);
+      let diff = ((angle - this.state.angle) % 360 + 540) % 360 - 180;
+      angle = this.state.angle + diff;
+    }
+    this.setState({ target: id, angle: angle });
+  }
+  renderVals() {
+    const INFO = {
+      scamfendr: { name: 'Scamfendr', line: 'Check a business before you pay.', place: 'UK', status: 'Live', color: '#2E86C1', url: 'https://scamfendr.uk', cta: 'Visit ↗' },
+      vervet: { name: 'Vervet', line: 'Prove you were watching. Compliance for cross-border payments.', place: 'UK ⇄ Nigeria', status: 'In the lab', color: '#F6C343', url: 'https://vervethq.com', cta: 'Peek ↗' },
+      ganusii: { name: 'Ganusii', line: 'Lagos commutes, shared.', place: 'Lagos', status: 'Pilot', color: '#1E4D3A', url: 'https://ganusii.com', cta: 'Visit ↗' },
+      notiscare: { name: 'NotisCare', line: 'Know before the family calls.', place: 'Nigeria', status: 'Live', color: '#24304F', url: 'https://notis.care', cta: 'Visit ↗' },
+      nestlo: { name: 'Nestlo', line: 'Your Alberta settlement plan, built for you.', place: 'Canada', status: 'Live', color: '#1F6F6B', url: 'https://nestlo.ca', cta: 'Visit ↗' },
+      hq: { name: 'Undaunted Lab', line: 'Where the paper planes take off.', place: 'HQ', status: 'Est. 2025', color: '#F47B5A', url: '#story', cta: 'Our story' },
+      soon1: { name: 'Coming soon', line: 'Something new is being built here.', place: 'Canada', status: 'Under wraps', color: '#FFE3D8', url: '#notify', cta: 'Notify me' },
+      soon2: { name: 'Coming soon', line: 'Something new is being built here.', place: 'UK', status: 'Under wraps', color: '#FFE3D8', url: '#notify', cta: 'Notify me' }
+    };
+    const ids = Object.keys(this.POS);
+    const target = this.state.target, hover = this.state.hover;
+    const active = hover || target;
+    const h = {}, lift = {}, ring = {};
+    ids.forEach((id) => {
+      h[id] = () => { this.setState({ hover: id }); this.aim(id); };
+      lift[id] = hover === id ? 16 : 0;
+      ring[id] = active === id ? 1 : 0;
+    });
+    const p = this.POS[target];
+    const dots = this.TOUR.map((id, i) => ({
+      label: 'Fly to ' + INFO[id].name,
+      pressed: target === id ? 'true' : 'false',
+      w: target === id ? '22px' : '10px',
+      bg: target === id ? '#F47B5A' : '#FFFFFF',
+      pick: () => { this.setState({ stop: i }); this.aim(id); }
+    }));
+    const menuItems = this.TOUR.map((id) => ({ ...INFO[id], hover: () => this.aim(id) }));
+    return {
+      h, lift, ring, dots, menuItems,
+      cur: INFO[active],
+      unhover: () => this.setState({ hover: null }),
+      planeT: 'translate3d(' + p[0] + 'px, ' + p[1] + 'px, 215px)',
+      shadowT: 'translate3d(' + p[0] + 'px, ' + p[1] + 'px, 30px)',
+      planeA: this.state.angle,
+      menu: this.state.menu,
+      menuOpen: this.state.menu ? 'true' : 'false',
+      caret: this.state.menu ? '▴' : '▾',
+      toggleMenu: () => this.setState({ menu: !this.state.menu }),
+      pauseLabel: this.state.paused ? 'Play tour' : 'Pause tour',
+      togglePause: () => this.setState({ paused: !this.state.paused })
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction A — The Lab</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0B0A}
+a{color:#C8FF3D}a:hover{color:#E4FF9E}
+.a-blink{animation:aBlink 1.1s steps(1) infinite}
+@keyframes aBlink{50%{opacity:0}}
+.a-pulse{animation:aPulse 1.8s ease-in-out infinite}
+@keyframes aPulse{0%,100%{box-shadow:0 0 0 0 rgba(200,255,61,.55)}50%{box-shadow:0 0 0 7px rgba(200,255,61,0)}}
+.a-l1{animation:aL1 16s infinite}.a-l2{animation:aL2 16s infinite}.a-l3{animation:aL3 16s infinite}.a-l4{animation:aL4 16s infinite}.a-l5{animation:aL5 16s infinite}.a-l6{animation:aL6 16s infinite}.a-l7{animation:aL7 16s infinite}.a-l8{animation:aL8 16s infinite}
+@keyframes aL1{0%{opacity:0}3%,94%{opacity:1}100%{opacity:0}}
+@keyframes aL2{0%,10%{opacity:0;transform:translateX(-6px)}13%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL3{0%,17%{opacity:0;transform:translateX(-6px)}20%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL4{0%,24%{opacity:0;transform:translateX(-6px)}27%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL5{0%,31%{opacity:0;transform:translateX(-6px)}34%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL6{0%,38%{opacity:0;transform:translateX(-6px)}41%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL7{0%,45%{opacity:0;transform:translateX(-6px)}48%,94%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes aL8{0%,55%{opacity:0}58%,94%{opacity:1}100%{opacity:0}}
+.a-marq{display:flex;gap:48px;width:max-content;animation:aMarq 38s linear infinite}
+@keyframes aMarq{to{transform:translateX(-50%)}}
+.a-scan{animation:aScan 3.2s ease-in-out infinite}
+@keyframes aScan{0%{transform:translateY(-100%)}100%{transform:translateY(900%)}}
+.a-bar{animation:aBar 4s ease-in-out infinite alternate}
+@keyframes aBar{from{width:18%}to{width:64%}}
+.a-bar2{animation:aBar 5.5s ease-in-out infinite alternate-reverse}
+.a-scramble{animation:aScr 2.4s steps(4) infinite}
+@keyframes aScr{0%{letter-spacing:0}25%{letter-spacing:2px;opacity:.6}50%{letter-spacing:-1px}75%{opacity:.85}100%{letter-spacing:0}}
+.a-row{transition:background .2s,padding .2s}
+.a-row:hover{background:#151815}
+.a-card{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .35s}
+.a-card:hover{transform:translateY(-4px);border-color:#C8FF3D}
+.a-in{animation:aIn .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes aIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){.a-reveal{animation:aIn linear both;animation-timeline:view();animation-range:entry 0% entry 40%}}
+.a-btn{transition:background .2s,color .2s,transform .2s}
+.a-btn:hover{transform:translateY(-1px)}
+input:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid #C8FF3D;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="background: #0A0B0A; color: #EDEFEA; font-family: 'Space Grotesk', system-ui, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+<nav style="position: sticky; top: 0; z-index: 10; background: rgba(10,11,10,0.82); backdrop-filter: blur(12px); border-bottom: 1px solid #1E211E">
+<div style="max-width: 1280px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+<a href="#top" style="display: flex; align-items: center; gap: 10px; color: #EDEFEA; text-decoration: none; font-weight: 700; font-size: 20px; letter-spacing: -0.02em">undaunted lab<span class="a-blink" style="color: #C8FF3D">.</span></a>
+<div style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<a href="#products" style="color: #B4B9B2; text-decoration: none">/products</a>
+<a href="#build" style="color: #B4B9B2; text-decoration: none">/how-we-build</a>
+<a href="#lab" style="color: #B4B9B2; text-decoration: none">/in-the-lab</a>
+<a href="#founder" style="color: #B4B9B2; text-decoration: none">/founder</a>
+<a href="#contact" class="a-btn" style="background: #C8FF3D; color: #0A0B0A; text-decoration: none; padding: 12px 18px; border-radius: 8px; font-weight: 700">Partner with us →</a>
+</div>
+</div>
+</nav>
+
+<header id="top" onMouseMove="{{onMove}}" style="position: relative; overflow: hidden; border-bottom: 1px solid #1E211E">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: linear-gradient(#171A17 1px, transparent 1px), linear-gradient(90deg, #171A17 1px, transparent 1px); background-size: 48px 48px"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: {{spot}}; pointer-events: none"></div>
+<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 96px 24px 104px; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; align-items: center; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #B4B9B2; letter-spacing: 0.04em"><span class="a-pulse" style="width: 8px; height: 8px; border-radius: 99px; background: #C8FF3D"></span>AI-NATIVE PRODUCT LAB · UK · NIGERIA · CANADA</div>
+<h1 style="margin: 0; font-size: clamp(48px, 7.4vw, 104px); line-height: 0.95; letter-spacing: -0.045em; font-weight: 600">We build the<br>safety net —<br><span style="color: #C8FF3D">in code.</span></h1>
+<p style="margin: 0; max-width: 560px; font-size: 20px; line-height: 1.5; color: #B4B9B2">Undaunted Lab designs and ships AI-native tools that protect everyday people from fraud and harm, and open the doors systems keep shut.</p>
+<div style="display: flex; gap: 12px; flex-wrap: wrap">
+<a href="#products" class="a-btn" style="background: #EDEFEA; color: #0A0B0A; text-decoration: none; padding: 16px 24px; border-radius: 10px; font-weight: 600; font-size: 16px">Explore the products</a>
+<a href="#contact" class="a-btn" style="border: 1px solid #3A3F3A; color: #EDEFEA; text-decoration: none; padding: 16px 24px; border-radius: 10px; font-weight: 600; font-size: 16px">Partner with us</a>
+</div>
+</div>
+<div style="flex: 1 1 440px; min-width: 0; background: #0F110F; border: 1px solid #262A26; border-radius: 14px; overflow: hidden; box-shadow: 0 40px 80px -20px rgba(0,0,0,0.7)">
+<div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-bottom: 1px solid #1E211E"><span style="width: 10px; height: 10px; border-radius: 99px; background: #3A3F3A"></span><span style="width: 10px; height: 10px; border-radius: 99px; background: #3A3F3A"></span><span style="width: 10px; height: 10px; border-radius: 99px; background: #3A3F3A"></span><span style="margin-left: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8D938B">lab@undaunted ~ status</span></div>
+<div style="position: relative; padding: 22px 20px 26px; font-family: 'JetBrains Mono', monospace; font-size: 13.5px; line-height: 2; overflow-x: auto">
+<div aria-hidden="true" class="a-scan" style="position: absolute; left: 0; right: 0; top: 0; height: 40px; background: linear-gradient(180deg, transparent, rgba(200,255,61,0.05), transparent); pointer-events: none"></div>
+<div class="a-l1" style="color: #EDEFEA; white-space: nowrap"><span style="color: #C8FF3D">$</span> undaunted status --all</div>
+<div class="a-l2" style="white-space: nowrap"><span style="color: #C8FF3D">●</span> scamfendr&#160;&#160;&#160;<span style="color: #C8FF3D">live&#160;&#160;&#160;&#160;</span><span style="color: #8D938B">uk&#160;&#160;&#160;&#160;&#160;&#160;&#160;fraud checks</span></div>
+<div class="a-l3" style="white-space: nowrap"><span style="color: #C8FF3D">●</span> ganusii&#160;&#160;&#160;&#160;&#160;<span style="color: #FFC164">pilot&#160;&#160;&#160;</span><span style="color: #8D938B">lagos&#160;&#160;&#160;&#160;shared commutes</span></div>
+<div class="a-l4" style="white-space: nowrap"><span style="color: #C8FF3D">●</span> notiscare&#160;&#160;&#160;<span style="color: #C8FF3D">live&#160;&#160;&#160;&#160;</span><span style="color: #8D938B">nigeria&#160;&#160;care early-warning</span></div>
+<div class="a-l5" style="white-space: nowrap"><span style="color: #C8FF3D">●</span> nestlo&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #C8FF3D">live&#160;&#160;&#160;&#160;</span><span style="color: #8D938B">alberta&#160;&#160;settlement plans</span></div>
+<div class="a-l6" style="white-space: nowrap"><span style="color: #FFC164">◐</span> vervet&#160;&#160;&#160;&#160;&#160;&#160;<span style="color: #FFC164">build&#160;&#160;&#160;</span><span style="color: #8D938B">uk⇄ng&#160;&#160;&#160;&#160;compliance records</span></div>
+<div class="a-l7" style="white-space: nowrap"><span style="color: #8D938B">○ exp-06&#160;&#160;&#160;&#160;&#160;&#160;classified</span></div>
+<div class="a-l8" style="white-space: nowrap; color: #EDEFEA"><span style="color: #C8FF3D">$</span> <span class="a-blink" style="display: inline-block; width: 9px; height: 17px; background: #C8FF3D; vertical-align: middle"></span></div>
+</div>
+</div>
+</div>
+</header>
+
+<div style="border-bottom: 1px solid #1E211E; padding: 18px 0; overflow: hidden; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #B4B9B2" aria-label="Products: Scamfendr, Ganusii, NotisCare, Nestlo, Vervet">
+<div class="a-marq" aria-hidden="true">
+<span>SCAMFENDR <span style="color: #8D938B">— check a business before you pay</span></span><span style="color: #C8FF3D">✦</span>
+<span>GANUSII <span style="color: #8D938B">— Lagos commutes, shared</span></span><span style="color: #C8FF3D">✦</span>
+<span>NOTISCARE <span style="color: #8D938B">— know before the family calls</span></span><span style="color: #C8FF3D">✦</span>
+<span>NESTLO <span style="color: #8D938B">— your settlement plan, built for you</span></span><span style="color: #C8FF3D">✦</span>
+<span>VERVET <span style="color: #8D938B">— prove you were watching</span></span><span style="color: #C8FF3D">✦</span>
+<span>SCAMFENDR <span style="color: #8D938B">— check a business before you pay</span></span><span style="color: #C8FF3D">✦</span>
+<span>GANUSII <span style="color: #8D938B">— Lagos commutes, shared</span></span><span style="color: #C8FF3D">✦</span>
+<span>NOTISCARE <span style="color: #8D938B">— know before the family calls</span></span><span style="color: #C8FF3D">✦</span>
+<span>NESTLO <span style="color: #8D938B">— your settlement plan, built for you</span></span><span style="color: #C8FF3D">✦</span>
+<span>VERVET <span style="color: #8D938B">— prove you were watching</span></span><span style="color: #C8FF3D">✦</span>
+</div>
+</div>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 120px 24px 80px">
+<div class="a-reveal" style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B; margin-bottom: 24px">// 001 — why we exist</div>
+<p class="a-reveal" style="margin: 0; max-width: 1080px; font-size: clamp(30px, 4vw, 54px); line-height: 1.15; letter-spacing: -0.03em; font-weight: 500">A scam text. A missed warning sign. Your first ninety days in a new country. <span style="color: #6E746C">The hardest moments in life are where systems fail people.</span> <span style="color: #C8FF3D">That is exactly where we build.</span></p>
+</section>
+
+<section id="products" style="max-width: 1280px; margin: 0 auto; padding: 40px 24px 120px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap">
+<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">// 002 — the experiments</div><h2 style="margin: 0; font-size: clamp(36px, 4.5vw, 60px); letter-spacing: -0.035em; font-weight: 600; line-height: 1">Running in production.</h2></div>
+<p style="margin: 0; max-width: 420px; font-size: 17px; line-height: 1.5; color: #B4B9B2">Five products, three countries, one thesis: AI should make ordinary life safer. Select an experiment to see it run.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch">
+<div style="flex: 1 1 440px; min-width: 0; border-top: 1px solid #262A26">
+<sc-for list="{{products}}" as="p" hint-placeholder-count="5">
+<button type="button" class="a-row" onClick="{{p.pick}}" aria-pressed="{{p.pressed}}" style="width: 100%; display: flex; align-items: center; gap: 16px; padding: 22px 12px; background: {{p.bg}}; border: 0; border-bottom: 1px solid #262A26; color: #EDEFEA; text-align: left; cursor: pointer; font-family: inherit; min-height: 44px">
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8D938B; width: 56px; flex-shrink: 0">{{p.code}}</span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px"><span style="font-size: 24px; font-weight: 600; letter-spacing: -0.02em; color: {{p.nameColor}}">{{p.name}}</span><span style="font-size: 14px; color: #8D938B">{{p.line}}</span></span>
+<span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 6px 10px; border-radius: 99px; border: 1px solid {{p.statusColor}}; color: {{p.statusColor}}; white-space: nowrap">{{p.status}}</span>
+</button>
+</sc-for>
+</div>
+<div style="flex: 1.2 1 480px; min-width: 0; background: #0F110F; border: 1px solid #262A26; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 20px; min-height: 460px; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8D938B"><span>readout · {{cur.name}} · {{cur.where}}</span><span style="display: flex; align-items: center; gap: 8px"><span class="a-pulse" style="width: 7px; height: 7px; border-radius: 99px; background: #C8FF3D"></span>sample data</span></div>
+
+<sc-if value="{{isScam}}" hint-placeholder-val="{{true}}">
+<div class="a-in" style="display: flex; flex-direction: column; gap: 14px">
+<div style="background: #151815; border: 1px solid #262A26; border-radius: 10px; padding: 14px 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #EDEFEA">check › "Apex Crown Wealth Ltd"</div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 4px; border-bottom: 1px dashed #262A26; font-size: 15px"><span>FCA register</span><span style="font-family: 'JetBrains Mono', monospace; color: #FF8A7A">not authorised</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 4px; border-bottom: 1px dashed #262A26; font-size: 15px"><span>FCA warning list</span><span style="font-family: 'JetBrains Mono', monospace; color: #FFC164">clone match</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 12px 4px; border-bottom: 1px dashed #262A26; font-size: 15px"><span>Companies House</span><span style="font-family: 'JetBrains Mono', monospace; color: #8D938B">incorporated 6 weeks ago</span></div>
+<div style="background: rgba(255,138,122,0.1); border: 1px solid #FF8A7A; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 4px"><strong style="font-size: 18px; color: #FFB4A8">Don't pay. Start a case.</strong><span style="font-size: 14px; color: #B4B9B2">The case builder drafts your Report Fraud report and bank reimbursement letter.</span></div>
+<a href="https://scamfendr.uk" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">open scamfendr.uk ↗</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isGan}}" hint-placeholder-val="{{false}}">
+<div class="a-in" style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 15px"><strong style="font-size: 20px">Lekki/Ajah → Victoria Island</strong><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #FFC164">confirmed 18:00 eve</span></div>
+<div style="position: relative; padding-left: 26px; display: flex; flex-direction: column; gap: 16px">
+<div aria-hidden="true" style="position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(#C8FF3D, #262A26)"></div>
+<div style="position: relative; font-size: 15px"><span aria-hidden="true" style="position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 99px; background: #C8FF3D"></span>Ajah roundabout pickup · <span style="color: #8D938B">06:10</span></div>
+<div style="position: relative; font-size: 15px"><span aria-hidden="true" style="position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 99px; border: 2px solid #C8FF3D; box-sizing: border-box"></span>Ikota Bus Stop · <span style="color: #8D938B">06:22</span></div>
+<div style="position: relative; font-size: 15px"><span aria-hidden="true" style="position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 99px; border: 2px solid #3A3F3A; box-sizing: border-box"></span>Victoria Island drop-off · <span style="color: #8D938B">07:05</span></div>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span style="background: #151815; border: 1px solid #262A26; border-radius: 99px; padding: 8px 12px; font-size: 13px">ID + work email verified</span><span style="background: #151815; border: 1px solid #262A26; border-radius: 99px; padding: 8px 12px; font-size: 13px">2 of 3 seats</span><span style="background: #151815; border: 1px solid #262A26; border-radius: 99px; padding: 8px 12px; font-size: 13px">via WhatsApp</span></div>
+<a href="https://ganusii.com" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">open ganusii.com ↗</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isNotis}}" hint-placeholder-val="{{false}}">
+<div class="a-in" style="display: flex; flex-direction: column; gap: 10px">
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px; background: #151815; border-radius: 10px; border-left: 0"><span style="font-size: 15px">Room 4 · ate half of lunch, quieter than usual</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FFC164; white-space: nowrap">WATCH</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px; background: rgba(255,138,122,0.1); border: 1px solid #FF8A7A; border-radius: 10px"><span style="font-size: 15px">Room 9 · third fall-risk note in 7 days</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A7A; white-space: nowrap">URGENT</span></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px; background: #151815; border-radius: 10px"><span style="font-size: 15px">Room 2 · walked to garden, good spirits</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C8FF3D; white-space: nowrap">FINE</span></div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #B4B9B2">→ Matron alerted on WhatsApp · pattern spotted over 7 days</div>
+<a href="https://notis.care" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">open notis.care ↗</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isNest}}" hint-placeholder-val="{{false}}">
+<div class="a-in" style="display: flex; flex-direction: column; gap: 12px">
+<strong style="font-size: 20px">Your first 90 days in Alberta</strong>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span style="width: 22px; height: 22px; border-radius: 6px; background: #C8FF3D; color: #0A0B0A; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">✓</span>Week 1 · Apply for your SIN</div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span style="width: 22px; height: 22px; border-radius: 6px; background: #C8FF3D; color: #0A0B0A; display: inline-flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700">✓</span>Week 1 · Open a bank account</div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span style="width: 22px; height: 22px; border-radius: 6px; border: 2px solid #FFC164; box-sizing: border-box"></span>Week 2 · Register for AHCIP <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FFC164">3-month window</span></div>
+<div style="display: flex; align-items: center; gap: 12px; font-size: 15px"><span style="width: 22px; height: 22px; border-radius: 6px; border: 2px solid #3A3F3A; box-sizing: border-box"></span>Week 3 · School enrolment</div>
+<div style="height: 6px; background: #1E211E; border-radius: 99px; overflow: hidden"><div class="a-bar" style="height: 100%; background: #C8FF3D; border-radius: 99px"></div></div>
+<a href="https://nestlo.ca" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">open nestlo.ca ↗</a>
+</div>
+</sc-if>
+
+<sc-if value="{{isVervet}}" hint-placeholder-val="{{false}}">
+<div class="a-in" style="display: flex; flex-direction: column; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px">
+<div style="color: #8D938B">nightly run · append-only log</div>
+<div style="display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed #262A26"><span style="color: #8D938B">02:00</span><span style="flex: 1">FCA register · 48 firms</span><span style="color: #C8FF3D">no change</span></div>
+<div style="display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed #262A26"><span style="color: #8D938B">02:04</span><span style="flex: 1">Companies House · 48 firms</span><span style="color: #C8FF3D">no change</span></div>
+<div style="display: flex; gap: 14px; padding: 10px 0; border-bottom: 1px dashed #262A26"><span style="color: #8D938B">02:09</span><span style="flex: 1">CBN register · 12 principals</span><span style="color: #FFC164">1 status change</span></div>
+<div style="display: flex; gap: 14px; padding: 10px 0"><span style="color: #8D938B">02:10</span><span style="flex: 1">AI draft explanation · held for review</span><span style="color: #B4B9B2">pending</span></div>
+<div style="font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #B4B9B2; padding-top: 6px">Detections are deterministic. AI only drafts explanations.</div>
+<a href="https://vervethq.com">open vervethq.com ↗</a>
+</div>
+</sc-if>
+</div>
+</div>
+</section>
+
+<section id="build" style="border-top: 1px solid #1E211E; border-bottom: 1px solid #1E211E; background: #0D0F0D">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 24px; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">// 003 — how we build</div><h2 style="margin: 0; font-size: clamp(36px, 4.5vw, 60px); letter-spacing: -0.035em; font-weight: 600; line-height: 1">Four rules. No exceptions.</h2></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px">
+<div class="a-card a-reveal" style="background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; min-height: 240px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C8FF3D">01</span><strong style="font-size: 24px; letter-spacing: -0.02em">AI at the core</strong><span style="font-size: 16px; line-height: 1.5; color: #B4B9B2">Every product is designed around a model from day one. AI is never bolted on afterwards.</span></div>
+<div class="a-card a-reveal" style="background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; min-height: 240px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C8FF3D">02</span><strong style="font-size: 24px; letter-spacing: -0.02em">Humans make the call</strong><span style="font-size: 16px; line-height: 1.5; color: #B4B9B2">AI drafts, sorts and flags. A person signs off, and the product is clear about which is which.</span></div>
+<div class="a-card a-reveal" style="background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; min-height: 240px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C8FF3D">03</span><strong style="font-size: 24px; letter-spacing: -0.02em">Built where people are</strong><span style="font-size: 16px; line-height: 1.5; color: #B4B9B2">WhatsApp in Lagos, Telegram in the UK, offline in a care home hallway. There are no app stores to get through.</span></div>
+<div class="a-card a-reveal" style="background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 14px; min-height: 240px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C8FF3D">04</span><strong style="font-size: 24px; letter-spacing: -0.02em">Ship, then sharpen</strong><span style="font-size: 16px; line-height: 1.5; color: #B4B9B2">Real pilots with real users before polish, and the evidence decides what grows.</span></div>
+</div>
+</div>
+</section>
+
+<section id="lab" style="max-width: 1280px; margin: 0 auto; padding: 120px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 12px"><div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">// 004 — in the lab</div><h2 style="margin: 0; font-size: clamp(36px, 4.5vw, 60px); letter-spacing: -0.035em; font-weight: 600; line-height: 1">On the bench.</h2></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<div class="a-card" style="background: #0F110F; border: 1px solid #C8FF3D; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px"><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span style="color: #8D938B">EXP-05</span><span style="color: #FFC164">IN DEVELOPMENT</span></div><strong style="font-size: 30px; letter-spacing: -0.02em">Vervet</strong><span style="font-size: 16px; line-height: 1.5; color: #B4B9B2">The AI compliance layer for cross-border payments, starting with the UK–Nigeria corridor.</span><div style="height: 4px; background: #1E211E; border-radius: 99px; overflow: hidden"><div style="width: 72%; height: 100%; background: #FFC164"></div></div><a href="https://vervethq.com" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">vervethq.com ↗</a></div>
+<div class="a-card" style="background: #0F110F; border: 1px dashed #3A3F3A; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px"><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span style="color: #8D938B">EXP-06</span><span style="color: #8D938B">CLASSIFIED</span></div><strong class="a-scramble" style="font-size: 30px; letter-spacing: -0.02em; font-family: 'JetBrains Mono', monospace; color: #6E746C">██▓▒░ ███</strong><span style="font-size: 16px; line-height: 1.5; color: #8D938B">Domain: financial access. Status: prototyping.</span><div style="height: 4px; background: #1E211E; border-radius: 99px; overflow: hidden"><div class="a-bar" style="height: 100%; background: #6E746C"></div></div><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">[reveal date]</span></div>
+<div class="a-card" style="background: #0F110F; border: 1px dashed #3A3F3A; border-radius: 14px; padding: 28px; display: flex; flex-direction: column; gap: 16px"><div style="display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 12px"><span style="color: #8D938B">EXP-07</span><span style="color: #8D938B">CLASSIFIED</span></div><strong class="a-scramble" style="font-size: 30px; letter-spacing: -0.02em; font-family: 'JetBrains Mono', monospace; color: #6E746C">░▒▓██ ██▓</strong><span style="font-size: 16px; line-height: 1.5; color: #8D938B">Domain: civic safety. Status: research.</span><div style="height: 4px; background: #1E211E; border-radius: 99px; overflow: hidden"><div class="a-bar2" style="height: 100%; background: #6E746C"></div></div><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">[reveal date]</span></div>
+</div>
+</section>
+
+<section id="founder" style="border-top: 1px solid #1E211E">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 24px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+<div style="flex: 0 0 auto; width: 220px; height: 260px; border-radius: 16px; border: 1px dashed #3A3F3A; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #8D938B; text-align: center; padding: 16px; box-sizing: border-box">[founder portrait]</div>
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">// 005 — a note from the founder</div>
+<p style="margin: 0; font-size: clamp(24px, 2.6vw, 34px); line-height: 1.3; letter-spacing: -0.02em; font-weight: 500">"My background is in financial crime. I've seen how fraud, red tape and missed signals land hardest on the people least able to absorb them. Undaunted Lab is how I fight back: small, sharp products with AI at the core, shipped where people actually are."</p>
+<div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap"><strong style="font-size: 18px">Opeyemi</strong><span style="color: #8D938B">Founder, Undaunted Lab</span><a href="https://www.linkedin.com" style="font-family: 'JetBrains Mono', monospace; font-size: 13px">follow on LinkedIn ↗</a></div>
+</div>
+</div>
+</section>
+
+<section style="max-width: 1280px; margin: 0 auto; padding: 0 24px 120px; display: flex; flex-direction: column; gap: 24px">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">// 006 — lab notes</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+<a href="https://www.linkedin.com" class="a-card" style="text-decoration: none; color: #EDEFEA; background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C8FF3D">AI PRODUCTIVITY</span><strong style="font-size: 19px; line-height: 1.3">[Latest essay title]</strong><span style="font-size: 14px; color: #8D938B">LinkedIn · [date]</span></a>
+<a href="https://www.linkedin.com" class="a-card" style="text-decoration: none; color: #EDEFEA; background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C8FF3D">FINANCIAL SAFETY</span><strong style="font-size: 19px; line-height: 1.3">[Latest essay title]</strong><span style="font-size: 14px; color: #8D938B">LinkedIn · [date]</span></a>
+<a href="https://www.linkedin.com" class="a-card" style="text-decoration: none; color: #EDEFEA; background: #0F110F; border: 1px solid #262A26; border-radius: 14px; padding: 24px; display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C8FF3D">BUILD LOG</span><strong style="font-size: 19px; line-height: 1.3">[Latest essay title]</strong><span style="font-size: 14px; color: #8D938B">LinkedIn · [date]</span></a>
+</div>
+</section>
+
+<section id="contact" style="background: #C8FF3D; color: #0A0B0A">
+<div style="max-width: 1280px; margin: 0 auto; padding: 112px 24px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 24px">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px">// 007 — open a channel</div>
+<h2 style="margin: 0; font-size: clamp(44px, 6vw, 84px); letter-spacing: -0.045em; line-height: 0.95; font-weight: 600">Build the safety net with us.</h2>
+<div role="group" aria-label="Reason for contact" style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{routes}}" as="r" hint-placeholder-count="3">
+<button type="button" onClick="{{r.pick}}" aria-pressed="{{r.pressed}}" style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 18px; border-radius: 10px; border: 1.5px solid #0A0B0A; background: {{r.bg}}; color: {{r.fg}}; font-family: inherit; font-size: 18px; font-weight: 600; cursor: pointer; text-align: left; min-height: 44px"><span>{{r.label}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 13px">{{r.hint}}</span></button>
+</sc-for>
+</div>
+</div>
+<form style="flex: 1 1 420px; min-width: 0; background: #0A0B0A; color: #EDEFEA; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box">
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #C8FF3D">› {{routeLabel}}</div>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B4B9B2">Name<input type="text" style="background: #151815; border: 1px solid #262A26; border-radius: 8px; padding: 14px; color: #EDEFEA; font-family: inherit; font-size: 16px"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B4B9B2">Email<input type="email" style="background: #151815; border: 1px solid #262A26; border-radius: 8px; padding: 14px; color: #EDEFEA; font-family: inherit; font-size: 16px"></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B4B9B2">What are you thinking?<textarea rows="4" style="background: #151815; border: 1px solid #262A26; border-radius: 8px; padding: 14px; color: #EDEFEA; font-family: inherit; font-size: 16px; resize: vertical"></textarea></label>
+<button type="button" class="a-btn" style="background: #C8FF3D; color: #0A0B0A; border: 0; border-radius: 10px; padding: 16px; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer">Send transmission →</button>
+<span style="font-size: 14px; color: #8D938B">Or email <a href="mailto:opeyemi@undauntedlab.com">opeyemi@undauntedlab.com</a></span>
+</form>
+</div>
+</section>
+
+<footer style="max-width: 1280px; margin: 0 auto; padding: 48px 24px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #8D938B">
+<div style="display: flex; gap: 20px; flex-wrap: wrap"><a href="https://scamfendr.uk" style="color: #B4B9B2">scamfendr</a><a href="https://ganusii.com" style="color: #B4B9B2">ganusii</a><a href="https://notis.care" style="color: #B4B9B2">notiscare</a><a href="https://nestlo.ca" style="color: #B4B9B2">nestlo</a><a href="https://vervethq.com" style="color: #B4B9B2">vervet</a></div>
+<div style="display: flex; gap: 20px; flex-wrap: wrap"><a href="https://www.linkedin.com" style="color: #B4B9B2">linkedin</a><a href="https://x.com" style="color: #B4B9B2">x</a><span>© 2026 undaunted lab · still naija.</span></div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5400}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sel: 'scamfendr', route: 'partner', mx: 900, my: 260 }; }
+  renderVals() {
+    const P = [
+      { id: 'scamfendr', code: 'EXP-01', name: 'Scamfendr', line: 'Check a business before you pay', status: 'LIVE · UK', live: true, where: 'united kingdom' },
+      { id: 'ganusii', code: 'EXP-02', name: 'Ganusii', line: 'Lagos commutes, shared', status: 'PILOT · LAGOS', live: false, where: 'lagos, nigeria' },
+      { id: 'notiscare', code: 'EXP-03', name: 'NotisCare', line: 'Know before the family calls', status: 'LIVE · NG', live: true, where: 'nigeria' },
+      { id: 'nestlo', code: 'EXP-04', name: 'Nestlo', line: 'Your settlement plan, built for you', status: 'LIVE · AB', live: true, where: 'alberta, canada' },
+      { id: 'vervet', code: 'EXP-05', name: 'Vervet', line: 'Prove you were watching', status: 'BUILDING', live: false, where: 'uk ⇄ nigeria' }
+    ];
+    const sel = this.state.sel;
+    const products = P.map((p) => ({
+      ...p,
+      pressed: sel === p.id ? 'true' : 'false',
+      bg: sel === p.id ? '#131713' : 'transparent',
+      nameColor: sel === p.id ? '#C8FF3D' : '#EDEFEA',
+      statusColor: p.live ? '#C8FF3D' : '#FFC164',
+      pick: () => this.setState({ sel: p.id })
+    }));
+    const R = [
+      { id: 'partner', label: 'Partner or invest', hint: 'investors · operators' },
+      { id: 'build', label: 'Build with us', hint: 'engineers · designers' },
+      { id: 'press', label: 'Press & speaking', hint: 'media · events' }
+    ];
+    const route = this.state.route;
+    const routes = R.map((r) => ({
+      ...r,
+      pressed: route === r.id ? 'true' : 'false',
+      bg: route === r.id ? '#0A0B0A' : 'transparent',
+      fg: route === r.id ? '#C8FF3D' : '#0A0B0A',
+      pick: () => this.setState({ route: r.id })
+    }));
+    const cur = P.find((p) => p.id === sel);
+    return {
+      products, routes, cur,
+      routeLabel: R.find((r) => r.id === route).label.toLowerCase(),
+      isScam: sel === 'scamfendr', isGan: sel === 'ganusii', isNotis: sel === 'notiscare', isNest: sel === 'nestlo', isVervet: sel === 'vervet',
+      spot: 'radial-gradient(520px circle at ' + this.state.mx + 'px ' + this.state.my + 'px, rgba(200,255,61,0.13), transparent 65%)',
+      onMove: (e) => {
+        const b = e.currentTarget.getBoundingClientRect();
+        this.setState({ mx: Math.round(e.clientX - b.left), my: Math.round(e.clientY - b.top) });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

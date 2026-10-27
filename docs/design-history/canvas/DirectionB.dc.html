@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Direction B — Signal</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#060A18}
+a{color:#8FB0FF}a:hover{color:#C9D8FF}
+.b-spin{animation:bSpin 60s linear infinite}
+.b-spinr{animation:bSpin 90s linear infinite reverse}
+.b-orbit{animation:bSpin 28s linear infinite}
+.b-orbit2{animation:bSpin 40s linear infinite reverse}
+.b-counter{animation:bSpin 28s linear infinite reverse}
+.b-counter2{animation:bSpin 40s linear infinite}
+@keyframes bSpin{to{transform:rotate(360deg)}}
+.b-threat{animation:bThreat 4.2s cubic-bezier(.5,0,.8,.4) infinite}
+@keyframes bThreat{0%{transform:translateX(330px);opacity:0}15%{opacity:1}68%{transform:translateX(178px);opacity:1;background:#FF8A3D}74%{transform:translateX(184px) scale(2.6);opacity:.0;background:#FFFFFF}100%{transform:translateX(184px);opacity:0}}
+.b-core{animation:bCore 3s ease-in-out infinite}
+@keyframes bCore{0%,100%{box-shadow:0 0 60px 10px rgba(77,124,255,.35),inset 0 0 40px rgba(143,176,255,.25)}50%{box-shadow:0 0 90px 22px rgba(77,124,255,.55),inset 0 0 60px rgba(143,176,255,.4)}}
+.b-ripple{animation:bRipple 4.2s ease-out infinite}
+@keyframes bRipple{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.5);opacity:0}}
+.b-dash{stroke-dasharray:6 10;animation:bDash 3s linear infinite}
+@keyframes bDash{to{stroke-dashoffset:-64}}
+.b-pulse-dot{animation:bPD 2s ease-in-out infinite}
+@keyframes bPD{0%,100%{r:6;opacity:1}50%{r:10;opacity:.6}}
+.b-travel{animation:bTravel 3.6s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes bTravel{0%{left:0%;opacity:0}8%{opacity:1}92%{opacity:1}100%{left:100%;opacity:0}}
+.b-card{transition:transform .4s cubic-bezier(.2,.8,.2,1),border-color .3s,background .3s}
+.b-card:hover{transform:translateY(-6px);border-color:#4D7CFF;background:#0E1530}
+.b-in{animation:bIn .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes bIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@supports (animation-timeline: view()){.b-reveal{animation:bIn linear both;animation-timeline:view();animation-range:entry 0% entry 45%}}
+.b-tilt{transition:transform .25s ease-out}
+.b-glow{background:linear-gradient(90deg,#8FB0FF,#E8ECF8 40%,#FFB27D);-webkit-background-clip:text;background-clip:text;color:transparent}
+input:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid #FF8A3D;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+</style>
+</helmet>
+<div style="background: #060A18; color: #E8ECF8; font-family: Sora, system-ui, sans-serif; min-height: 100vh; overflow-x: hidden">
+
+<nav style="position: sticky; top: 0; z-index: 10; background: rgba(6,10,24,0.78); backdrop-filter: blur(14px); border-bottom: 1px solid #141C38">
+<div style="max-width: 1280px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap">
+<a href="#top" style="display: flex; align-items: center; gap: 10px; color: #E8ECF8; text-decoration: none; font-weight: 600; font-size: 19px; letter-spacing: -0.02em"><svg aria-hidden="true" width="26" height="26" viewBox="0 0 26 26" fill="none"><circle cx="13" cy="13" r="11" stroke="#4D7CFF" stroke-width="1.5"></circle><circle cx="13" cy="13" r="6" stroke="#8FB0FF" stroke-width="1.5" stroke-dasharray="3 3"></circle><circle cx="13" cy="13" r="2.4" fill="#FF8A3D"></circle></svg>Undaunted Lab</a>
+<div style="display: flex; align-items: center; gap: 26px; flex-wrap: wrap; font-size: 14px">
+<a href="#products" style="color: #B7BFD8; text-decoration: none">Products</a>
+<a href="#signal" style="color: #B7BFD8; text-decoration: none">How it works</a>
+<a href="#lab" style="color: #B7BFD8; text-decoration: none">In the lab</a>
+<a href="#founder" style="color: #B7BFD8; text-decoration: none">Founder</a>
+<a href="#contact" style="background: #E8ECF8; color: #060A18; text-decoration: none; padding: 12px 20px; border-radius: 99px; font-weight: 600">Partner with us</a>
+</div>
+</div>
+</nav>
+
+<header id="top" onMouseMove="{{onMove}}" style="position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; inset: 0; background-image: radial-gradient(#1A2448 1px, transparent 1.2px); background-size: 28px 28px; opacity: 0.8"></div>
+<div aria-hidden="true" style="position: absolute; inset: 0; background: {{spot}}; pointer-events: none"></div>
+<div style="position: relative; max-width: 1280px; margin: 0 auto; padding: 88px 24px 96px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<div style="flex: 1 1 500px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<div style="display: inline-flex; align-self: flex-start; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid #1F2A52; border-radius: 99px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #B7BFD8"><span style="width: 7px; height: 7px; border-radius: 99px; background: #FF8A3D"></span>5 products · 3 countries · AI at the core</div>
+<h1 style="margin: 0; font-size: clamp(50px, 7.6vw, 108px); line-height: 0.96; letter-spacing: -0.045em; font-weight: 600">Protection,<br><span class="b-glow">by default.</span></h1>
+<p style="margin: 0; max-width: 540px; font-size: 20px; line-height: 1.55; color: #B7BFD8; font-weight: 300">We build AI-native tools that pick up the early signals of harm, like a cloned firm, a resident's quiet decline or a missed deadline, and turn them into protection for everyday people.</p>
+<div style="display: flex; gap: 12px; flex-wrap: wrap">
+<a href="#products" style="background: #3D63E6; color: #FFFFFF; text-decoration: none; padding: 16px 26px; border-radius: 99px; font-weight: 600; font-size: 16px">See what we protect</a>
+<a href="#contact" style="border: 1px solid #2A3766; color: #E8ECF8; text-decoration: none; padding: 16px 26px; border-radius: 99px; font-weight: 600; font-size: 16px">Partner with us</a>
+</div>
+</div>
+<div style="flex: 1 1 460px; min-width: 0; display: flex; justify-content: center">
+<div class="b-tilt" role="img" aria-label="A shield of rings around a glowing core deflecting incoming threats, with Undaunted Lab products orbiting it" style="position: relative; width: 460px; max-width: 100%; aspect-ratio: 1; transform: {{tilt}}">
+<div aria-hidden="true" class="b-ripple" style="position: absolute; inset: 30%; border-radius: 50%; border: 1px solid #4D7CFF"></div>
+<div aria-hidden="true" class="b-spin" style="position: absolute; inset: 0; border-radius: 50%; border: 1px dashed #26346A"></div>
+<div aria-hidden="true" class="b-spinr" style="position: absolute; inset: 11%; border-radius: 50%; border: 1px solid #1F2A52"></div>
+<div aria-hidden="true" class="b-spin" style="position: absolute; inset: 22%; border-radius: 50%; border: 2px solid transparent; border-top-color: #4D7CFF; border-right-color: #4D7CFF"></div>
+<div aria-hidden="true" class="b-core" style="position: absolute; inset: 38%; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #9BB6FF, #3A63E6 55%, #1A2C7A); display: flex; align-items: center; justify-content: center"><svg width="44" height="50" viewBox="0 0 44 50" fill="none"><path d="M22 2 L40 9 V24 C40 36 31 44 22 48 C13 44 4 36 4 24 V9 Z" stroke="#FFFFFF" stroke-width="2.4" stroke-linejoin="round"></path><path d="M14 25 L20 31 L31 19" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg></div>
+<div aria-hidden="true" style="position: absolute; left: 50%; top: 50%; width: 0; height: 0">
+<div style="position: absolute; transform: rotate(10deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D"></div></div>
+<div style="position: absolute; transform: rotate(75deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D; animation-delay: -1.1s"></div></div>
+<div style="position: absolute; transform: rotate(140deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D; animation-delay: -2.3s"></div></div>
+<div style="position: absolute; transform: rotate(200deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D; animation-delay: -0.6s"></div></div>
+<div style="position: absolute; transform: rotate(255deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D; animation-delay: -3.1s"></div></div>
+<div style="position: absolute; transform: rotate(315deg)"><div class="b-threat" style="width: 7px; height: 7px; margin: -3.5px; border-radius: 99px; background: #FF8A3D; animation-delay: -1.7s"></div></div>
+</div>
+<div aria-hidden="true" class="b-orbit" style="position: absolute; inset: 11%">
+<div class="b-counter" style="position: absolute; left: 50%; top: -18px; margin-left: -52px; width: 104px; text-align: center; padding: 7px 0; border-radius: 99px; background: #0E1530; border: 1px solid #2A3766; font-size: 12px; font-weight: 600">Scamfendr</div>
+<div class="b-counter" style="position: absolute; left: 50%; bottom: -18px; margin-left: -48px; width: 96px; text-align: center; padding: 7px 0; border-radius: 99px; background: #0E1530; border: 1px solid #2A3766; font-size: 12px; font-weight: 600">Nestlo</div>
+</div>
+<div aria-hidden="true" class="b-orbit2" style="position: absolute; inset: 0">
+<div class="b-counter2" style="position: absolute; top: 50%; left: -26px; margin-top: -16px; width: 96px; text-align: center; padding: 7px 0; border-radius: 99px; background: #0E1530; border: 1px solid #2A3766; font-size: 12px; font-weight: 600">Ganusii</div>
+<div class="b-counter2" style="position: absolute; top: 50%; right: -26px; margin-top: -16px; width: 104px; text-align: center; padding: 7px 0; border-radius: 99px; background: #0E1530; border: 1px solid #2A3766; font-size: 12px; font-weight: 600">NotisCare</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+
+<section id="products" style="max-width: 1280px; margin: 0 auto; padding: 96px 24px 120px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: flex-end">
+<div style="display: flex; flex-direction: column; gap: 14px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #FF8A3D; letter-spacing: 0.06em">THE NETWORK</span><h2 style="margin: 0; font-size: clamp(36px, 4.6vw, 62px); letter-spacing: -0.035em; line-height: 1.02; font-weight: 600">One lab across<br>three countries.</h2></div>
+<div role="group" aria-label="Filter by country" style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{countries}}" as="c" hint-placeholder-count="4">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="padding: 12px 18px; border-radius: 99px; border: 1px solid {{c.border}}; background: {{c.bg}}; color: {{c.fg}}; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 44px">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="position: relative; border: 1px solid #141C38; border-radius: 22px; background: #0A1024; overflow: hidden">
+<svg viewBox="0 0 1200 360" style="display: block; width: 100%; height: auto" role="img" aria-label="Network map linking Calgary, London and Lagos">
+<defs><pattern id="bdots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.2" fill="#18224A"></circle></pattern></defs>
+<rect width="1200" height="360" fill="url(#bdots)"></rect>
+<path d="M240 130 Q 470 10 690 110" stroke="#2A3766" stroke-width="1.5" fill="none"></path>
+<path d="M240 130 Q 470 10 690 110" stroke="#4D7CFF" stroke-width="2" fill="none" class="b-dash"></path>
+<path d="M690 110 Q 780 170 720 260" stroke="#2A3766" stroke-width="1.5" fill="none"></path>
+<path d="M690 110 Q 780 170 720 260" stroke="#FF8A3D" stroke-width="2" fill="none" class="b-dash"></path>
+<path d="M240 130 Q 420 330 720 260" stroke="#2A3766" stroke-width="1.5" fill="none" stroke-dasharray="2 8"></path>
+<circle cx="240" cy="130" r="22" fill="none" stroke="{{caRing}}" stroke-width="1.5"></circle>
+<circle cx="240" cy="130" r="7" fill="#8FB0FF" class="b-pulse-dot"></circle>
+<text x="240" y="182" fill="#E8ECF8" font-family="Sora" font-size="17" font-weight="600" text-anchor="middle">Calgary</text>
+<text x="240" y="204" fill="#9AA3BF" font-family="IBM Plex Mono" font-size="12" text-anchor="middle">NESTLO</text>
+<circle cx="690" cy="110" r="22" fill="none" stroke="{{ukRing}}" stroke-width="1.5"></circle>
+<circle cx="690" cy="110" r="7" fill="#8FB0FF" class="b-pulse-dot"></circle>
+<text x="690" y="62" fill="#E8ECF8" font-family="Sora" font-size="17" font-weight="600" text-anchor="middle">United Kingdom</text>
+<text x="690" y="80" fill="#9AA3BF" font-family="IBM Plex Mono" font-size="12" text-anchor="middle">SCAMFENDR · VERVET</text>
+<circle cx="720" cy="260" r="22" fill="none" stroke="{{ngRing}}" stroke-width="1.5"></circle>
+<circle cx="720" cy="260" r="7" fill="#FF8A3D" class="b-pulse-dot"></circle>
+<text x="760" y="258" fill="#E8ECF8" font-family="Sora" font-size="17" font-weight="600">Lagos, Nigeria</text>
+<text x="760" y="278" fill="#9AA3BF" font-family="IBM Plex Mono" font-size="12">GANUSII · NOTISCARE · VERVET</text>
+<text x="1000" y="150" fill="#9AA3BF" font-family="IBM Plex Mono" font-size="12">UK ⇄ NG corridor</text>
+<text x="1000" y="170" fill="#9AA3BF" font-family="IBM Plex Mono" font-size="12">diaspora, payments, trust</text>
+</svg>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px">
+<sc-for list="{{shown}}" as="p" hint-placeholder-count="4">
+<a href="{{p.url}}" class="b-card b-in" style="text-decoration: none; color: #E8ECF8; background: #0A1024; border: 1px solid #1A2448; border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; min-height: 290px; box-sizing: border-box">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px"><span style="width: 40px; height: 40px; border-radius: 12px; background: {{p.color}}; border: 1px solid #2A3766"></span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{p.statusColor}}">{{p.status}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><strong style="font-size: 26px; letter-spacing: -0.02em">{{p.name}}</strong><span style="font-size: 16px; color: #C9D0E6">{{p.tag}}</span></div>
+<span style="font-size: 15px; line-height: 1.55; color: #9AA3BF; font-weight: 300; flex: 1">{{p.desc}}</span>
+<span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #8FB0FF">{{p.domain}} ↗</span>
+</a>
+</sc-for>
+</div>
+</section>
+
+<section id="signal" style="background: #0A1024; border-top: 1px solid #141C38; border-bottom: 1px solid #141C38">
+<div style="max-width: 1280px; margin: 0 auto; padding: 120px 24px; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #FF8A3D; letter-spacing: 0.06em">HOW PROTECTION WORKS</span><h2 style="margin: 0; font-size: clamp(36px, 4.6vw, 62px); letter-spacing: -0.035em; line-height: 1.02; font-weight: 600">Pick a threat. Watch it get caught.</h2></div>
+<div role="group" aria-label="Choose a threat" style="display: flex; gap: 8px; flex-wrap: wrap">
+<sc-for list="{{threats}}" as="t" hint-placeholder-count="5">
+<button type="button" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="padding: 14px 20px; border-radius: 14px; border: 1px solid {{t.border}}; background: {{t.bg}}; color: #E8ECF8; font-family: inherit; font-size: 15px; font-weight: 500; cursor: pointer; min-height: 44px">{{t.label}}</button>
+</sc-for>
+</div>
+<div class="b-in" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0; border: 1px solid #1F2A52; border-radius: 22px; overflow: hidden; position: relative">
+<div style="padding: 28px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid #1A2448"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #FF8A3D">01 · SIGNAL</span><span style="font-size: 18px; line-height: 1.45">{{th.signal}}</span></div>
+<div style="padding: 28px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid #1A2448"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8FB0FF">02 · AI SORTS</span><span style="font-size: 18px; line-height: 1.45">{{th.ai}}</span></div>
+<div style="padding: 28px; display: flex; flex-direction: column; gap: 12px; border-right: 1px solid #1A2448"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #8FB0FF">03 · HUMAN DECIDES</span><span style="font-size: 18px; line-height: 1.45">{{th.human}}</span></div>
+<div style="padding: 28px; display: flex; flex-direction: column; gap: 12px; background: #0E1530"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #7EE0A8">04 · PROTECTED</span><span style="font-size: 18px; line-height: 1.45">{{th.outcome}}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9AA3BF">via {{th.product}}</span></div>
+<div aria-hidden="true" style="position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #141C38"><div class="b-travel" style="position: absolute; top: -3px; width: 80px; height: 8px; margin-left: -40px; border-radius: 99px; background: radial-gradient(closest-side, #FF8A3D, transparent)"></div></div>
+</div>
+<p style="margin: 0; font-size: 15px; color: #9AA3BF; max-width: 760px">This is our rule in every product: AI reads the signals and drafts the response. A person makes the call.</p>
+</div>
+</section>
+
+<section id="lab" style="max-width: 1280px; margin: 0 auto; padding: 120px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 14px"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #FF8A3D; letter-spacing: 0.06em">IN THE LAB</span><h2 style="margin: 0; font-size: clamp(36px, 4.6vw, 62px); letter-spacing: -0.035em; line-height: 1.02; font-weight: 600">What we are building next.</h2></div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px">
+<a href="https://vervethq.com" class="b-card b-reveal" style="text-decoration: none; color: #E8ECF8; background: linear-gradient(160deg, #13204A, #0A1024 70%); border: 1px solid #2A3766; border-radius: 20px; padding: 30px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; box-sizing: border-box"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #FFB27D">IN DEVELOPMENT · UK ⇄ NG</span><strong style="font-size: 30px; letter-spacing: -0.02em">Vervet</strong><span style="font-size: 16px; line-height: 1.55; color: #B7BFD8; font-weight: 300; flex: 1">The AI compliance layer for cross-border payments. It runs nightly register checks and keeps append-only records, so firms can prove they were watching.</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #8FB0FF">vervethq.com ↗</span></a>
+<div class="b-card b-reveal" style="background: #0A1024; border: 1px dashed #26346A; border-radius: 20px; padding: 30px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; box-sizing: border-box; position: relative; overflow: hidden"><div aria-hidden="true" class="b-spin" style="position: absolute; right: -60px; bottom: -60px; width: 200px; height: 200px; border-radius: 50%; border: 1px dashed #26346A"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9AA3BF">SIGNAL 06 · PROTOTYPING</span><strong style="font-size: 30px; letter-spacing: -0.02em; color: #5D6890">Coming soon</strong><span style="font-size: 16px; line-height: 1.55; color: #9AA3BF; font-weight: 300">A new tool for financial access, being shaped with early users now.</span></div>
+<div class="b-card b-reveal" style="background: #0A1024; border: 1px dashed #26346A; border-radius: 20px; padding: 30px; display: flex; flex-direction: column; gap: 14px; min-height: 260px; box-sizing: border-box; position: relative; overflow: hidden"><div aria-hidden="true" class="b-spinr" style="position: absolute; right: -60px; bottom: -60px; width: 200px; height: 200px; border-radius: 50%; border: 1px dashed #26346A"></div><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9AA3BF">SIGNAL 07 · RESEARCH</span><strong style="font-size: 30px; letter-spacing: -0.02em; color: #5D6890">Coming soon</strong><span style="font-size: 16px; line-height: 1.55; color: #9AA3BF; font-weight: 300">Civic safety, in research. Get notified the day it launches.</span></div>
+</div>
+</section>
+
+<section id="founder" style="max-width: 1280px; margin: 0 auto; padding: 0 24px 120px">
+<div style="border: 1px solid #1F2A52; border-radius: 28px; padding: clamp(28px, 5vw, 64px); display: flex; flex-wrap: wrap; gap: 40px; align-items: center; background: radial-gradient(600px 300px at 0% 0%, #13204A, transparent 70%), #0A1024">
+<div style="flex: 0 0 auto; width: 160px; height: 160px; border-radius: 50%; border: 1px dashed #2A3766; display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #9AA3BF; text-align: center">[portrait]</div>
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<p style="margin: 0; font-size: clamp(22px, 2.5vw, 32px); line-height: 1.35; letter-spacing: -0.02em; font-weight: 400">"I come from financial crime, where you learn that harm always leaves a signal first. Our job is to catch that signal for people who've never had anyone watching out for them."</p>
+<div style="display: flex; gap: 14px; flex-wrap: wrap; align-items: center"><strong>Opeyemi</strong><span style="color: #9AA3BF">Founder</span><a href="https://www.linkedin.com" style="font-size: 14px">Read his notes on LinkedIn ↗</a></div>
+</div>
+</div>
+</section>
+
+<section id="contact" style="position: relative; overflow: hidden; border-top: 1px solid #141C38">
+<div aria-hidden="true" class="b-spin" style="position: absolute; left: 50%; top: 60%; width: 900px; height: 900px; margin-left: -450px; border-radius: 50%; border: 1px dashed #1A2448"></div>
+<div aria-hidden="true" class="b-spinr" style="position: absolute; left: 50%; top: 60%; width: 620px; height: 620px; margin-left: -310px; border-radius: 50%; border: 1px solid #141C38"></div>
+<div style="position: relative; max-width: 880px; margin: 0 auto; padding: 128px 24px; display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center">
+<h2 style="margin: 0; font-size: clamp(42px, 6vw, 84px); letter-spacing: -0.045em; line-height: 0.98; font-weight: 600">Widen the net<br><span class="b-glow">with us.</span></h2>
+<p style="margin: 0; font-size: 18px; color: #B7BFD8; max-width: 560px; font-weight: 300">Investors, operators, regulators, builders and press: tell us what you are working on.</p>
+<form style="width: 100%; max-width: 620px; display: flex; flex-direction: column; gap: 12px; text-align: left">
+<div style="display: flex; gap: 12px; flex-wrap: wrap">
+<label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B7BFD8">Name<input type="text" style="background: #0A1024; border: 1px solid #2A3766; border-radius: 14px; padding: 15px; color: #E8ECF8; font-family: inherit; font-size: 16px"></label>
+<label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B7BFD8">Email<input type="email" style="background: #0A1024; border: 1px solid #2A3766; border-radius: 14px; padding: 15px; color: #E8ECF8; font-family: inherit; font-size: 16px"></label>
+</div>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B7BFD8">I'm interested in<select style="background: #0A1024; border: 1px solid #2A3766; border-radius: 14px; padding: 15px; color: #E8ECF8; font-family: inherit; font-size: 16px"><option>Partnering or investing</option><option>Building with the lab</option><option>Press and speaking</option><option>A specific product</option></select></label>
+<label style="display: flex; flex-direction: column; gap: 8px; font-size: 14px; color: #B7BFD8">Message<textarea rows="4" style="background: #0A1024; border: 1px solid #2A3766; border-radius: 14px; padding: 15px; color: #E8ECF8; font-family: inherit; font-size: 16px; resize: vertical"></textarea></label>
+<button type="button" style="background: #3D63E6; color: #FFFFFF; border: 0; border-radius: 99px; padding: 17px; font-family: inherit; font-size: 16px; font-weight: 600; cursor: pointer">Send message</button>
+</form>
+</div>
+</section>
+
+<footer style="border-top: 1px solid #141C38">
+<div style="max-width: 1280px; margin: 0 auto; padding: 40px 24px; display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; font-size: 14px; color: #9AA3BF">
+<div style="display: flex; gap: 20px; flex-wrap: wrap"><a href="https://scamfendr.uk">Scamfendr</a><a href="https://ganusii.com">Ganusii</a><a href="https://notis.care">NotisCare</a><a href="https://nestlo.ca">Nestlo</a><a href="https://vervethq.com">Vervet</a></div>
+<div style="display: flex; gap: 20px; flex-wrap: wrap"><a href="mailto:opeyemi@undauntedlab.com">opeyemi@undauntedlab.com</a><a href="https://www.linkedin.com">LinkedIn</a><a href="https://x.com">X</a><span>© 2026 Undaunted Lab · still naija.</span></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":5400}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { country: 'all', threat: 'scam', mx: 900, my: 300, rx: 0, ry: 0 }; }
+  renderVals() {
+    const P = [
+      { id: 's', name: 'Scamfendr', tag: 'Check a business before you pay.', desc: 'It checks the FCA register, the FCA warning list, HMRC supervision and Companies House, then builds your fraud case if the worst has already happened.', url: 'https://scamfendr.uk', domain: 'scamfendr.uk', status: 'LIVE · UK', live: true, c: ['uk'], color: '#2C4BD8' },
+      { id: 'g', name: 'Ganusii', tag: 'Lagos commutes, shared.', desc: 'Verified WhatsApp carpools that match Lagos professionals already driving the same route.', url: 'https://ganusii.com', domain: 'ganusii.com', status: 'PILOT · LAGOS', live: false, c: ['ng'], color: '#121A17' },
+      { id: 'n', name: 'NotisCare', tag: 'Know before the family calls.', desc: 'AI triages care-worker observations as Fine, Watch or Urgent, so Matrons catch decline early.', url: 'https://notis.care', domain: 'notis.care', status: 'LIVE · NIGERIA', live: true, c: ['ng'], color: '#0F172A' },
+      { id: 'e', name: 'Nestlo', tag: 'Your settlement plan, built for you.', desc: 'A personalised first-90-days plan for newcomers to Alberta, with deadlines and plain-language AI answers.', url: 'https://nestlo.ca', domain: 'nestlo.ca', status: 'LIVE · ALBERTA', live: true, c: ['ca'], color: '#F7EFE2' }
+    ];
+    const C = [{ id: 'all', label: 'All' }, { id: 'uk', label: 'United Kingdom' }, { id: 'ng', label: 'Nigeria' }, { id: 'ca', label: 'Canada' }];
+    const country = this.state.country;
+    const countries = C.map((c) => ({ ...c, pressed: country === c.id ? 'true' : 'false', bg: country === c.id ? '#E8ECF8' : 'transparent', fg: country === c.id ? '#060A18' : '#E8ECF8', border: country === c.id ? '#E8ECF8' : '#2A3766', pick: () => this.setState({ country: c.id }) }));
+    const shown = P.filter((p) => country === 'all' || p.c.indexOf(country) > -1).map((p) => ({ ...p, statusColor: p.live ? '#7EE0A8' : '#FFB27D' }));
+    const T = [
+      { id: 'scam', label: 'A "too good" investment', signal: 'An investment firm cold-calls with guaranteed returns and a London address.', ai: 'Runs register and warning-list checks and spots a clone of an authorised firm.', human: 'You see a plain-English verdict before any money moves.', outcome: 'Payment stopped. If you have already paid, your case pack is drafted for you.', product: 'Scamfendr' },
+      { id: 'care', label: 'A quiet decline', signal: 'Three small notes in a week: less appetite, unsteady walking, withdrawn.', ai: 'Links the pattern over 7 days and moves it from Watch to Urgent.', human: 'The Matron gets a WhatsApp alert, reviews it and acts.', outcome: 'Seen before it became an emergency transfer.', product: 'NotisCare' },
+      { id: 'deadline', label: 'A missed deadline', signal: 'A newcomer lands in Calgary without knowing about the health-cover window.', ai: 'Builds a plan from their situation and flags time-bound steps first.', human: 'They work through it at their own pace, with reminders.', outcome: 'SIN, AHCIP and banking done in the first weeks.', product: 'Nestlo' },
+      { id: 'ride', label: 'An unsafe ride', signal: 'A long, costly and uncertain daily commute across Lagos.', ai: 'Matches verified members on the same route and confirms seats the night before.', human: 'Riders and drivers agree a fare, and the team is one HELP message away.', outcome: 'A shared, known and safer commute.', product: 'Ganusii' },
+      { id: 'comp', label: 'A compliance gap', signal: 'A partner firm in the payment chain quietly loses an authorisation.', ai: 'Detects the change deterministically, and AI drafts the explanation.', human: 'The MLRO reviews and signs off on the evidence.', outcome: 'A dated record ready for a bank, an auditor or the board.', product: 'Vervet (in development)' }
+    ];
+    const threat = this.state.threat;
+    const threats = T.map((t) => ({ ...t, pressed: threat === t.id ? 'true' : 'false', bg: threat === t.id ? '#13204A' : 'transparent', border: threat === t.id ? '#4D7CFF' : '#1F2A52', pick: () => this.setState({ threat: t.id }) }));
+    const on = (k) => (country === 'all' || country === k) ? '#4D7CFF' : '#1F2A52';
+    return {
+      countries, shown, threats, th: T.find((t) => t.id === threat),
+      ukRing: on('uk'), ngRing: on('ng'), caRing: on('ca'),
+      spot: 'radial-gradient(560px circle at ' + this.state.mx + 'px ' + this.state.my + 'px, rgba(77,124,255,0.16), transparent 65%)',
+      tilt: 'perspective(900px) rotateX(' + this.state.ry + 'deg) rotateY(' + this.state.rx + 'deg)',
+      onMove: (e) => {
+        const b = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - b.left, y = e.clientY - b.top;
+        this.setState({ mx: Math.round(x), my: Math.round(y), rx: Math.round(((x / b.width) - 0.5) * 16), ry: Math.round(((y / b.height) - 0.5) * -12) });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

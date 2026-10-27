@@ -1,0 +1,19 @@
+{
+  "name": "undaunted-lab-site",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "0.5.8",
+    "@neondatabase/serverless": "1.1.0",
+    "drizzle-orm": "0.45.2",
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "server-only": "0.0.1"
+  }
+}
