@@ -42,7 +42,7 @@ In **Project → Settings → Environment Variables**, set these for Production 
 | `ADMIN_EMAILS` | `opeyemi@undauntedlab.com` (comma-separate to add more people) |
 | `RESEND_API_KEY` | from step 4 |
 | `MAIL_FROM` | `Undaunted Lab <hello@undauntedlab.com>` (must be on the verified domain) |
-| `SITE_URL` | `https://undauntedlab.com` (for Preview, the preview URL, or leave unset) |
+| `SITE_URL` | `https://undauntedlab.com`. Sign-in links go back to whichever of the site's own addresses you asked from (this one or its `.vercel.app` ones), so they work before the domain moves; any other address gets this one |
 | `ANALYTICS_SALT` | a long random string, e.g. from `openssl rand -hex 32` |
 | `CONTACT_TO` | optional: where contact-form alerts go (defaults to `ADMIN_EMAILS`) |
 
