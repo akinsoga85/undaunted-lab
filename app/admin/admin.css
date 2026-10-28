@@ -67,7 +67,7 @@
 .a-note.err { background: var(--a-err-bg); color: var(--a-err); border-color: var(--a-err); }
 .a-note.info { background: var(--a-soft); }
 
-.a-table-wrap { overflow-x: auto; }
+.a-table-wrap { overflow-x: auto; position: relative; } /* relative keeps hidden .sr labels inside the scroll area */
 .a-table { width: 100%; border-collapse: collapse; min-width: 640px; }
 .a-table th { text-align: left; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--a-muted); font-weight: 700; padding: 8px 10px; border-bottom: 2px solid var(--a-ink); }
 .a-table td { padding: 10px; border-bottom: 1px solid var(--a-line); vertical-align: middle; }
@@ -114,7 +114,7 @@
 .a-login img { width: 56px; height: 56px; border-radius: 50%; border: 2px solid var(--a-ink); }
 
 @media (max-width: 760px) {
-  .a-side { position: static; height: auto; max-width: none; flex-basis: 100%; border-right: 0; border-bottom: 2px solid var(--a-ink); padding: 12px; gap: 10px; }
+  .a-side { position: static; height: auto; max-width: none; min-width: 0; flex-basis: 100%; border-right: 0; border-bottom: 2px solid var(--a-ink); padding: 12px; gap: 10px; }
   .a-nav { flex-direction: row; overflow-x: auto; }
   .a-nav a { white-space: nowrap; }
   .a-side .a-foot { display: none; }

@@ -102,6 +102,8 @@ const STAMP = 'e2e-' + Date.now();
   await a.goto(BASE + '/admin/messages');
   const mine = a.locator('details.a-msg', { hasText: STAMP });
   ok('messages: inbox shows the message', (await mine.count()) === 1);
+  const replies = await mine.locator('a.a-btn').evaluateAll((as) => as.map((x) => x.getAttribute('href')));
+  ok('messages: reply links (mail app and Gmail) go to the sender', replies.some((h) => h.startsWith('mailto:ada@example.com?subject=')) && replies.some((h) => h.startsWith('https://mail.google.com/') && h.includes('ada%40example.com')), replies.join(' '));
   await mine.locator('button:has-text("Mark as read")').click(); await a.waitForTimeout(800); await a.reload();
   const unreadAfter = Number((await a.locator('.a-badge').count()) ? await a.textContent('.a-badge') : 0);
   ok('messages: mark as read lowers the unread count', unreadAfter === unreadBefore - 1, `${unreadBefore} -> ${unreadAfter}`);
@@ -122,6 +124,11 @@ const STAMP = 'e2e-' + Date.now();
   await a.goto(BASE + '/admin/products/scamfendr'); await a.fill('#f-line', origLine); await a.click('button:has-text("Save changes")'); await a.waitForURL(/products\?saved/);
   await a.goto(BASE + '/admin/content'); await a.fill('[id="c-tagline"]', origTagline); await a.click('button:has-text("Save site text")'); await a.waitForTimeout(1200);
   ok('cleanup: original text restored', await a.isVisible('text=Saved. The live site is updated.'));
+  // phone width: no admin page may scroll sideways
+  await a.setViewportSize({ width: 390, height: 844 }); const wide = [];
+  for (const path of ['/admin', '/admin/messages', '/admin/products', '/admin/content', '/admin/analytics', '/admin/settings']) { await a.goto(BASE + path); if (await a.evaluate(() => document.documentElement.scrollWidth > innerWidth)) wide.push(path); }
+  ok('mobile: admin pages have no sideways scroll', wide.length === 0, wide.join(' '));
+  await a.setViewportSize({ width: 1440, height: 900 });
   // sign out
   await a.click('button:has-text("Sign out")'); await a.waitForURL(/login/);
   await a.goto(BASE + '/admin/products'); ok('admin: signed out cannot reach admin', a.url().includes('/admin/login'));

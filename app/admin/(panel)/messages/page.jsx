@@ -2,6 +2,9 @@ import { desc } from 'drizzle-orm';
 import { getDb, schema } from '@/lib/db';
 import { setMessageRead, deleteMessage } from '../../actions';
 import Confirm from '@/components/admin/Confirm';
+import CopyButton from '@/components/admin/CopyButton';
+
+const replySubject = (m) => 'Re: ' + (m.topic || 'your message to Undaunted Lab');
 
 export default async function Messages() {
   const db = await getDb();
@@ -24,7 +27,10 @@ export default async function Messages() {
             <div className="body">
               <div className="text">{m.message || <span className="a-muted">No message, just contact details.</span>}</div>
               <div className="a-actions">
-                <a className="a-btn small" href={`mailto:${encodeURIComponent(m.email)}?subject=${encodeURIComponent('Re: ' + (m.topic || 'your message to Undaunted Lab'))}`}>Reply by email</a>
+                {/* mailto does nothing without a mail app, so webmail and copy are offered too. */}
+                <a className="a-btn small" href={`mailto:${encodeURIComponent(m.email).replace(/%40/g, '@')}?subject=${encodeURIComponent(replySubject(m))}`}>Reply by email</a>
+                <a className="a-btn ghost small" href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.email)}&su=${encodeURIComponent(replySubject(m))}`} target="_blank" rel="noopener">Reply in Gmail ↗</a>
+                <CopyButton text={m.email} label="Copy email" />
                 <form action={setMessageRead}><input type="hidden" name="id" value={m.id} /><input type="hidden" name="read" value={m.read ? '0' : '1'} /><button className="a-btn ghost small">{m.read ? 'Mark as unread' : 'Mark as read'}</button></form>
                 <Confirm action={deleteMessage} id={m.id} label="Delete" confirmLabel="Delete this message?" />
               </div>
