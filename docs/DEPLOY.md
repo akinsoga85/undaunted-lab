@@ -46,7 +46,7 @@ In **Project → Settings → Environment Variables**, set these for Production 
 | `ANALYTICS_SALT` | a long random string, e.g. from `openssl rand -hex 32` |
 | `CONTACT_TO` | optional: where contact-form alerts go (defaults to `ADMIN_EMAILS`) |
 
-Never set `AUTH_DEV_LINKS` in production.
+Paste only the value itself (for `SITE_URL`, exactly `https://undauntedlab.com`), with no notes or spaces. Never set `AUTH_DEV_LINKS` in production.
 
 ## 6. Deploy
 
@@ -74,6 +74,7 @@ If something fails:
 - **Build fails:** check the Vercel build logs.
 - **Page errors:** check **Vercel → Logs**. A `DATABASE_URL is not set` error means step 3 didn't reach that environment.
 - **No sign-in email:** check the Resend dashboard under Logs. `MAIL_FROM` must use the verified domain.
+- **Settings → Connections says Site address needs action:** `SITE_URL` has something extra in it. Set it to just the address and redeploy. Until then the site ignores it and uses `https://undauntedlab.com` for robots.txt and the sitemap.
 
 ## Day-to-day
 

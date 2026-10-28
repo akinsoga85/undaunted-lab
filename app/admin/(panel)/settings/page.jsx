@@ -1,6 +1,7 @@
 import { desc } from 'drizzle-orm';
 import { getDb, schema } from '@/lib/db';
 import { allowedEmails } from '@/lib/auth';
+import { siteUrl } from '@/lib/site-url';
 import { signOutEverywhere } from '../../actions';
 
 export default async function Settings() {
@@ -9,7 +10,9 @@ export default async function Settings() {
   const checks = [
     ['Database', process.env.DATABASE_URL ? 'Postgres (Neon) connected' : 'Local embedded database (development only)', !!process.env.DATABASE_URL],
     ['Email', process.env.RESEND_API_KEY ? 'Resend is set up: sign-in links and message alerts are emailed' : 'Not set up: add RESEND_API_KEY to send sign-in links and alerts', !!process.env.RESEND_API_KEY],
-    ['Site address', process.env.SITE_URL || 'Not set: sign-in links use the address you visited from', !!process.env.SITE_URL]
+    ['Site address', siteUrl() || (process.env.SITE_URL
+      ? `SITE_URL is “${process.env.SITE_URL}”, which isn’t a plain web address, so it’s being ignored. In Vercel, set it to just https://undauntedlab.com and redeploy.`
+      : 'Not set: sign-in links use the address you visited from'), !!siteUrl()]
   ];
   return (
     <>

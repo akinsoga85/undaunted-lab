@@ -88,4 +88,5 @@ Run them against a local production build, never against the production database
 - **Panels:** while one is open, `.ul-root.panel-open` hides the floating UI and the `behind` list in world.js makes it inert. Add any new floating UI to both, or it will show through the panel or stay reachable by Tab. Close panels with `dismiss()`, not `closePanels()`, so the hash is cleared.
 - **Reduced motion:** with `prefers-reduced-motion`, the tour starts paused and all animation is turned off in CSS.
 - **Deleting:** don't delete `.data/` while the dev server is running (PGlite holds it open).
+- **Site address:** read it with `siteUrl()` from `lib/site-url.js`, never `process.env.SITE_URL` directly. It returns `''` for a value that isn't a plain address, so a bad setting can't produce broken links.
 - **Vercel and the database:** on Vercel, `DATABASE_URL` is required. The app refuses to fall back to PGlite there.
