@@ -22,6 +22,7 @@ export default async function Messages() {
               <span className="a-muted">{m.email}</span>
               {m.topic && <span className="a-pill pilot">{m.topic}</span>}
               {!m.read && <span className="a-pill coming_soon">New</span>}
+              {m.spam && <span className="a-pill in_lab" title="The form’s hidden bot field was filled in. Usually a bot, but autofill can do it too.">Possible spam</span>}
               <span className="a-muted" style={{ marginLeft: 'auto', fontSize: 13 }}>{new Date(m.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</span>
             </summary>
             <div className="body">

@@ -13,10 +13,8 @@ const ALERTS_PER_HOUR = 20; // past this, messages are still saved but the email
 export async function POST(req) {
   let data;
   try { data = await req.json(); } catch { return Response.json({ ok: false, error: 'Invalid request' }, { status: 400 }); }
-  if (data.ul_hp) { // honeypot: bots fill hidden fields
-    console.warn('[contact] the hidden bot field was filled in, so the message was dropped');
-    return Response.json({ ok: true });
-  }
+  // Honeypot: bots fill hidden fields, but so can a real person's autofill, so a filled one only flags the message.
+  const spam = !!data.ul_hp;
   const name = String(data.name || '').trim().slice(0, 200);
   const email = String(data.email || '').trim().slice(0, 200);
   const topic = String(data.topic || '').trim().slice(0, 100);
@@ -42,7 +40,7 @@ export async function POST(req) {
       return Response.json({ ok: false, error: 'Too many messages. Please wait a few minutes.' }, { status: 429, headers: { 'Retry-After': '600' } });
     }
     quiet = Number(lastHour.n) >= ALERTS_PER_HOUR;
-    await db.insert(schema.messages).values({ name, email, topic, message, sender });
+    await db.insert(schema.messages).values({ name, email, topic, message, sender, spam });
   } catch (e) {
     console.error('[contact]', e.message);
     return Response.json({ ok: false, error: 'Could not save your message.' }, { status: 500 });
@@ -50,8 +48,9 @@ export async function POST(req) {
   // Awaited: on Vercel the function can be frozen as soon as the response is sent, which would drop the alert.
   const to = process.env.CONTACT_TO ? [process.env.CONTACT_TO] : allowedEmails();
   if (to.length && !quiet) {
-    const alerted = await sendMail({ to, replyTo: email, subject: `[undauntedlab.com] ${topic || 'New message'} from ${name}`, text: `${message}\n\n— ${name} <${email}>\nTopic: ${topic}` }).catch(() => false);
-    console.log(`[contact] message saved; email alert ${alerted ? 'sent' : 'not sent'}`);
+    const subject = `${spam ? '[Possible spam] ' : ''}[undauntedlab.com] ${topic || 'New message'} from ${name}`;
+    const alerted = await sendMail({ to, replyTo: email, subject, text: `${message}\n\n— ${name} <${email}>\nTopic: ${topic}` }).catch(() => false);
+    console.log(`[contact] message saved${spam ? ' (flagged: the hidden bot field was filled in)' : ''}; email alert ${alerted ? 'sent' : 'not sent'}`);
   } else if (quiet) {
     console.warn('[contact] over ' + ALERTS_PER_HOUR + ' messages this hour; saved without an email alert');
   }

@@ -38,7 +38,7 @@ export default async function Dashboard() {
           <div className="a-table-wrap"><table className="a-table">
             <thead><tr><th>From</th><th>Topic</th><th>Message</th><th>Received</th></tr></thead>
             <tbody>{recent.map((m) => (
-              <tr key={m.id}><td><strong>{m.name}</strong>{!m.read && <> <span className="a-pill coming_soon">New</span></>}<br /><span className="a-muted">{m.email}</span></td><td>{m.topic}</td><td style={{ maxWidth: 360 }}>{m.message.slice(0, 120)}{m.message.length > 120 ? '…' : ''}</td><td className="a-muted">{new Date(m.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</td></tr>
+              <tr key={m.id}><td><strong>{m.name}</strong>{!m.read && <> <span className="a-pill coming_soon">New</span></>}{m.spam && <> <span className="a-pill in_lab">Possible spam</span></>}<br /><span className="a-muted">{m.email}</span></td><td>{m.topic}</td><td style={{ maxWidth: 360 }}>{m.message.slice(0, 120)}{m.message.length > 120 ? '…' : ''}</td><td className="a-muted">{new Date(m.createdAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}</td></tr>
             ))}</tbody>
           </table></div>
         )}

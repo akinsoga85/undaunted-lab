@@ -103,6 +103,11 @@ const STAMP = 'e2e-' + Date.now();
   const mine = a.locator('details.a-msg', { hasText: STAMP });
   ok('messages: inbox shows the message', (await mine.count()) === 1);
   const replies = await mine.locator('a.a-btn').evaluateAll((as) => as.map((x) => x.getAttribute('href')));
+  // a filled bot trap (a bot, or someone's autofill) flags the message instead of dropping it
+  const hp = await a.request.post(BASE + '/api/contact', { data: { name: 'Autofill Test', email: 'af@example.com', message: STAMP + '-hp', ul_hp: 'filled' }, headers: { 'x-forwarded-for': '10.0.0.77' } });
+  await a.reload(); const flagged = a.locator('details.a-msg', { hasText: STAMP + '-hp' });
+  ok('messages: a filled bot trap is kept and flagged as possible spam', hp.ok() && (await flagged.count()) === 1 && (await flagged.locator('.a-pill', { hasText: 'Possible spam' }).count()) === 1);
+  if (await flagged.count()) { await flagged.locator('button:has-text("Delete")').click(); await flagged.locator('button:has-text("Yes, delete")').click(); await a.waitForTimeout(800); await a.reload(); }
   ok('messages: reply links (mail app and Gmail) go to the sender', replies.some((h) => h.startsWith('mailto:ada@example.com?subject=')) && replies.some((h) => h.startsWith('https://mail.google.com/') && h.includes('ada%40example.com')), replies.join(' '));
   await mine.locator('button:has-text("Mark as read")').click(); await a.waitForTimeout(800); await a.reload();
   const unreadAfter = Number((await a.locator('.a-badge').count()) ? await a.textContent('.a-badge') : 0);
