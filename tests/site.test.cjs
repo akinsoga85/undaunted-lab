@@ -83,6 +83,8 @@ async function pointFor(p,id){return p.evaluate((id)=>{const a=document.querySel
  await p.click('[data-panel="contact"] [data-close]'); await p.waitForTimeout(500);
  // an open panel: the floating UI steps aside, the map dims and nothing behind it is reachable; the dimmed map, Esc and ✕ all close it
  await p.click('.nav a[href="#story"]'); await p.waitForTimeout(700);
+ // the fade is 0.3s, but the headless software renderer can run the map at a few frames a second, so allow up to 3s
+ await p.waitForFunction(()=>['.ul-dock','.ul-tagline','.ul-hint'].every(q=>getComputedStyle(document.querySelector(q)).visibility==='hidden'),null,{timeout:3000}).catch(()=>{});
  {const s=await p.evaluate(()=>{const vis=q=>getComputedStyle(document.querySelector(q)).visibility;return {card:vis('[data-card]'),tour:vis('.ul-tour'),hint:vis('.ul-hint'),tagline:vis('.ul-tagline'),scrim:vis('.ul-scrim'),inert:document.querySelector('.ul-stage').inert&&document.querySelector('.ul-top').inert,reachable:[...document.querySelectorAll('a,button,input,textarea')].filter(e=>!e.closest('[data-panel]')&&!e.closest('[inert]')&&e.offsetParent!==null).length};});
   ok('panel open: card, tour, hint and tagline step aside; map dims', s.card==='hidden'&&s.tour==='hidden'&&s.hint==='hidden'&&s.tagline==='hidden'&&s.scrim==='visible', JSON.stringify(s));
   ok('panel open: nothing behind it can be reached with Tab', s.inert&&s.reachable===0, JSON.stringify(s));}
@@ -100,6 +102,27 @@ async function pointFor(p,id){return p.evaluate((id)=>{const a=document.querySel
   const img=await ctx.request.get(BASE+'/og.png'); const size=(await img.body()).length;
   ok('link preview: og:image is the 1200x630 map, under 300 KB', og.endsWith('/og.png')&&/og:image:width" content="1200"/.test(html)&&img.status()===200&&size<300*1024, og+' '+Math.round(size/1024)+' KB');
   ok('link preview: X/Twitter large-image card', /<meta name="twitter:card" content="summary_large_image"/.test(html));}
+ // launch basics: search files, canonical address, security headers, a styled 404
+ {const home=await ctx.request.get(BASE); const html=await home.text(); const hd=home.headers();
+  ok('search: canonical points at undauntedlab.com', /<link rel="canonical" href="https:\/\/undauntedlab\.com\/?"/.test(html));
+  const robots=await (await ctx.request.get(BASE+'/robots.txt')).text(); const map=await ctx.request.get(BASE+'/sitemap.xml');
+  ok('search: robots.txt keeps /admin and /api out and names the sitemap', /Disallow: \/admin/.test(robots)&&/Disallow: \/api\//.test(robots)&&/Sitemap: .*\/sitemap\.xml/.test(robots), robots.replace(/\n/g,' | '));
+  ok('search: sitemap.xml lists the home page', map.status()===200&&/<loc>https?:\/\/[^<]+\/<\/loc>/.test(await map.text()));
+  ok('headers: framing blocked, nosniff, referrer and permissions policies', hd['x-frame-options']==='DENY'&&/frame-ancestors 'none'/.test(hd['content-security-policy']||'')&&hd['x-content-type-options']==='nosniff'&&!!hd['referrer-policy']&&!!hd['permissions-policy'], JSON.stringify({xfo:hd['x-frame-options'],csp:hd['content-security-policy']}));
+  const nf=await (await b.newContext({viewport:{width:390,height:844}})).newPage(); const r=await nf.goto(BASE+'/an/old-framer-page');
+  ok('404: styled page with a way back, no sideways scroll', r.status()===404&&(await nf.isVisible('.ul-404 a[href="/"]'))&&(await nf.title())==='Page not found · Undaunted Lab'&&await nf.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), r.status()+' '+await nf.title());
+  await nf.screenshot({path:'tests/output/404-phone.png'}); await nf.context().close();}
+ // privacy: linked under the contact form and from the menu; "Back to Say hello" returns to the form
+ await p.evaluate(()=>{location.hash='contact'}); await p.waitForTimeout(700);
+ await p.click('[data-panel="contact"] .form-note a'); await p.waitForTimeout(700);
+ ok('privacy: opens from the contact form', await p.evaluate(()=>document.querySelector('[data-panel="privacy"]').classList.contains('open')&&!document.querySelector('[data-panel="contact"]').classList.contains('open')&&document.querySelectorAll('.privacy section').length>0));
+ await p.screenshot({path:'tests/output/privacy-panel.png'});
+ await p.click('[data-panel="privacy"] a.linkbtn'); await p.waitForTimeout(700);
+ ok('privacy: "Back to Say hello" reopens the form', await p.evaluate(()=>document.querySelector('[data-panel="contact"]').classList.contains('open')));
+ await p.click('[data-panel="contact"] [data-close]'); await p.waitForTimeout(500);
+ await p.click('[data-menu-btn]'); await p.click('.menu-foot'); await p.waitForTimeout(700);
+ ok('privacy: opens from the menu', await p.evaluate(()=>document.querySelector('[data-panel="privacy"]').classList.contains('open')));
+ await p.click('[data-panel="privacy"] [data-close]'); await p.waitForTimeout(500);
  // contact API: field errors come back per field; one sender is rate limited (needs the database)
  {const r=await ctx.request.post(BASE+'/api/contact',{data:{name:'',email:'nope'}}); const j=await r.json().catch(()=>({}));
   ok('contact API: returns per-field errors', r.status()===400&&!!(j.errors&&j.errors.name&&j.errors.email), r.status()+' '+JSON.stringify(j));}

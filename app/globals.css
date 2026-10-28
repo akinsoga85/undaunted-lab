@@ -159,6 +159,7 @@ body:has(.ul-root) { overflow: hidden; }
 .menu-list { display: flex; }
 .menu-pages { margin-top: 8px; padding-top: 8px; border-top: 2.5px dashed var(--ink); }
 .menu-pages a { font: 700 17px/1 var(--display); }
+.menu .menu-foot { font-size: 13px; color: var(--ui-muted); justify-content: flex-start; min-height: 44px; }
 .narrow, .on-touch { display: none; }
 @media (hover: none) {
   .on-hover { display: none; }
@@ -228,6 +229,11 @@ body:has(.ul-root) { overflow: hidden; }
 .chips input:focus-visible + span { outline: 3px solid var(--blue-2); outline-offset: 2px; }
 .sent, .fail { border: 2.5px solid var(--ink); border-radius: 16px; padding: 16px; background: #E7F6EC; display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.5; }
 .fail { background: var(--ui-soft); }
+.ul-panel .form-note { font-size: 14px; line-height: 1.5; color: var(--ui-muted); }
+.ul-panel .form-note a { color: var(--ui-ink); font-weight: 600; text-underline-offset: 3px; }
+.privacy { display: grid; gap: 18px; }
+.privacy h3 { margin: 0 0 4px; font: 700 19px/1.2 var(--display); letter-spacing: -.01em; }
+.ul-panel .privacy p { font-size: 16px; }
 .linkbtn { align-self: flex-start; min-height: 44px; padding: 0; background: none; border: 0; font: 600 15px/1 var(--body); color: var(--ui-ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .mail { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-weight: 600; user-select: all; }
 
@@ -271,6 +277,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .nav a, .nav button { padding: 0 10px; }
   .card .sw { display: none; }
 }
+/* page not found (app/not-found.jsx) */
+.ul-404 { min-height: 100%; box-sizing: border-box; display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(24px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.ul-404 .in { width: min(480px, 100%); box-sizing: border-box; background: var(--ui); color: var(--ui-ink); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 5px 5px 0 var(--ink); padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.ul-404 img { width: 64px; height: 64px; border-radius: 50%; display: block; }
+.ul-404 .kicker { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--blue-2); }
+.ul-404 h1 { margin: 0; font: 800 clamp(30px, 7vw, 42px)/1 var(--display); letter-spacing: -.03em; text-wrap: balance; }
+.ul-404 p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ui-muted); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

@@ -15,7 +15,7 @@ export default function Site({ products, content }) {
     send('view');
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const { story, notes, contact, settings } = content;
+  const { story, notes, contact, privacy, settings } = content;
   return (
     <div className="ul-root" data-ul-root="">
       <div className="ul-stars" aria-hidden="true" />
@@ -42,6 +42,7 @@ export default function Site({ products, content }) {
               <a href="#story">Our story</a>
               <a href="#notes">Lab notes</a>
             </div>
+            <a className="menu-foot" href="#privacy">Privacy</a>
           </div>
         </nav>
       </header>
@@ -139,6 +140,7 @@ export default function Site({ products, content }) {
               <textarea id="c-msg" name="message" rows={4} maxLength={5000} />
             </div>
             <button className="btn" type="submit" style={{ justifySelf: 'start' }}>Send message</button>
+            <p className="form-note">We only use your details to reply. <a href="#privacy">How we handle them</a></p>
             <div className="fail" data-fail="" role="alert" hidden>
               <span data-fail-msg="" />
               <span className="mail"><span>{contact.email}</span><button type="button" className="btn" data-copy={contact.email} style={{ minHeight: 36 }}>Copy</button></span>
@@ -148,6 +150,22 @@ export default function Site({ products, content }) {
             <span data-sent-msg="" />
             <button type="button" className="linkbtn" data-again="">Send another message</button>
           </div>
+        </div>
+      </aside>
+
+      <aside className="ul-panel" data-panel="privacy" aria-hidden="true" aria-labelledby="p-privacy">
+        <div className="in">
+          <button type="button" className="close" data-close="" aria-label="Close">✕</button>
+          <span className="kicker">Privacy</span>
+          <h2 id="p-privacy" tabIndex={-1}>{privacy.title}</h2>
+          <div className="privacy">
+            {privacy.sections.map((s, i) => <section key={i}>{s.title && <h3>{s.title}</h3>}<p>{s.body}</p></section>)}
+          </div>
+          <p className="form-note">
+            Questions or requests: <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            {privacy.updated && <><br />Last updated {privacy.updated}</>}
+          </p>
+          <a className="linkbtn" href="#contact">Back to Say hello</a>
         </div>
       </aside>
 

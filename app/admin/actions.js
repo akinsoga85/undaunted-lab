@@ -129,11 +129,11 @@ export async function moveProduct(fd) {
 }
 
 /* ---------- site content ---------- */
-function parseJsonList(raw, keys) {
+function parseJsonList(raw, keys, max = 300) {
   try {
     const arr = JSON.parse(raw || '[]');
     if (!Array.isArray(arr)) return [];
-    return arr.slice(0, 12).map((r) => Object.fromEntries(keys.map((k) => [k, String(r?.[k] ?? '').trim().slice(0, 300)]))).filter((r) => Object.values(r).some(Boolean));
+    return arr.slice(0, 12).map((r) => Object.fromEntries(keys.map((k) => [k, String(r?.[k] ?? '').trim().slice(0, max)]))).filter((r) => Object.values(r).some(Boolean));
   } catch { return []; }
 }
 
@@ -155,6 +155,7 @@ export async function saveContent(_prev, fd) {
       email: str(fd, 'contact.email', 120),
       topics: str(fd, 'contact.topics', 600).split('\n').map((s) => s.trim()).filter(Boolean).slice(0, 8)
     },
+    privacy: { title: str(fd, 'privacy.title', 120), sections: parseJsonList(fd.get('privacy.sections'), ['title', 'body'], 1200), updated: str(fd, 'privacy.updated', 60) },
     settings: { tourSeconds: Number(str(fd, 'settings.tourSeconds', 6)), linkedin: str(fd, 'settings.linkedin', 300) }
   };
   const errors = {};
@@ -162,6 +163,8 @@ export async function saveContent(_prev, fd) {
   if (!data.story.title) errors['story.title'] = 'Add a title for Our story.';
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.contact.email)) errors['contact.email'] = 'Use a valid email address.';
   if (!data.contact.topics.length) errors['contact.topics'] = 'Add at least one topic.';
+  if (!data.privacy.title) errors['privacy.title'] = 'Add a title for the privacy notice.';
+  if (!data.privacy.sections.length) errors['privacy.sections'] = 'Keep at least one section in the privacy notice.';
   if (!(data.settings.tourSeconds >= 2 && data.settings.tourSeconds <= 15)) errors['settings.tourSeconds'] = 'Pick a number between 2 and 15.';
   if (data.settings.linkedin && !isUrl(data.settings.linkedin)) errors['settings.linkedin'] = 'Use a full link starting with https://.';
   const badNote = data.notes.items.find((n) => n.url && !isUrl(n.url));

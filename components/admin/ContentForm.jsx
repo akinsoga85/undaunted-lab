@@ -16,7 +16,7 @@ function ListEditor({ name, rows: initial, fields, addLabel, max = 8 }) {
           {fields.map((f) => (
             <label key={f.key} className="a-field" htmlFor={`${name}-${i}-${f.key}`}><span>{f.label}</span>
               {f.long
-                ? <textarea id={`${name}-${i}-${f.key}`} rows={2} value={r[f.key] || ''} onChange={(e) => update(i, f.key, e.target.value)} />
+                ? <textarea id={`${name}-${i}-${f.key}`} rows={f.rows || 2} value={r[f.key] || ''} onChange={(e) => update(i, f.key, e.target.value)} />
                 : <input id={`${name}-${i}-${f.key}`} type="text" value={r[f.key] || ''} onChange={(e) => update(i, f.key, e.target.value)} placeholder={f.placeholder} />}
             </label>
           ))}
@@ -67,6 +67,15 @@ export default function ContentForm({ content }) {
         <h2>Say hello</h2>
         <div className="a-row">{F({ k: "contact.title", label: "Heading", def: c.contact.title })}{F({ k: "contact.email", label: "Public email address", def: c.contact.email, type: "email" })}</div>
         {F({ k: "contact.topics", label: "Topics people can pick", def: c.contact.topics.join('\n'), area: true, rows: 4, hint: "One per line." })}
+      </section>
+      <section className="a-card">
+        <h2>Privacy notice</h2>
+        <p className="a-muted">Opened from “How we handle them” under the Say hello form and from the menu. The public email above is added at the end. Keep it true to how you actually handle messages.</p>
+        <div className="a-row">{F({ k: "privacy.title", label: "Heading", def: c.privacy.title })}{F({ k: "privacy.updated", label: "Last updated", def: c.privacy.updated, hint: "Change this whenever you edit the notice." })}</div>
+        <div className="a-field"><span>Sections</span>
+          <ListEditor name="privacy.sections" rows={c.privacy.sections} addLabel="Add a section" fields={[{ key: 'title', label: 'Title' }, { key: 'body', label: 'Text', long: true, rows: 4 }]} />
+          {err['privacy.sections'] && <span className="err" role="alert">{err['privacy.sections']}</span>}
+        </div>
       </section>
       {/* a long form, so the save button and its result stay in view at the bottom of the window */}
       <div className="a-actions a-savebar">

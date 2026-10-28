@@ -50,7 +50,7 @@ After deploying, run the checks in docs/DEPLOY.md under "Verify the deployment".
 
 Two Playwright scripts live in `tests/`; see `tests/README.md`.
 
-- `tests/site.test.cjs` tests the map: hover, click, drag, menu, panels, theme, tour and mobile.
+- `tests/site.test.cjs` tests the map: hover, click, drag, menu, panels (including privacy), theme, tour and mobile, plus robots.txt, the sitemap, security headers and the 404 page.
 - `tests/admin.e2e.cjs` tests the full admin flow: magic-link sign-in, editing, adding a product to a new island, messages, analytics and sign-out.
 
 Run them against a local production build, never against the production database. The admin test adds and removes a test product.
@@ -69,6 +69,8 @@ Run them against a local production build, never against the production database
 | `app/api/contact`, `app/api/track` | Public endpoints for contact messages and cookieless analytics. |
 | `middleware.js` | Redirects any `/admin` request without a session cookie to `/admin/login`. Each page still re-checks the session in the DB. |
 | `docs/` | Deploy guide, architecture, design system, screenshots, brand files and design history. |
+| `app/robots.js`, `app/sitemap.js`, `app/not-found.jsx` | `/robots.txt`, `/sitemap.xml` and the styled page-not-found page. |
+| `next.config.mjs` | Security headers for every response (no framing, nosniff, referrer and permissions policies). |
 | `scripts/og-image.cjs` | Regenerates `public/og.png`, the link-preview image (a snapshot of the map). Rerun after the map or tagline changes. |
 
 ## Conventions and gotchas

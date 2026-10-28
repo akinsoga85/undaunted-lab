@@ -54,7 +54,7 @@ Browser ── GET / ──────────────► app/page.jsx 
 - Never animate `background-position` on a large layer.
 - Hover never moves the hovered element. It only highlights it.
 
-**Panels.** `#story`, `#notes` and `#contact` open a panel through the hash, so links and the back button work. While a panel is open, `.ul-root` has the class `panel-open`. That class shows the scrim and hides the floating UI, and everything behind the panel (the stage, header, tagline, hint and dock) is `inert`, so Tab stays inside the panel. The ✕ button, Esc and the scrim all close it through `dismiss()`, which also clears the hash (so the same link reopens it) and returns focus to the link that opened it when that was done with the keyboard. The tour does not advance while a panel is open.
+**Panels.** `#story`, `#notes`, `#contact` and `#privacy` open a panel through the hash, so links and the back button work. While a panel is open, `.ul-root` has the class `panel-open`. That class shows the scrim and hides the floating UI, and everything behind the panel (the stage, header, tagline, hint and dock) is `inert`, so Tab stays inside the panel. The ✕ button, Esc and the scrim all close it through `dismiss()`, which also clears the hash (so the same link reopens it) and returns focus to the link that opened it when that was done with the keyboard. The tour does not advance while a panel is open.
 
 **Theme.** Day and night colours are CSS custom properties in `app/globals.css`. Night follows `prefers-color-scheme`, and the toggle sets `data-theme` on `<html>` and saves the choice in `localStorage` (`ul-theme`). A small inline script in `app/layout.jsx` applies a saved choice before first paint, so there is no flash of the other theme; it skips `/admin`, which is light only. The browser's `theme-color` follows the theme.
 
@@ -67,7 +67,7 @@ Browser ── GET / ──────────────► app/page.jsx 
 | Table | Purpose |
 | --- | --- |
 | `products` | id, slot (unique), name, line, place, status, color, url, cta, style, in_tour, visible, sort |
-| `site_content` | one row (id 1) holding a JSON document: tagline, hint, hq, story, notes, contact, settings |
+| `site_content` | one row (id 1) holding a JSON document: tagline, hint, hq, story, notes, contact, privacy, settings |
 | `messages` | contact-form messages, with a `read` flag and a `sender` hash used only for rate limiting |
 | `events` | analytics: type (view/hover/click), product, path, referrer host, device, visitor hash |
 | `login_tokens` | sha256 of each one-time sign-in token, with an expiry |
@@ -88,3 +88,7 @@ Browser ── GET / ──────────────► app/page.jsx 
 **Analytics.** `visitor = sha256(day + ip + userAgent + ANALYTICS_SALT)[0:16]`. No cookies are set and raw IP addresses are not stored. Bots are filtered by user agent. Hover events are sent once per product per page view.
 
 **Contact.** The form has a hidden honeypot field `ul_hp`, with a made-up name and ignore flags so browser and password-manager autofill don't fill it (autofill can fill a field called `website`, which would silently drop a real message). A filled honeypot is logged as `[contact] the hidden bot field was filled in`. It checks name and email in the browser first; the API repeats the checks and returns errors per field (`{ errors: { name, email } }`), which the form shows under each field. A sender is `sha256(day + ip + ANALYTICS_SALT)[0:16]`, limited to 5 messages per 10 minutes (HTTP 429). Messages are stored first, then the alert email is sent and awaited, because Vercel can freeze the function once the response is out. Each saved message logs `[contact] message saved; email alert sent` (or `not sent`). Alerts are skipped once more than 20 messages have arrived in the past hour.
+
+**Privacy notice.** The `#privacy` panel is linked under the contact form ("How we handle them") and at the foot of the menu. Its heading, sections and "last updated" date are site text (`privacy` in `lib/defaults.js`), editable under **Site text**; the public contact email is added at the end automatically. The default text describes what the code actually does (what the form stores, the daily sender hash, cookieless analytics, the theme in localStorage), so update it if that changes.
+
+**Launch basics.** `app/robots.js` serves `/robots.txt` (keeps `/admin` and `/api/` out of search) and `app/sitemap.js` serves `/sitemap.xml`; both use `SITE_URL`, falling back to `https://undauntedlab.com`. The home page sets a canonical link to undauntedlab.com, so the `.vercel.app` copy doesn't compete with it in search. `app/not-found.jsx` is the styled page for any unknown address, including old links from the Framer site. `next.config.mjs` sends security headers with every response: `frame-ancestors 'none'` and `X-Frame-Options: DENY` (no framing, so no clickjacking of the admin), `base-uri`/`form-action 'self'`, `nosniff`, a referrer policy and a permissions policy. It is not a full script CSP, which would need nonces for Next's inline scripts.

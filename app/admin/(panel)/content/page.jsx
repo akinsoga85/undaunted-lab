@@ -9,7 +9,7 @@ export default async function Content() {
   const content = mergeContent(row?.data);
   return (
     <>
-      <div className="a-head"><div><h1>Site text</h1><p>The words around the map and in the Our story, Lab notes and Say hello panels.</p></div></div>
+      <div className="a-head"><div><h1>Site text</h1><p>The words around the map and in the Our story, Lab notes, Say hello and Privacy panels.</p></div></div>
       <ContentForm content={content} />
     </>
   );

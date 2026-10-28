@@ -70,6 +70,8 @@ A product marked **Coming soon** shows as a fenced plot with a “?” sign, and
 - **Link scanners:** opening a sign-in link shows a "Continue" button rather than signing in straight away, so email scanners that open links can't use it up.
 - **Sessions:** these are httpOnly cookies backed by the database and last 30 days. You can sign out every device from Settings.
 - **Who has access:** every admin page and action checks the session on the server. Removing someone from `ADMIN_EMAILS` locks them out immediately.
+- **Privacy notice:** a Privacy panel, linked under the contact form and in the menu, explains what the site collects. Edit it under **Site text**.
+- **Security headers:** no site can show this one (or the admin) inside a frame, plus nosniff, referrer and permissions policies. See `next.config.mjs`.
 - **Contact form:** it has a honeypot field and length limits. One sender (a daily hash of their IP, never the IP itself) can send 5 messages every 10 minutes. Past 20 messages an hour, new messages are still saved but the email alerts pause.
 - **Analytics:** a visitor is a daily hash of (IP + browser + salt). Raw IP addresses are never stored.
 

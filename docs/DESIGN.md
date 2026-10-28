@@ -56,7 +56,7 @@ The map fills the screen and the UI floats over it. How the UI is arranged depen
 - The tagline's second line is the admin "hint" on devices with a mouse. On touch screens it is "Drag to explore. Tap a place to meet it." instead, because hover and click don't apply.
 - Under 360px the card drops its colour swatch to save a line.
 
-**Panels** (Our story, Lab notes, Say hello) slide in from the right: 520px wide, or full width on phones. While one is open, the map dims behind a scrim (`rgba(23, 24, 28, .3)`), and the card, tour controls, hint and tagline fade out so nothing is left half-covered. The ✕ button, Esc or a click on the dimmed map closes the panel, and the tour holds its place until it closes.
+**Panels** (Our story, Lab notes, Say hello, Privacy) slide in from the right: 520px wide, or full width on phones. While one is open, the map dims behind a scrim (`rgba(23, 24, 28, .3)`), and the card, tour controls, hint and tagline fade out so nothing is left half-covered. The ✕ button, Esc or a click on the dimmed map closes the panel, and the tour holds its place until it closes.
 
 ## Type
 
@@ -101,3 +101,5 @@ See `docs/screenshots/` for the site by day, at night and on a phone, the contac
 - the Corridor concept, which became this site
 
 The round-1 directions A, B and C were rejected as too text-heavy and taken off the canvas (`canvas.json`). Their files, `DirectionA.dc.html` to `DirectionC.dc.html`, are still in the folder for reference. The Review board recommends building on B with parts of C; that was superseded when the Corridor concept was chosen. These `.dc.html` files need the Claude Design canvas runtime to render; read them as source for reference.
+
+**Page not found** (`app/not-found.jsx`) reuses the panel look on the plain sea colour: a white card with the 3px ink border and hard shadow, the logo, a blue kicker, a display heading and one dark "Back to the map" button. It follows the saved day/night choice like the map does.

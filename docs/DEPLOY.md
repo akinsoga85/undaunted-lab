@@ -66,6 +66,8 @@ Click **Deploy**, or run `npx vercel --prod`.
 4. Send a test message from **Say hello** on the site. It appears under **Messages** with an unread badge, and you get an email alert.
 5. Change one word under **Site text**, save, and reload the site to see it live. Then change it back.
 6. Refresh the site a few times. **Analytics** should show views within a few seconds.
+7. Read the privacy notice (**How we handle them** under the Say hello form). Make sure it matches how you handle messages, and edit it under **Site text** if not.
+8. `https://undauntedlab.com/robots.txt` and `/sitemap.xml` load, and a made-up address such as `/nope` shows the styled page-not-found page.
 
 If something fails:
 
