@@ -1,5 +1,6 @@
 /* Undaunted Lab admin — the same ink line-art as the site, calmer: white work surfaces on a pale sea. */
 .adm {
+  color-scheme: light; /* the admin is light only; keeps native controls light when the system is in dark mode */
   --a-bg: #EEF4F7; --a-surface: #FFFFFF; --a-ink: #17181C; --a-muted: #55565C; --a-line: #D9E1E6;
   --a-coral: #F47B5A; --a-coral-ink: #9E3A1F; --a-blue: #2E86C1; --a-soft: #FFE3D8; --a-ok: #17633A; --a-ok-bg: #E7F5EC; --a-err: #B42318; --a-err-bg: #FDECEA;
   min-height: 100vh; background: var(--a-bg); color: var(--a-ink); font-family: var(--body); font-size: 15px; line-height: 1.5;
@@ -81,6 +82,8 @@
 .a-pill.off { background: #EEE; color: var(--a-muted); border-color: #999; }
 .a-muted { color: var(--a-muted); }
 .a-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.a-savebar { position: sticky; bottom: 0; z-index: 2; margin-inline: -8px; padding: 12px 8px max(12px, env(safe-area-inset-bottom, 0px)); background: var(--a-bg); border-top: 2px solid var(--a-ink); }
+.a-savebar .a-note { padding: 6px 12px; }
 .a-toggle { background: none; border: 0; padding: 0; cursor: pointer; }
 
 .a-msg { border: 2px solid var(--a-ink); border-radius: 16px; background: var(--a-surface); }

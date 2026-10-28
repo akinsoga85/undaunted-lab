@@ -1,15 +1,11 @@
-import { getDb, schema } from '@/lib/db';
-import { getAnalytics } from '@/lib/analytics';
+import { getAnalytics, productLabels } from '@/lib/analytics';
 import { DailyBars, HBars } from '@/components/admin/Charts';
 
 const RANGES = [7, 30, 90];
 
 export default async function Analytics({ searchParams }) {
   const days = RANGES.includes(Number(searchParams?.range)) ? Number(searchParams.range) : 30;
-  const a = await getAnalytics(days);
-  const db = await getDb();
-  const names = Object.fromEntries((await db.select({ id: schema.products.id, name: schema.products.name }).from(schema.products)).map((p) => [p.id, p.name]));
-  names.hq = 'Lighthouse (HQ)';
+  const [a, label] = await Promise.all([getAnalytics(days), productLabels()]);
   const devTotal = a.devices.reduce((s, d) => s + d.n, 0) || 1;
   return (
     <>
@@ -33,14 +29,14 @@ export default async function Analytics({ searchParams }) {
             <div className="a-table-wrap"><table className="a-table" style={{ minWidth: 0 }}>
               <thead><tr><th>Product</th><th className="a-num">Hovers</th><th className="a-num">Clicks</th><th className="a-num">Click rate</th></tr></thead>
               <tbody>{a.products.map((p) => (
-                <tr key={p.product}><td>{names[p.product] || p.product}</td><td className="a-num">{p.hovers}</td><td className="a-num">{p.clicks}</td><td className="a-num">{p.hovers ? `${Math.round((p.clicks / p.hovers) * 100)}%` : '—'}</td></tr>
+                <tr key={p.product}><td>{label(p.product)}</td><td className="a-num">{p.hovers}</td><td className="a-num">{p.clicks}</td><td className="a-num">{p.hovers ? `${Math.round((p.clicks / p.hovers) * 100)}%` : '—'}</td></tr>
               ))}</tbody>
             </table></div>
           )}
         </section>
         <section className="a-card">
           <h2>Clicks by product</h2>
-          {a.products.length === 0 ? <p className="a-muted">Nothing to chart yet.</p> : <HBars rows={a.products.map((p) => ({ label: names[p.product] || p.product, value: p.clicks }))} />}
+          {a.products.length === 0 ? <p className="a-muted">Nothing to chart yet.</p> : <HBars rows={a.products.map((p) => ({ label: label(p.product), value: p.clicks }))} />}
         </section>
         <section className="a-card">
           <h2>Where visitors come from</h2>

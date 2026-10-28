@@ -30,37 +30,51 @@ export default function Site({ products, content }) {
           <span>undaunted lab</span>
         </a>
         <nav className="pillbox nav" aria-label="Main">
-          <button type="button" data-menu-btn="" aria-expanded="false" aria-controls="ul-menu">Products <span aria-hidden="true">▾</span></button>
+          <button type="button" data-menu-btn="" aria-expanded="false" aria-controls="ul-menu"><span className="wide">Products</span><span className="narrow">Menu</span> <span aria-hidden="true">▾</span></button>
           <a className="wide" href="#story">Our story</a>
           <a className="wide" href="#notes">Lab notes</a>
           <button type="button" className="iconbtn" data-theme-btn="" aria-label="Switch to night" style={{ width: 44, padding: 0, justifyContent: 'center' }} />
           <a className="cta" href="#contact">Say hello</a>
-          <div className="menu" id="ul-menu" data-menu="" hidden />
+          <div className="menu" id="ul-menu" data-menu="" hidden>
+            <div className="menu-list" data-menu-list="" />
+            {/* On phones the nav has no room for these, so they live in the menu instead. */}
+            <div className="menu-pages narrow">
+              <a href="#story">Our story</a>
+              <a href="#notes">Lab notes</a>
+            </div>
+          </div>
         </nav>
       </header>
 
-      <div className="ui pillbox ul-hint" data-hint="">Drag to explore · hover a place</div>
+      <div className="ui pillbox ul-hint" data-hint="">Drag to explore · <span className="on-hover">hover</span><span className="on-touch">tap</span> a place</div>
 
       <div className="ui ul-tagline">
         <p>{content.tagline}</p>
-        <span>{content.hint}</span>
+        <span className="on-hover">{content.hint}</span>
+        <span className="on-touch">Drag to explore. Tap a place to meet it.</span>
       </div>
 
-      <div className="ui ul-card">
-        <div className="card" data-card="" aria-live="polite">
-          <span className="sw" aria-hidden="true" />
-          <div className="tx">
-            <div className="nm"><strong>{content.hq.name}</strong><span className="meta">HQ</span></div>
-            <span className="ln">{content.hq.line}</span>
+      {/* The card and tour controls sit apart on wide screens and join into one panel on narrower ones. */}
+      <div className="ui ul-dock">
+        <div className="ul-card">
+          <div className="card" data-card="" aria-live="polite">
+            <span className="sw" aria-hidden="true" />
+            <div className="tx">
+              <div className="nm"><strong>{content.hq.name}</strong><span className="meta">HQ</span></div>
+              <span className="ln">{content.hq.line}</span>
+            </div>
+            <a className="btn" href="#story">{content.hq.cta}</a>
           </div>
-          <a className="btn" href="#story">{content.hq.cta}</a>
+        </div>
+
+        <div className="pillbox ul-tour">
+          <div className="dots" role="group" aria-label="Fly the plane to a product" data-dots="" />
+          <button type="button" className="play" data-play="">Pause tour</button>
         </div>
       </div>
 
-      <div className="ui pillbox ul-tour">
-        <div className="dots" role="group" aria-label="Fly the plane to a product" data-dots="" />
-        <button type="button" className="play" data-play="">Pause tour</button>
-      </div>
+      {/* Dims the map while a panel is open; clicking it closes the panel. */}
+      <div className="ul-scrim" data-scrim="" aria-hidden="true" />
 
       <aside className="ul-panel" data-panel="story" aria-hidden="true" aria-labelledby="p-story">
         <div className="in">
@@ -102,8 +116,16 @@ export default function Site({ products, content }) {
           <span className="kicker">Say hello</span>
           <h2 id="p-contact" tabIndex={-1}>{contact.title}</h2>
           <form className="form" data-contact="" noValidate>
-            <label htmlFor="c-name">Your name<input id="c-name" name="name" autoComplete="name" required /></label>
-            <label htmlFor="c-email">Email<input id="c-email" name="email" type="email" autoComplete="email" required /></label>
+            <div className="field">
+              <label htmlFor="c-name">Your name</label>
+              <input id="c-name" name="name" autoComplete="name" maxLength={200} required aria-describedby="c-name-err" />
+              <span className="err" id="c-name-err" data-err="name" hidden />
+            </div>
+            <div className="field">
+              <label htmlFor="c-email">Email</label>
+              <input id="c-email" name="email" type="email" inputMode="email" autoComplete="email" maxLength={200} required aria-describedby="c-email-err" />
+              <span className="err" id="c-email-err" data-err="email" hidden />
+            </div>
             <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: -9999, width: 1, height: 1 }} />
             <fieldset className="chips" style={{ border: 0, padding: 0, margin: 0 }}>
               <legend style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>I&apos;m interested in</legend>
@@ -111,12 +133,19 @@ export default function Site({ products, content }) {
                 <label key={t}><input type="radio" name="topic" value={t} defaultChecked={i === 0} /><span>{t}</span></label>
               ))}
             </fieldset>
-            <label htmlFor="c-msg">Message<textarea id="c-msg" name="message" rows={4} /></label>
+            <div className="field">
+              <label htmlFor="c-msg">Message <span className="opt">(optional)</span></label>
+              <textarea id="c-msg" name="message" rows={4} maxLength={5000} />
+            </div>
             <button className="btn" type="submit" style={{ justifySelf: 'start' }}>Send message</button>
+            <div className="fail" data-fail="" role="alert" hidden>
+              <span data-fail-msg="" />
+              <span className="mail"><span>{contact.email}</span><button type="button" className="btn" data-copy={contact.email} style={{ minHeight: 36 }}>Copy</button></span>
+            </div>
           </form>
-          <div className="sent" data-sent="" hidden>
+          <div className="sent" data-sent="" role="status" tabIndex={-1} hidden>
             <span data-sent-msg="" />
-            <span className="mail"><span>{contact.email}</span><button type="button" className="btn" data-copy={contact.email} style={{ minHeight: 36 }}>Copy</button></span>
+            <button type="button" className="linkbtn" data-again="">Send another message</button>
           </div>
         </div>
       </aside>

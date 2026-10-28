@@ -1,20 +1,20 @@
 import { desc, eq, count } from 'drizzle-orm';
 import { getDb, schema } from '@/lib/db';
-import { getAnalytics } from '@/lib/analytics';
+import { getAnalytics, productLabels } from '@/lib/analytics';
 import { DailyBars } from '@/components/admin/Charts';
 
 export default async function Dashboard() {
   const db = await getDb();
-  const [a, recent, [{ n: unread }], [{ n: productsLive }]] = await Promise.all([
+  const [a, recent, [{ n: unread }], [{ n: allMessages }], label] = await Promise.all([
     getAnalytics(30),
     db.select().from(schema.messages).orderBy(desc(schema.messages.createdAt)).limit(4),
     db.select({ n: count() }).from(schema.messages).where(eq(schema.messages.read, false)),
-    db.select({ n: count() }).from(schema.products).where(eq(schema.products.visible, true))
+    db.select({ n: count() }).from(schema.messages),
+    productLabels()
   ]);
   const last7 = a.series.slice(-7).reduce((s, d) => s + d.views, 0);
   const prev7 = a.series.slice(-14, -7).reduce((s, d) => s + d.views, 0);
   const change = prev7 ? Math.round(((last7 - prev7) / prev7) * 100) : null;
-  const names = Object.fromEntries((await db.select({ id: schema.products.id, name: schema.products.name }).from(schema.products)).map((p) => [p.id, p.name]));
   const top = a.products[0];
   return (
     <>
@@ -25,8 +25,8 @@ export default async function Dashboard() {
       <div className="a-grid">
         <div className="a-card a-kpi"><span>Views, last 7 days</span><strong>{last7}</strong><small>{change == null ? 'No earlier week to compare yet' : `${change >= 0 ? '+' : ''}${change}% on the week before`}</small></div>
         <div className="a-card a-kpi"><span>Visitors, 30 days</span><strong>{a.totals.visitors}</strong><small>Counted once per day, no cookies</small></div>
-        <div className="a-card a-kpi"><span>Product clicks, 30 days</span><strong>{a.totals.clicks}</strong><small>{top ? `Most clicked: ${names[top.product] || top.product}` : 'No clicks yet'}</small></div>
-        <div className="a-card a-kpi"><span>Unread messages</span><strong>{Number(unread)}</strong><small>{Number(productsLive)} products on the map</small></div>
+        <div className="a-card a-kpi"><span>Product clicks, 30 days</span><strong>{a.totals.clicks}</strong><small>{top ? `Most clicked: ${label(top.product)}` : 'No clicks yet'}</small></div>
+        <div className="a-card a-kpi"><span>Unread messages</span><strong>{Number(unread)}</strong><small>{Number(allMessages) === 1 ? '1 message in all' : `${Number(allMessages)} messages in all`}</small></div>
       </div>
       <section className="a-card">
         <div className="a-head"><h2>Views per day</h2><a href="/admin/analytics">Full analytics →</a></div>

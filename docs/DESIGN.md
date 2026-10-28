@@ -42,11 +42,27 @@ UI cards stay white with ink text in both themes. The tagline over the sea switc
 | Nestlo | `#1F6F6B` |
 | Coming soon | `#FFE3D8` |
 
+## Layout
+
+The map fills the screen and the UI floats over it. How the UI is arranged depends on width:
+
+| Width | Top | Bottom |
+| --- | --- | --- |
+| 1140px and up | logo and full nav | tagline bottom left, card centred, tour controls bottom right, hint pill above the card |
+| 761–1139px | logo and full nav, tagline under the logo | card and tour controls joined in one panel, centred (max 460px); no hint pill |
+| 760px and below | logo only, and a nav with Menu, theme and Say hello (Our story and Lab notes move into the Menu) | the same joined panel |
+
+- Below 1140px the tagline sits over the map, so a soft, blurred patch of `--sea` behind it lets the map fade out under the words.
+- The tagline's second line is the admin "hint" on devices with a mouse. On touch screens it is "Drag to explore. Tap a place to meet it." instead, because hover and click don't apply.
+- Under 360px the card drops its colour swatch to save a line.
+
+**Panels** (Our story, Lab notes, Say hello) slide in from the right: 520px wide, or full width on phones. While one is open, the map dims behind a scrim (`rgba(23, 24, 28, .3)`), and the card, tour controls, hint and tagline fade out so nothing is left half-covered. The ✕ button, Esc or a click on the dimmed map closes the panel, and the tour holds its place until it closes.
+
 ## Type
 
 - **Display:** Bricolage Grotesque 500/700/800, used for names, headings and the wordmark.
 - **Body/UI:** DM Sans 400–700.
-- Both are loaded with `next/font/google` and exposed as `--display` and `--body`.
+- Both are self-hosted in `app/fonts/` (SIL Open Font License) and loaded with `next/font/local`, so builds never depend on Google Fonts. They're exposed as `--display` and `--body`.
 
 ## Motion
 
@@ -57,7 +73,7 @@ UI cards stay white with ink text in both themes. The tagline over the sea switc
 | People | walkers whose legs swing |
 | Water | surfers, sailboats, a kayak, a ferry, a cargo ship on the corridor, dolphins |
 | Air | balloon, helicopter, birds, clouds |
-| Paper plane | a 2.6s eased flight between stops, turning towards the next target; its shadow tracks on the water |
+| Paper plane | a 2.6s eased flight between stops, turning towards the next target; its shadow tracks on the water. The tour opens on the HQ card for one full stop. On small screens the map glides (1.4s) to bring an off-screen stop into view, unless the visitor has just dragged it |
 | Bascule bridge | leaves lift on a 40s cycle while the boat passes under |
 | Cards | a 0.45s pop when the card changes |
 
@@ -84,4 +100,4 @@ See `docs/screenshots/` for the site by day, at night and on a phone, the contac
 - the first-round review
 - the Corridor concept, which became this site
 
-The round-1 directions A, B and C were rejected as too text-heavy and were removed. These `.dc.html` files need the Claude Design canvas runtime to render; read them as source for reference.
+The round-1 directions A, B and C were rejected as too text-heavy and taken off the canvas (`canvas.json`). Their files, `DirectionA.dc.html` to `DirectionC.dc.html`, are still in the folder for reference. The Review board recommends building on B with parts of C; that was superseded when the Corridor concept was chosen. These `.dc.html` files need the Claude Design canvas runtime to render; read them as source for reference.

@@ -14,15 +14,32 @@ export const metadata = {
     title: 'Undaunted Lab',
     description: 'AI-native safety and access tools: Scamfendr, Ganusii, NotisCare, Nestlo and Vervet.',
     url: 'https://undauntedlab.com',
-    images: ['/logo.png']
+    siteName: 'Undaunted Lab',
+    type: 'website',
+    // A snapshot of the map; regenerate with scripts/og-image.cjs after the map or tagline changes.
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'An illustrated map of London, Lagos and Calgary as islands, with a paper plane flying between Undaunted Lab’s products' }]
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Undaunted Lab',
+    description: 'AI-native safety and access tools: Scamfendr, Ganusii, NotisCare, Nestlo and Vervet.',
+    images: ['/og.png']
   }
 };
 
-export const viewport = { width: 'device-width', initialScale: 1, viewportFit: 'cover', themeColor: '#BFE3F3' };
+export const viewport = {
+  width: 'device-width', initialScale: 1, viewportFit: 'cover',
+  themeColor: [{ media: '(prefers-color-scheme: light)', color: '#BFE3F3' }, { media: '(prefers-color-scheme: dark)', color: '#1C2E55' }]
+};
+
+// Applies a saved day/night choice before first paint, so a returning visitor never sees the other theme flash.
+// The admin has no night theme, so it's left out.
+const THEME_SCRIPT = "try{var t=localStorage.getItem('ul-theme');if((t==='dark'||t==='light')&&location.pathname.indexOf('/admin')!==0)document.documentElement.dataset.theme=t}catch(e){}";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`fonts ${display.variable} ${body.variable}`}>
+    <html lang="en" className={`fonts ${display.variable} ${body.variable}`} suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} /></head>
       <body>{children}</body>
     </html>
   );

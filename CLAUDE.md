@@ -69,6 +69,7 @@ Run them against a local production build, never against the production database
 | `app/api/contact`, `app/api/track` | Public endpoints for contact messages and cookieless analytics. |
 | `middleware.js` | Redirects any `/admin` request without a session cookie to `/admin/login`. Each page still re-checks the session in the DB. |
 | `docs/` | Deploy guide, architecture, design system, screenshots, brand files and design history. |
+| `scripts/og-image.cjs` | Regenerates `public/og.png`, the link-preview image (a snapshot of the map). Rerun after the map or tagline changes. |
 
 ## Conventions and gotchas
 
@@ -77,9 +78,12 @@ Run them against a local production build, never against the production database
   - `world.js` builds everything with `document.createElement`. Coordinates are in a 1000×1000 "plan" space shown through `rotateX(60deg) rotateZ(-45deg)`.
   - Boxes have outlined faces for top, +y and −x (`full: true` adds the other two sides for moving vehicles).
   - Sprites are billboards that cancel the camera rotation.
+  - Island names are not sprites. `placeName()` puts them in `.ul-labels`, a flat layer above the world, so traffic can't cover them. Use it for any text that must stay readable.
 - **Avoiding z-fighting:** decals lying on a surface (roads, lawns, plots, rings) are lifted with `translateZ(1–3px)` and have `pointer-events: none`. Keep that, or the flicker and hover bugs come back.
 - **Adding a map slot:** add it to `SLOTS` in `lib/defaults.js` with its plan `pos`, then call `slot(parent, id, x, y, w, d)` in `build()` inside `lib/world.js`.
 - **Escaping text:** admin-entered text that goes into `innerHTML` must go through `esc()` in world.js.
+- **Responsive layout:** see the Layout table in docs/DESIGN.md. Below 1140px, `.ul-dock` joins the card and tour controls into one panel and the tagline moves under the logo; at 1140px and up, `.ul-dock` is an invisible strip and its children keep their desktop corners. Check new floating UI at 320, 390, 768, 1024 and 1440px; `tests/site.test.cjs` fails if any of it overlaps.
+- **Panels:** while one is open, `.ul-root.panel-open` hides the floating UI and the `behind` list in world.js makes it inert. Add any new floating UI to both, or it will show through the panel or stay reachable by Tab. Close panels with `dismiss()`, not `closePanels()`, so the hash is cleared.
 - **Reduced motion:** with `prefers-reduced-motion`, the tour starts paused and all animation is turned off in CSS.
 - **Deleting:** don't delete `.data/` while the dev server is running (PGlite holds it open).
 - **Vercel and the database:** on Vercel, `DATABASE_URL` is required. The app refuses to fall back to PGlite there.

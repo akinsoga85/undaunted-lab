@@ -40,11 +40,9 @@ export default function ContentForm({ content }) {
   );
   return (
     <form action={action} className="a-form">
-      {state?.ok && <div className="a-note ok" role="status">Saved. The live site is updated.</div>}
-      {Object.keys(err).length > 0 && <div className="a-note err" role="alert">Some fields need attention. They’re marked below.</div>}
       <section className="a-card">
         <h2>On the map</h2>
-        <div className="a-row">{F({ k: "tagline", label: "Tagline (bottom left)", def: c.tagline })}{F({ k: "hint", label: "Hint under the tagline", def: c.hint })}</div>
+        <div className="a-row">{F({ k: "tagline", label: "Tagline", def: c.tagline, hint: "Over the map: bottom left on wide screens, under the logo on phones and tablets." })}{F({ k: "hint", label: "Hint under the tagline", def: c.hint, hint: "Shown with a mouse. Touch screens show “Drag to explore. Tap a place to meet it.” instead." })}</div>
         <div className="a-row">{F({ k: "hq.name", label: "Lighthouse card · name", def: c.hq.name })}{F({ k: "hq.line", label: "Lighthouse card · line", def: c.hq.line })}{F({ k: "hq.cta", label: "Lighthouse card · button", def: c.hq.cta })}</div>
         <div className="a-row">{F({ k: "settings.tourSeconds", label: "Seconds per tour stop", def: c.settings.tourSeconds, type: "number", hint: "Between 2 and 15." })}{F({ k: "settings.linkedin", label: "Your LinkedIn profile", def: c.settings.linkedin, hint: "Linked from Our story." })}</div>
       </section>
@@ -70,7 +68,13 @@ export default function ContentForm({ content }) {
         <div className="a-row">{F({ k: "contact.title", label: "Heading", def: c.contact.title })}{F({ k: "contact.email", label: "Public email address", def: c.contact.email, type: "email" })}</div>
         {F({ k: "contact.topics", label: "Topics people can pick", def: c.contact.topics.join('\n'), area: true, rows: 4, hint: "One per line." })}
       </section>
-      <div className="a-actions"><Submit pendingText="Saving…">Save site text</Submit><a className="a-btn ghost" href="/" target="_blank" rel="noopener">View live site ↗</a></div>
+      {/* a long form, so the save button and its result stay in view at the bottom of the window */}
+      <div className="a-actions a-savebar">
+        <Submit pendingText="Saving…">Save site text</Submit>
+        <a className="a-btn ghost" href="/" target="_blank" rel="noopener">View live site ↗</a>
+        {state?.ok && <span className="a-note ok" role="status">Saved. The live site is updated.</span>}
+        {Object.keys(err).length > 0 && <span className="a-note err" role="alert">Some fields need attention. They’re marked above.</span>}
+      </div>
     </form>
   );
 }

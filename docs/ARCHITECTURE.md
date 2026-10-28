@@ -24,6 +24,7 @@ Browser ── GET / ──────────────► app/page.jsx 
 
 - **`box()`:** outlined faces in the line-art style. The top face, the +y face and the −x face are the ones visible from the camera.
 - **`sprite()`:** a billboard, with transform `rotateZ(45deg) rotateX(-60deg)`, which cancels the camera so the sprite faces the screen. It's used for trees, people, boats, signs and the plane.
+- **`placeName()`:** the island names (CALGARY · CANADA and so on). These are not sprites: they sit in `.ul-labels`, a flat layer drawn over the 3D world with the same box as `.ul-world`, positioned with the projection above (island tops are at z = 28). A billboard leans back across the ring road, so buses and cyclists used to drive through the lettering; in the flat layer nothing can pass in front of them, and they still pan and scale with the map.
 - **`mover()`:** a constant-speed path animation using the Web Animations API. Sprites flip to face their direction of travel, and vehicles turn at corners.
 - **`slot()`:** puts the product that owns a map slot there. Bespoke slots have hand-drawn buildings; generic slots use a building style chosen in the admin.
 
@@ -43,7 +44,8 @@ Browser ── GET / ──────────────► app/page.jsx 
 
 - **Ocean:** the waves are a screen-space layer animated with transforms only, so it stays cheap.
 - **Bascule bridge:** its leaves lift on a 40-second cycle, timed so the coral sailboat passes under them while they're open.
-- **Tour:** the tour list is the products with `inTour` set, not marked Coming soon, ordered by `sort`. Clicking a tour dot restarts the timer.
+- **Tour:** the tour list is the products with `inTour` set, not marked Coming soon, ordered by `sort`. It opens on the HQ card and holds it for one stop. Clicking a tour dot restarts the timer.
+- **Following the tour:** on small screens some products sit off-screen. `reveal(id)` measures the product's building against `clearArea()` (the stage minus the header, tagline and bottom panel) and glides the map only along an axis where the building is out of view. Tour steps call it unless the visitor dragged the map in the last 12 seconds. Dot clicks and keyboard focus on a building always call it.
 
 **Performance and glitch rules (learned the hard way):**
 
@@ -52,7 +54,11 @@ Browser ── GET / ──────────────► app/page.jsx 
 - Never animate `background-position` on a large layer.
 - Hover never moves the hovered element. It only highlights it.
 
-**Theme.** Day and night colours are CSS custom properties in `app/globals.css`. Night follows `prefers-color-scheme`, and the toggle sets `data-theme` on `<html>`.
+**Panels.** `#story`, `#notes` and `#contact` open a panel through the hash, so links and the back button work. While a panel is open, `.ul-root` has the class `panel-open`. That class shows the scrim and hides the floating UI, and everything behind the panel (the stage, header, tagline, hint and dock) is `inert`, so Tab stays inside the panel. The ✕ button, Esc and the scrim all close it through `dismiss()`, which also clears the hash (so the same link reopens it) and returns focus to the link that opened it when that was done with the keyboard. The tour does not advance while a panel is open.
+
+**Theme.** Day and night colours are CSS custom properties in `app/globals.css`. Night follows `prefers-color-scheme`, and the toggle sets `data-theme` on `<html>` and saves the choice in `localStorage` (`ul-theme`). A small inline script in `app/layout.jsx` applies a saved choice before first paint, so there is no flash of the other theme; it skips `/admin`, which is light only. The browser's `theme-color` follows the theme.
+
+**Link previews.** `public/og.png` (1200×630) is a snapshot of the map with the logo and tagline, used for Open Graph and X/Twitter cards. Regenerate it with `scripts/og-image.cjs` after the map or tagline changes, and keep it under 300 KB for WhatsApp.
 
 ## Back end
 
@@ -62,7 +68,7 @@ Browser ── GET / ──────────────► app/page.jsx 
 | --- | --- |
 | `products` | id, slot (unique), name, line, place, status, color, url, cta, style, in_tour, visible, sort |
 | `site_content` | one row (id 1) holding a JSON document: tagline, hint, hq, story, notes, contact, settings |
-| `messages` | contact-form messages, with a `read` flag |
+| `messages` | contact-form messages, with a `read` flag and a `sender` hash used only for rate limiting |
 | `events` | analytics: type (view/hover/click), product, path, referrer host, device, visitor hash |
 | `login_tokens` | sha256 of each one-time sign-in token, with an expiry |
 | `sessions` | sha256 of each session id, with an expiry of 30 days |
@@ -81,4 +87,4 @@ Browser ── GET / ──────────────► app/page.jsx 
 
 **Analytics.** `visitor = sha256(day + ip + userAgent + ANALYTICS_SALT)[0:16]`. No cookies are set and raw IP addresses are not stored. Bots are filtered by user agent. Hover events are sent once per product per page view.
 
-**Contact.** The form has a honeypot field `website`. Messages are stored first, and the alert email is fire-and-forget.
+**Contact.** The form has a honeypot field `website`. It checks name and email in the browser first; the API repeats the checks and returns errors per field (`{ errors: { name, email } }`), which the form shows under each field. A sender is `sha256(day + ip + ANALYTICS_SALT)[0:16]`, limited to 5 messages per 10 minutes (HTTP 429). Messages are stored first, and the alert email is fire-and-forget; it is skipped once more than 20 messages have arrived in the past hour.
