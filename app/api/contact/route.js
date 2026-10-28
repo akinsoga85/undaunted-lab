@@ -13,7 +13,10 @@ const ALERTS_PER_HOUR = 20; // past this, messages are still saved but the email
 export async function POST(req) {
   let data;
   try { data = await req.json(); } catch { return Response.json({ ok: false, error: 'Invalid request' }, { status: 400 }); }
-  if (data.website) return Response.json({ ok: true }); // honeypot: bots fill hidden fields
+  if (data.ul_hp) { // honeypot: bots fill hidden fields
+    console.warn('[contact] the hidden bot field was filled in, so the message was dropped');
+    return Response.json({ ok: true });
+  }
   const name = String(data.name || '').trim().slice(0, 200);
   const email = String(data.email || '').trim().slice(0, 200);
   const topic = String(data.topic || '').trim().slice(0, 100);
@@ -44,9 +47,11 @@ export async function POST(req) {
     console.error('[contact]', e.message);
     return Response.json({ ok: false, error: 'Could not save your message.' }, { status: 500 });
   }
+  // Awaited: on Vercel the function can be frozen as soon as the response is sent, which would drop the alert.
   const to = process.env.CONTACT_TO ? [process.env.CONTACT_TO] : allowedEmails();
   if (to.length && !quiet) {
-    sendMail({ to, replyTo: email, subject: `[undauntedlab.com] ${topic || 'New message'} from ${name}`, text: `${message}\n\n— ${name} <${email}>\nTopic: ${topic}` }).catch(() => {});
+    const alerted = await sendMail({ to, replyTo: email, subject: `[undauntedlab.com] ${topic || 'New message'} from ${name}`, text: `${message}\n\n— ${name} <${email}>\nTopic: ${topic}` }).catch(() => false);
+    console.log(`[contact] message saved; email alert ${alerted ? 'sent' : 'not sent'}`);
   } else if (quiet) {
     console.warn('[contact] over ' + ALERTS_PER_HOUR + ' messages this hour; saved without an email alert');
   }

@@ -126,7 +126,8 @@ export default function Site({ products, content }) {
               <input id="c-email" name="email" type="email" inputMode="email" autoComplete="email" maxLength={200} required aria-describedby="c-email-err" />
               <span className="err" id="c-email-err" data-err="email" hidden />
             </div>
-            <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: 'absolute', left: -9999, width: 1, height: 1 }} />
+            {/* Bot trap: people never see it. The made-up name and ignore flags keep browser and password-manager autofill out of it. */}
+            <input type="text" name="ul_hp" tabIndex={-1} autoComplete="off" aria-hidden="true" data-1p-ignore="" data-lpignore="true" data-bwignore="" data-form-type="other" style={{ position: 'absolute', left: -9999, width: 1, height: 1 }} />
             <fieldset className="chips" style={{ border: 0, padding: 0, margin: 0 }}>
               <legend style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>I&apos;m interested in</legend>
               {contact.topics.map((t, i) => (
