@@ -9,7 +9,7 @@ function send(t, p) {
   } catch { /* never block the page */ }
 }
 
-export default function Site({ products, content }) {
+export default function Site({ products, content, posts = [] }) {
   useEffect(() => {
     import('@/lib/world').then((m) => m.init({ products, content, contactEndpoint: '/api/contact', onEvent: send }));
     send('view');
@@ -104,6 +104,9 @@ export default function Site({ products, content }) {
           <h2 id="p-notes" tabIndex={-1}>{notes.title}</h2>
           <p>{notes.intro}</p>
           <div className="notes">
+            {posts.map((n) => (
+              <a key={n.slug} href={`/notes/${n.slug}`}><small>{String(n.tag || '').toUpperCase()}</small><strong>{n.title}</strong>{n.summary && <span className="sum">{n.summary}</span>}<span>Read →</span></a>
+            ))}
             {notes.items.map((n, i) => (
               <a key={i} href={n.url} target="_blank" rel="noopener"><small>{String(n.tag || '').toUpperCase()}</small><strong>{n.title}</strong><span>Read ↗</span></a>
             ))}

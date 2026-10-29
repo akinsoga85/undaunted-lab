@@ -7,6 +7,7 @@ import { getDb, schema } from '@/lib/db';
 import { requireAdmin, requestLoginLink, signInWithToken, signOut, logActivity } from '@/lib/auth';
 import { SLOTS, STYLES, STATUS } from '@/lib/defaults';
 import { mergeContent } from '@/lib/site-data';
+import { hasNotes } from '@/lib/markdown';
 
 const str = (fd, k, max = 300) => String(fd.get(k) ?? '').trim().slice(0, max);
 const isUrl = (u) => /^https?:\/\/[^\s]+$/i.test(u);
@@ -126,6 +127,67 @@ export async function moveProduct(fd) {
   }
   bust();
   revalidatePath('/admin/products');
+}
+
+/* ---------- lab notes ---------- */
+const postSlug = (s) => String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+
+// intent: 'save' keeps a note's state, 'publish' makes it public, 'unpublish' takes it down.
+export async function savePost(_prev, fd) {
+  const me = await requireAdmin();
+  const id = Number(fd.get('id')) || 0;
+  const intent = str(fd, 'intent', 20);
+  const p = {
+    title: str(fd, 'title', 140),
+    slug: postSlug(str(fd, 'slug', 80) || str(fd, 'title', 140)),
+    tag: str(fd, 'tag', 40),
+    author: str(fd, 'author', 60),
+    summary: str(fd, 'summary', 300),
+    body: str(fd, 'body', 40000),
+    linkedin: str(fd, 'linkedin', 3000),
+    linkedinUrl: str(fd, 'linkedinUrl', 300)
+  };
+  const db = await getDb();
+  const [existing] = id ? await db.select().from(schema.posts).where(eq(schema.posts.id, id)) : [];
+  const published = intent === 'publish' ? true : intent === 'unpublish' ? false : !!existing?.published;
+  const errors = {};
+  if (!p.title) errors.title = 'Give the note a title.';
+  if (!p.slug) errors.slug = 'Add a web address, like spot-a-scam.';
+  if (p.linkedinUrl && !isUrl(p.linkedinUrl)) errors.linkedinUrl = 'Use the full link to the LinkedIn post, starting with https://.';
+  if (published) {
+    if (!p.summary) errors.summary = 'Add a short summary. It shows in Lab notes and in link previews.';
+    if (!p.body) errors.body = 'The article is empty.';
+    for (const k of ['title', 'summary', 'body']) if (hasNotes(p[k])) errors[k] = 'Fill in or remove the [[…]] notes before publishing.';
+  }
+  if (!errors.slug) {
+    const [clash] = await db.select({ id: schema.posts.id }).from(schema.posts).where(eq(schema.posts.slug, p.slug));
+    if (clash && clash.id !== id) errors.slug = 'Another note already uses this web address.';
+  }
+  if (Object.keys(errors).length) return { errors, values: { ...p, id, published: !!existing?.published } };
+
+  const row = { ...p, published, publishedAt: published ? (existing?.publishedAt || new Date()) : (existing?.publishedAt ?? null), updatedAt: new Date() };
+  let postId = existing?.id;
+  if (existing) await db.update(schema.posts).set(row).where(eq(schema.posts.id, existing.id));
+  else [{ id: postId }] = await db.insert(schema.posts).values(row).returning({ id: schema.posts.id });
+  const what = published && !existing?.published ? 'published' : !published && existing?.published ? 'unpublished' : existing ? 'updated' : 'drafted';
+  await logActivity(me.email, `${what} note`, p.title);
+  bust();
+  revalidatePath(`/notes/${p.slug}`);
+  if (existing && existing.slug !== p.slug) revalidatePath(`/notes/${existing.slug}`);
+  revalidatePath('/admin/notes');
+  redirect(`/admin/notes/${postId}?saved=${what}`);
+}
+
+export async function deletePost(fd) {
+  const me = await requireAdmin();
+  const db = await getDb();
+  const [row] = await db.delete(schema.posts).where(eq(schema.posts.id, Number(fd.get('id')) || 0)).returning();
+  if (row) {
+    await logActivity(me.email, 'deleted note', row.title);
+    revalidatePath(`/notes/${row.slug}`);
+  }
+  bust();
+  redirect('/admin/notes?removed=1');
 }
 
 /* ---------- site content ---------- */

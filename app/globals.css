@@ -212,6 +212,7 @@ body:has(.ul-root) { overflow: hidden; }
 .notes a:hover { transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--ink); }
 .notes small { font: 700 11px/1 var(--body); letter-spacing: .1em; color: var(--blue-2); }
 .notes strong { font: 700 19px/1.25 var(--display); }
+.notes .sum { font-size: 15px; line-height: 1.45; color: #44454B; }
 .form { display: grid; gap: 14px; }
 .form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
 .form input, .form select, .form textarea { font: 400 16px/1.4 var(--body); color: var(--ui-ink); background: #fff; border: 2.5px solid var(--ink); border-radius: 12px; padding: 12px 14px; }
@@ -284,6 +285,33 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .ul-404 .kicker { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--blue-2); }
 .ul-404 h1 { margin: 0; font: 800 clamp(30px, 7vw, 42px)/1 var(--display); letter-spacing: -.03em; text-wrap: balance; }
 .ul-404 p { margin: 0; font-size: 17px; line-height: 1.55; color: var(--ui-muted); }
+/* Lab notes articles (app/notes/[slug]): the panel look, as a page that scrolls */
+.ul-note { min-height: 100%; box-sizing: border-box; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 56px max(16px, env(safe-area-inset-left, 0px)); }
+.ul-note-top { max-width: 760px; margin: 0 auto 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.ul-note-back { color: var(--ui-ink); text-decoration: none; font: 600 15px/1 var(--body); padding: 0 18px; min-height: 48px; display: inline-flex; align-items: center; gap: 8px; }
+.ul-note-back::before { content: '←'; }
+.ul-note .in { max-width: 760px; margin: 0 auto; box-sizing: border-box; background: var(--ui); color: var(--ui-ink); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 5px 5px 0 var(--ink); padding: clamp(22px, 5vw, 52px); }
+.ul-note .kicker { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--blue-2); }
+.ul-note h1 { margin: 12px 0 14px; font: 800 clamp(34px, 6vw, 54px)/1 var(--display); letter-spacing: -.035em; text-wrap: balance; }
+.ul-note-meta { margin: 0 0 30px; color: var(--ui-muted); font-size: 15px; }
+.ul-note-draft { margin: 0 0 20px; background: #FFF1CC; border: 2.5px solid var(--ink); border-radius: 14px; padding: 10px 14px; font-weight: 600; font-size: 15px; }
+.ul-note-draft a { color: var(--ui-ink); }
+.prose { font-size: 18px; line-height: 1.7; color: #2A2B31; }
+.prose > * { margin: 0 0 1.05em; max-width: 66ch; }
+.prose h2 { margin-top: 1.7em; font: 700 clamp(24px, 3.6vw, 30px)/1.15 var(--display); letter-spacing: -.02em; color: var(--ui-ink); }
+.prose h3 { margin-top: 1.4em; font: 700 21px/1.25 var(--display); color: var(--ui-ink); }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li { margin: .4em 0; }
+.prose blockquote { margin-left: 0; padding: 2px 0 2px 18px; border-left: 4px solid var(--coral); font-style: italic; }
+.prose blockquote p { margin: 0; }
+.prose a { color: var(--blue-2); text-underline-offset: 3px; }
+mark.todo { background: #FFF1CC; outline: 2px dashed #B07A00; border-radius: 4px; padding: 0 4px; color: inherit; }
+.ul-note-end { margin-top: 40px; padding-top: 24px; border-top: 2.5px dashed var(--ink); display: grid; gap: 16px; }
+.ul-note-end p { margin: 0; font-size: 17px; line-height: 1.5; }
+.ul-note-end p a { color: var(--ui-ink); font-weight: 700; text-underline-offset: 3px; }
+.ul-note-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn.ghost { background: var(--ui); color: var(--ui-ink); box-shadow: 3px 3px 0 var(--ink); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }

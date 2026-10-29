@@ -67,7 +67,8 @@ Click **Deploy**, or run `npx vercel --prod`.
 5. Change one word under **Site text**, save, and reload the site to see it live. Then change it back.
 6. Refresh the site a few times. **Analytics** should show views within a few seconds.
 7. Read the privacy notice (**How we handle them** under the Say hello form). Make sure it matches how you handle messages, and edit it under **Site text** if not.
-8. `https://undauntedlab.com/robots.txt` and `/sitemap.xml` load, and a made-up address such as `/nope` shows the styled page-not-found page.
+8. **Lab notes** in the admin lists the four starter drafts, and **Preview** opens each one on the site with a Draft banner.
+9. `https://undauntedlab.com/robots.txt` and `/sitemap.xml` load, and a made-up address such as `/nope` shows the styled page-not-found page.
 
 If something fails:
 

@@ -129,9 +129,32 @@ const STAMP = 'e2e-' + Date.now();
   await a.goto(BASE + '/admin/products/scamfendr'); await a.fill('#f-line', origLine); await a.click('button:has-text("Save changes")'); await a.waitForURL(/products\?saved/);
   await a.goto(BASE + '/admin/content'); await a.fill('[id="c-tagline"]', origTagline); await a.click('button:has-text("Save site text")'); await a.waitForTimeout(1200);
   ok('cleanup: original text restored', await a.isVisible('text=Saved. The live site is updated.'));
+  // lab notes: starter drafts stay private and can't be published with [[notes]] left; a clean note goes live, then comes down
+  {const anon = await (await b.newContext()).newPage();
+   ok('notes: starter drafts are not public', (await anon.goto(BASE + '/notes/spot-a-scam-before-you-pay')).status() === 404);
+   await a.goto(BASE + '/admin/notes'); await a.locator('tr', { hasText: 'Spot a scam' }).getByRole('link', { name: 'Edit' }).click(); await a.waitForSelector('#p-body');
+   await a.getByRole('button', { name: 'Publish' }).click(); await a.waitForTimeout(1500);
+   ok('notes: publishing with [[notes]] left is refused', await a.isVisible('text=Fill in or remove the [[…]] notes before publishing.'));
+   const pv = await a.context().newPage(); const r = await pv.goto(BASE + '/notes/spot-a-scam-before-you-pay');
+   ok('notes: admins can preview a draft', r.status() === 200 && await pv.isVisible('.ul-note-draft') && (await pv.locator('mark.todo').count()) > 0); await pv.close();
+   const slug = 'e2e-note-' + Date.now();
+   await a.goto(BASE + '/admin/notes/new'); await a.fill('#p-title', 'E2E note'); await a.fill('#p-slug', slug); await a.fill('#p-summary', 'Summary.');
+   await a.fill('#p-body', 'Hello **world**.\n\n## Heading\n\n- one\n- two'); await a.fill('#p-linkedin', 'LinkedIn text');
+   await a.getByRole('button', { name: 'Save draft' }).click(); await a.waitForURL(/saved=drafted/);
+   ok('notes: a new draft is private', (await anon.goto(BASE + '/notes/' + slug)).status() === 404);
+   await a.getByRole('button', { name: 'Publish' }).click(); await a.waitForURL(/saved=published/);
+   const pub = await anon.goto(BASE + '/notes/' + slug);
+   ok('notes: published note is public, formatted and canonical', pub.status() === 200 && (await anon.locator('.prose h2').count()) === 1 && (await anon.locator('.prose li').count()) === 2 && /\/notes\//.test(await anon.getAttribute('link[rel=canonical]', 'href')));
+   await anon.goto(BASE + '/#notes'); await anon.waitForTimeout(900);
+   ok('notes: Lab notes panel and sitemap list it', (await anon.locator(`[data-panel="notes"] a[href="/notes/${slug}"]`).count()) === 1 && (await (await anon.request.get(BASE + '/sitemap.xml')).text()).includes('/notes/' + slug));
+   await a.getByRole('button', { name: 'Unpublish' }).click(); await a.waitForURL(/saved=unpublished/);
+   ok('notes: unpublishing takes it down', (await anon.goto(BASE + '/notes/' + slug)).status() === 404);
+   await a.getByRole('button', { name: 'Delete' }).click(); await a.getByRole('button', { name: 'Yes, delete' }).click(); await a.waitForURL(/removed=1/);
+   ok('notes: delete removes it', (await a.locator('td', { hasText: '/notes/' + slug }).count()) === 0);
+   await anon.context().close();}
   // phone width: no admin page may scroll sideways
   await a.setViewportSize({ width: 390, height: 844 }); const wide = [];
-  for (const path of ['/admin', '/admin/messages', '/admin/products', '/admin/content', '/admin/analytics', '/admin/settings']) { await a.goto(BASE + path); if (await a.evaluate(() => document.documentElement.scrollWidth > innerWidth)) wide.push(path); }
+  for (const path of ['/admin', '/admin/messages', '/admin/products', '/admin/notes', '/admin/notes/new', '/admin/content', '/admin/analytics', '/admin/settings']) { await a.goto(BASE + path); if (await a.evaluate(() => document.documentElement.scrollWidth > innerWidth)) wide.push(path); }
   ok('mobile: admin pages have no sideways scroll', wide.length === 0, wide.join(' '));
   await a.setViewportSize({ width: 1440, height: 900 });
   // sign out

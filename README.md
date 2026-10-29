@@ -51,8 +51,9 @@ npm run dev                   # http://localhost:3000 and http://localhost:3000/
 | Dashboard | Views this week, visitors, product clicks, unread messages, a 30-day chart and the latest messages |
 | Products & map | Reorder the tour, show or hide products, take them in or out of the tour, edit them, remove them (two-step), see which places are free |
 | Add / edit product | Set name, line, status (Live, Pilot, In the lab, Coming soon), link, button text, colour and place on the map. Open plots and islands also take a building style (tower, house, shop or campus). The card preview updates as you type |
-| Site text | The tagline, the lighthouse card, Our story (paragraphs, principles, founder note), Lab notes posts, the Say hello topics and email, the LinkedIn link and the tour speed |
-| Messages | Read, reply by email, mark as read or unread, delete |
+| Lab notes | Write articles for undauntedlab.com/notes/…, each with a LinkedIn version (with a copy button and character count). Save drafts, preview them on the site (only admins can), publish, unpublish, delete. A note can't be published while it still has [[NOTE: …]] placeholders |
+| Site text | The tagline, the lighthouse card, Our story (paragraphs, principles, founder note), extra Lab notes links to other sites, the Say hello topics and email, the privacy notice, the LinkedIn link and the tour speed |
+| Messages | Read, reply by email or in Gmail, copy the address, mark as read or unread, delete. Messages that tripped the bot trap are marked Possible spam |
 | Analytics | Views and visitors over 7, 30 or 90 days, hovers, clicks and click rate per product, referring sites, phone vs desktop |
 | Settings | Who can sign in, connection status, sign out everywhere, recent activity |
 

@@ -60,6 +60,10 @@
 .a-check { display: flex; align-items: center; gap: 10px; font-weight: 600; min-height: 44px; }
 .a-check input { width: 20px; height: 20px; accent-color: var(--a-ink); }
 .a-color { display: flex; gap: 8px; align-items: center; }
+.a-prefix { display: flex; gap: 6px; align-items: center; }
+.a-prefix > span { color: var(--a-muted); font-size: 14px; font-weight: 600; }
+.a-prefix input { flex: 1; min-width: 0; }
+.a-pill.draft { background: #EEE; }
 .a-color input[type=color] { width: 48px; height: 44px; border: 2px solid var(--a-ink); border-radius: 12px; padding: 2px; background: #fff; flex-shrink: 0; }
 
 .a-note { border: 2px solid var(--a-ink); border-radius: 14px; padding: 12px 14px; font-weight: 600; display: flex; gap: 10px; align-items: center; }

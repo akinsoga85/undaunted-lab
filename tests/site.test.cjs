@@ -112,6 +112,9 @@ async function pointFor(p,id){return p.evaluate((id)=>{const a=document.querySel
   const nf=await (await b.newContext({viewport:{width:390,height:844}})).newPage(); const r=await nf.goto(BASE+'/an/old-framer-page');
   ok('404: styled page with a way back, no sideways scroll', r.status()===404&&(await nf.isVisible('.ul-404 a[href="/"]'))&&(await nf.title())==='Page not found · Undaunted Lab'&&await nf.evaluate(()=>document.documentElement.scrollWidth<=innerWidth), r.status()+' '+await nf.title());
   await nf.screenshot({path:'tests/output/404-phone.png'}); await nf.context().close();}
+ // lab notes: unknown and draft articles are not public
+ {const r1=await ctx.request.get(BASE+'/notes/no-such-note'); const r2=await ctx.request.get(BASE+'/notes/spot-a-scam-before-you-pay');
+  ok('notes: unknown and draft articles return 404', r1.status()===404&&r2.status()===404, r1.status()+','+r2.status());}
  // privacy: linked under the contact form and from the menu; "Back to Say hello" returns to the form
  await p.evaluate(()=>{location.hash='contact'}); await p.waitForTimeout(700);
  await p.click('[data-panel="contact"] .form-note a'); await p.waitForTimeout(700);
