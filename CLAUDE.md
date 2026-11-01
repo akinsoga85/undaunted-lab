@@ -72,6 +72,8 @@ Run them against a local production build, never against the production database
 | `app/notes/[slug]`, `lib/posts.js`, `lib/markdown.js`, `lib/posts-seed.js` | Lab notes: article pages, cached reads of published notes, the safe Markdown-subset renderer, and the starter drafts (inserted once, when the `posts` table is created). Written in the admin under Lab notes. |
 | `app/robots.js`, `app/sitemap.js`, `app/not-found.jsx` | `/robots.txt`, `/sitemap.xml` and the styled page-not-found page. |
 | `next.config.mjs` | Security headers for every response (no framing, nosniff, referrer and permissions policies). |
+| `app/notes/[slug]/cover`, `lib/covers.js`, `public/covers/`, `assets/fonts/` | Lab notes cover images: a map scene (`public/covers/<scene>.jpg`) with the title on a card, drawn with next/og in static TTF copies of the site fonts and re-encoded as JPEG. 1200×630 for link previews, 1080×1350 for LinkedIn posts. |
+| `scripts/cover-art.cjs` | Regenerates `public/covers/*.jpg` from the live map. Rerun after the map changes, and update each scene's `focus` in `lib/covers.js` if you move a crop. |
 | `scripts/og-image.cjs` | Regenerates `public/og.png`, the link-preview image (a snapshot of the map). Rerun after the map or tagline changes. |
 
 ## Conventions and gotchas
@@ -85,6 +87,7 @@ Run them against a local production build, never against the production database
 - **Avoiding z-fighting:** decals lying on a surface (roads, lawns, plots, rings) are lifted with `translateZ(1–3px)` and have `pointer-events: none`. Keep that, or the flicker and hover bugs come back.
 - **Adding a map slot:** add it to `SLOTS` in `lib/defaults.js` with its plan `pos`, then call `slot(parent, id, x, y, w, d)` in `build()` inside `lib/world.js`.
 - **Escaping text:** admin-entered text that goes into `innerHTML` must go through `esc()` in world.js. Lab notes bodies go through `renderMarkdown()` in `lib/markdown.js`, which escapes everything first; don't add raw-HTML support to it.
+- **Cover images:** next/og can't read woff2 or variable fonts, so the covers use `assets/fonts/*.ttf`. `outputFileTracingIncludes` in `next.config.mjs` bundles those and `public/covers` with the route; keep it if you move them. Keep link-preview covers under 300 KB (WhatsApp skips bigger ones); the admin test checks this.
 - **Lab notes placeholders:** `[[NOTE: …]]` in a note blocks publishing (`hasNotes()`); keep that check in `savePost` if you change it.
 - **Responsive layout:** see the Layout table in docs/DESIGN.md. Below 1140px, `.ul-dock` joins the card and tour controls into one panel and the tagline moves under the logo; at 1140px and up, `.ul-dock` is an invisible strip and its children keep their desktop corners. Check new floating UI at 320, 390, 768, 1024 and 1440px; `tests/site.test.cjs` fails if any of it overlaps.
 - **Panels:** while one is open, `.ul-root.panel-open` hides the floating UI and the `behind` list in world.js makes it inert. Add any new floating UI to both, or it will show through the panel or stay reachable by Tab. Close panels with `dismiss()`, not `closePanels()`, so the hash is cleared.

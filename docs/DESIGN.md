@@ -106,3 +106,5 @@ The round-1 directions A, B and C were rejected as too text-heavy and taken off 
 
 **Lab notes articles** (`app/notes/[slug]`) use the same look as a page that scrolls: the logo pill and an "All notes" pill on the sea, then one white card, at most 760px wide, with a blue kicker (the topic), a display-font title, a byline with the reading time, and body text at 18px/1.7 with lines held to about 66 characters. Headings use the display font; quotes get a coral rule. A dashed rule separates the ending: a "Say hello" line, "Discuss on LinkedIn" once the post exists, and "Back to the map". `[[NOTE: …]]` placeholders show as dashed yellow highlights in previews.
 
+**Lab notes covers** reuse the same pieces: a map scene full-bleed, with a white card (4px ink border, 8px hard shadow) holding the blue topic kicker, the title in Bricolage Grotesque 800 and a byline with the logo. The link preview (1200×630) puts the card bottom-left with the scene's landmark on the right; the LinkedIn image (1080×1350) puts the scene on top and the card across the bottom on sea blue. Titles step down in size as they get longer, so every title fits.
+

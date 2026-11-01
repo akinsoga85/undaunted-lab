@@ -64,6 +64,18 @@
 .a-prefix > span { color: var(--a-muted); font-size: 14px; font-weight: 600; }
 .a-prefix input { flex: 1; min-width: 0; }
 .a-pill.draft { background: #EEE; }
+.a-scenes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.a-scene { position: relative; display: flex; flex-direction: column; gap: 6px; border: 2px solid var(--a-line); border-radius: 14px; padding: 6px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.a-scene:has(input:checked) { border-color: var(--a-ink); box-shadow: 3px 3px 0 var(--a-coral); }
+.a-scene:has(input:focus-visible) { outline: 3px solid var(--a-blue); outline-offset: 2px; }
+.a-scene input { position: absolute; opacity: 0; pointer-events: none; }
+.a-scene img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 9px; display: block; }
+.a-covers { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.a-cover { margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.a-cover.wide { flex: 2 1 320px; }
+.a-cover.portrait { flex: 1 1 180px; max-width: 280px; }
+.a-cover img { width: 100%; height: auto; border: 2px solid var(--a-ink); border-radius: 12px; display: block; background: var(--a-bg); }
+.a-cover figcaption { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px; color: var(--a-muted); flex-wrap: wrap; }
 .a-color input[type=color] { width: 48px; height: 44px; border: 2px solid var(--a-ink); border-radius: 12px; padding: 2px; background: #fff; flex-shrink: 0; }
 
 .a-note { border: 2px solid var(--a-ink); border-radius: 14px; padding: 12px 14px; font-weight: 600; display: flex; gap: 10px; align-items: center; }

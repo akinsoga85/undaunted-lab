@@ -22,7 +22,7 @@ export default async function EditNote({ params, searchParams }) {
     <>
       <div className="a-head"><div><h1>{p.title}</h1><p>{p.published ? 'Published' : 'Draft'} · last changed {new Date(updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}. <a href="/admin/notes">All notes</a></p></div></div>
       {saved && <div className="a-note ok" role="status">{saved(p.slug)}</div>}
-      <PostForm key={updatedAt.toString()} post={post} />
+      <PostForm key={updatedAt.toString()} post={post} version={new Date(updatedAt).getTime()} />
       <section className="a-card">
         <h2>Delete this note</h2>
         <p className="a-muted">{p.published ? 'It comes off the site straight away, and links to it stop working.' : 'The draft is gone for good.'}</p>

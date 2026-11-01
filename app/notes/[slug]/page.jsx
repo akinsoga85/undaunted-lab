@@ -4,10 +4,9 @@ import { getPost } from '@/lib/posts';
 import { getAdmin } from '@/lib/auth';
 import { renderMarkdown, readMinutes } from '@/lib/markdown';
 import TrackView from '@/components/TrackView';
+import { sceneOf } from '@/lib/covers';
 
 export const dynamic = 'force-dynamic';
-
-const OG_IMAGE = { url: '/og.png', width: 1200, height: 630, alt: 'An illustrated map of London, Lagos and Calgary as islands, with a paper plane flying between Undaunted Lab’s products' };
 
 // Published notes are public; a draft is shown only to a signed-in admin, as a preview.
 const load = cache(async (slug) => {
@@ -21,6 +20,8 @@ export async function generateMetadata({ params }) {
   const r = await load(params.slug);
   if (!r) return { title: 'Page not found · Undaunted Lab' };
   const { post, draft } = r;
+  // ?v= changes whenever the note is saved, so LinkedIn and others fetch the new cover instead of a cached one.
+  const image = { url: `/notes/${post.slug}/cover?v=${new Date(post.updatedAt).getTime()}`, width: 1200, height: 630, alt: post.title };
   return {
     title: `${post.title} · Undaunted Lab`,
     description: post.summary,
@@ -29,9 +30,9 @@ export async function generateMetadata({ params }) {
     openGraph: {
       type: 'article', siteName: 'Undaunted Lab', title: post.title, description: post.summary, url: `/notes/${post.slug}`,
       publishedTime: post.publishedAt ? new Date(post.publishedAt).toISOString() : undefined,
-      authors: post.author ? [post.author] : undefined, images: [OG_IMAGE]
+      authors: post.author ? [post.author] : undefined, images: [image]
     },
-    twitter: { card: 'summary_large_image', title: post.title, description: post.summary, images: ['/og.png'] }
+    twitter: { card: 'summary_large_image', title: post.title, description: post.summary, images: [image.url] }
   };
 }
 
@@ -47,6 +48,7 @@ export default async function Note({ params }) {
         <a className="pillbox ul-note-back" href="/#notes">All notes</a>
       </header>
       <article className="in">
+        <img className="ul-note-art" src={`/covers/${sceneOf(post.cover)}.jpg`} alt="" width={2000} height={1250} />
         {draft && <p className="ul-note-draft">Draft preview: only signed-in admins can see this. <a href={`/admin/notes/${post.id}`}>Edit or publish it</a></p>}
         {post.tag && <span className="kicker">{post.tag}</span>}
         <h1>{post.title}</h1>

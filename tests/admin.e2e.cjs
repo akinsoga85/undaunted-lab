@@ -131,10 +131,10 @@ const STAMP = 'e2e-' + Date.now();
   ok('cleanup: original text restored', await a.isVisible('text=Saved. The live site is updated.'));
   // lab notes: starter drafts stay private and can't be published with [[notes]] left; a clean note goes live, then comes down
   {const anon = await (await b.newContext()).newPage();
-   ok('notes: starter drafts are not public', (await anon.goto(BASE + '/notes/spot-a-scam-before-you-pay')).status() === 404);
+   ok('notes: starter drafts and their covers are not public', (await anon.goto(BASE + '/notes/spot-a-scam-before-you-pay')).status() === 404 && (await anon.request.get(BASE + '/notes/spot-a-scam-before-you-pay/cover')).status() === 404);
    await a.goto(BASE + '/admin/notes'); await a.locator('tr', { hasText: 'Spot a scam' }).getByRole('link', { name: 'Edit' }).click(); await a.waitForSelector('#p-body');
-   await a.getByRole('button', { name: 'Publish' }).click(); await a.waitForTimeout(1500);
-   ok('notes: publishing with [[notes]] left is refused', await a.isVisible('text=Fill in or remove the [[…]] notes before publishing.'));
+   await a.getByRole('button', { name: 'Publish' }).click();
+   ok('notes: publishing with [[notes]] left is refused', await a.waitForSelector('text=Fill in or remove the [[…]] notes before publishing.', { timeout: 15000 }).then(() => true, () => false));
    const pv = await a.context().newPage(); const r = await pv.goto(BASE + '/notes/spot-a-scam-before-you-pay');
    ok('notes: admins can preview a draft', r.status() === 200 && await pv.isVisible('.ul-note-draft') && (await pv.locator('mark.todo').count()) > 0); await pv.close();
    const slug = 'e2e-note-' + Date.now();
@@ -145,6 +145,10 @@ const STAMP = 'e2e-' + Date.now();
    await a.getByRole('button', { name: 'Publish' }).click(); await a.waitForURL(/saved=published/);
    const pub = await anon.goto(BASE + '/notes/' + slug);
    ok('notes: published note is public, formatted and canonical', pub.status() === 200 && (await anon.locator('.prose h2').count()) === 1 && (await anon.locator('.prose li').count()) === 2 && /\/notes\//.test(await anon.getAttribute('link[rel=canonical]', 'href')));
+   const get = (u) => anon.request.get(u).catch(() => anon.request.get(u)); // retry once: an idle keep-alive socket can be reset
+   const cw = await get(BASE + '/notes/' + slug + '/cover'), cp = await get(BASE + '/notes/' + slug + '/cover?size=portrait&download=1');
+   ok('notes: cover images (link preview and LinkedIn) are small JPEGs', cw.ok() && cw.headers()['content-type'] === 'image/jpeg' && (await cw.body()).length < 300 * 1024 && cp.ok() && /attachment; filename=".*-linkedin\.jpg"/.test(cp.headers()['content-disposition'] || ''), `${Math.round((await cw.body()).length / 1024)} KB, ${cp.headers()['content-disposition']}`);
+   ok('notes: the link preview points at the cover', /\/notes\/.*\/cover\?v=/.test(await anon.getAttribute('meta[property="og:image"]', 'content') || ''));
    await anon.goto(BASE + '/#notes'); await anon.waitForTimeout(900);
    ok('notes: Lab notes panel and sitemap list it', (await anon.locator(`[data-panel="notes"] a[href="/notes/${slug}"]`).count()) === 1 && (await (await anon.request.get(BASE + '/sitemap.xml')).text()).includes('/notes/' + slug));
    await a.getByRole('button', { name: 'Unpublish' }).click(); await a.waitForURL(/saved=unpublished/);

@@ -8,6 +8,7 @@ import { requireAdmin, requestLoginLink, signInWithToken, signOut, logActivity }
 import { SLOTS, STYLES, STATUS } from '@/lib/defaults';
 import { mergeContent } from '@/lib/site-data';
 import { hasNotes } from '@/lib/markdown';
+import { SCENES } from '@/lib/covers';
 
 const str = (fd, k, max = 300) => String(fd.get(k) ?? '').trim().slice(0, max);
 const isUrl = (u) => /^https?:\/\/[^\s]+$/i.test(u);
@@ -145,7 +146,8 @@ export async function savePost(_prev, fd) {
     summary: str(fd, 'summary', 300),
     body: str(fd, 'body', 40000),
     linkedin: str(fd, 'linkedin', 3000),
-    linkedinUrl: str(fd, 'linkedinUrl', 300)
+    linkedinUrl: str(fd, 'linkedinUrl', 300),
+    cover: SCENES[str(fd, 'cover', 20)] ? str(fd, 'cover', 20) : 'map'
   };
   const db = await getDb();
   const [existing] = id ? await db.select().from(schema.posts).where(eq(schema.posts.id, id)) : [];

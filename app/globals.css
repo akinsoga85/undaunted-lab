@@ -291,6 +291,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .ul-note-back { color: var(--ui-ink); text-decoration: none; font: 600 15px/1 var(--body); padding: 0 18px; min-height: 48px; display: inline-flex; align-items: center; gap: 8px; }
 .ul-note-back::before { content: '←'; }
 .ul-note .in { max-width: 760px; margin: 0 auto; box-sizing: border-box; background: var(--ui); color: var(--ui-ink); border: 3px solid var(--ink); border-radius: 22px; box-shadow: 5px 5px 0 var(--ink); padding: clamp(22px, 5vw, 52px); }
+.ul-note-art { display: block; width: calc(100% + 2 * clamp(22px, 5vw, 52px)); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; margin: calc(-1 * clamp(22px, 5vw, 52px)) calc(-1 * clamp(22px, 5vw, 52px)) 28px; border-bottom: 3px solid var(--ink); border-radius: 19px 19px 0 0; }
 .ul-note .kicker { font: 700 12px/1 var(--body); letter-spacing: .1em; text-transform: uppercase; color: var(--blue-2); }
 .ul-note h1 { margin: 12px 0 14px; font: 800 clamp(34px, 6vw, 54px)/1 var(--display); letter-spacing: -.035em; text-wrap: balance; }
 .ul-note-meta { margin: 0 0 30px; color: var(--ui-muted); font-size: 15px; }
