@@ -11,11 +11,9 @@ const securityHeaders = [
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  experimental: {
-    serverComponentsExternalPackages: ['@electric-sql/pglite'],
-    // The Lab notes cover images read these files at runtime (app/notes/[slug]/cover/route.jsx).
-    outputFileTracingIncludes: { '/notes/**': ['./assets/fonts/*.ttf', './public/covers/*.jpg', './public/logo.png'] }
-  },
+  serverExternalPackages: ['@electric-sql/pglite'],
+  // The Lab notes cover images read these files at runtime (app/notes/[slug]/cover/route.jsx).
+  outputFileTracingIncludes: { '/notes/**': ['./assets/fonts/*.ttf', './public/covers/*.jpg', './public/logo.png'] },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders }];
   }

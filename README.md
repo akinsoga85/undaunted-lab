@@ -14,7 +14,7 @@ Changes go live as soon as you save. There's no redeploy.
 
 ## Stack
 
-- Next.js 14 (App Router), deployed on Vercel.
+- Next.js 15 (App Router) with React 19, deployed on Vercel.
 - Postgres on Neon, accessed through Drizzle ORM. Tables are created and seeded automatically on first run.
 - Sign-in uses email magic links sent with Resend. Only addresses in `ADMIN_EMAILS` can sign in.
 - Analytics are first-party: no cookies, no IP addresses stored.

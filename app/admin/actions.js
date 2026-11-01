@@ -17,7 +17,7 @@ const bust = () => { revalidateTag('site'); revalidatePath('/'); };
 
 /* ---------- sign in ---------- */
 export async function requestLogin(formData) {
-  const h = headers();
+  const h = await headers();
   const origin = `${h.get('x-forwarded-proto') || 'http'}://${h.get('x-forwarded-host') || h.get('host')}`;
   await requestLoginLink(formData.get('email'), origin);
   redirect('/admin/login?sent=1');

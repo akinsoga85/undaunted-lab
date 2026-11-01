@@ -11,7 +11,7 @@ This is the new **undauntedlab.com**. It has two parts:
 
 **Stack:**
 
-- Next.js 14.2 (App Router), plain JavaScript with no TypeScript.
+- Next.js 15.5 (App Router) with React 19, plain JavaScript with no TypeScript.
 - Postgres on Neon, accessed with Drizzle ORM. The `@neondatabase/serverless` HTTP driver is used in production, and PGlite (embedded Postgres) locally.
 - Resend for email.
 - Deployed on Vercel.
@@ -95,3 +95,6 @@ Run them against a local production build, never against the production database
 - **Deleting:** don't delete `.data/` while the dev server is running (PGlite holds it open).
 - **Site address:** read it with `siteUrl()` from `lib/site-url.js`, never `process.env.SITE_URL` directly. It returns `''` for a value that isn't a plain address, so a bad setting can't produce broken links.
 - **Vercel and the database:** on Vercel, `DATABASE_URL` is required. The app refuses to fall back to PGlite there.
+- **Request data is async (Next 15):** `await` `cookies()`, `headers()`, `params` and `searchParams`, including `params` in route handlers and `generateMetadata`.
+- **Admin forms with validation:** forms whose action returns errors use `useAdminForm()` (`components/admin/useAdminForm.js`) with `onSubmit`, and pass its `pending` to `<Submit>`. React 19 resets a `<form action={…}>` after every action, which would wipe what was typed and quietly revert selects, checkboxes and radios. Forms whose action only redirects (sign-in, delete, toggles) can keep `action={…}`. The admin test checks that each form keeps its input after an error.
+- **PostCSS override:** `overrides.postcss` in `package.json` replaces the PostCSS that Next 15 pins (8.4.31, which has open advisories) with a patched 8.5.x. Drop it once `next` ships a patched PostCSS itself (Next 16.4+ does). Run `npm audit --omit=dev` after any dependency change.

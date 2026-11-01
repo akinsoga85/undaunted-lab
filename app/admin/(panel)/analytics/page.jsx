@@ -4,7 +4,8 @@ import { DailyBars, HBars } from '@/components/admin/Charts';
 const RANGES = [7, 30, 90];
 
 export default async function Analytics({ searchParams }) {
-  const days = RANGES.includes(Number(searchParams?.range)) ? Number(searchParams.range) : 30;
+  const range = Number((await searchParams)?.range);
+  const days = RANGES.includes(range) ? range : 30;
   const [a, label] = await Promise.all([getAnalytics(days), productLabels()]);
   const devTotal = a.devices.reduce((s, d) => s + d.n, 0) || 1;
   return (

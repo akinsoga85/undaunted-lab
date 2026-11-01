@@ -13,11 +13,12 @@ const SAVED = {
 };
 
 export default async function EditNote({ params, searchParams }) {
+  const [{ id }, q] = await Promise.all([params, searchParams]);
   const db = await getDb();
-  const [p] = await db.select().from(schema.posts).where(eq(schema.posts.id, Number(params.id) || 0));
+  const [p] = await db.select().from(schema.posts).where(eq(schema.posts.id, Number(id) || 0));
   if (!p) notFound();
   const { createdAt, updatedAt, publishedAt, ...post } = p;
-  const saved = SAVED[searchParams?.saved];
+  const saved = SAVED[q?.saved];
   return (
     <>
       <div className="a-head"><div><h1>{p.title}</h1><p>{p.published ? 'Published' : 'Draft'} · last changed {new Date(updatedAt).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}. <a href="/admin/notes">All notes</a></p></div></div>

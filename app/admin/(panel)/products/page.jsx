@@ -5,6 +5,7 @@ import { toggleProduct, moveProduct, deleteProduct } from '../../actions';
 import Confirm from '@/components/admin/Confirm';
 
 export default async function Products({ searchParams }) {
+  const q = await searchParams;
   const db = await getDb();
   const rows = await db.select().from(schema.products).orderBy(asc(schema.products.sort), asc(schema.products.name));
   const used = new Set(rows.map((r) => r.slot));
@@ -15,8 +16,8 @@ export default async function Products({ searchParams }) {
         <div><h1>Products & map</h1><p>Everything on the map. Order sets the plane’s tour. Changes go live straight away.</p></div>
         <a className="a-btn" href="/admin/products/new">Add a product</a>
       </div>
-      {searchParams?.saved && <div className="a-note ok" role="status">Saved. The live site is updated.</div>}
-      {searchParams?.removed && <div className="a-note ok" role="status">Removed from the map.</div>}
+      {q?.saved && <div className="a-note ok" role="status">Saved. The live site is updated.</div>}
+      {q?.removed && <div className="a-note ok" role="status">Removed from the map.</div>}
       <section className="a-card">
         <div className="a-table-wrap"><table className="a-table">
           <thead><tr><th>Order</th><th>Product</th><th>Status</th><th>Place on map</th><th>On map</th><th>In tour</th><th><span className="sr">Actions</span></th></tr></thead>

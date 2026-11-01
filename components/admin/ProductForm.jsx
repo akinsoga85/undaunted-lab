@@ -1,12 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useAdminForm } from './useAdminForm';
 import { saveProduct } from '@/app/admin/actions';
 import { SLOTS, STYLES, STATUS } from '@/lib/defaults';
 import Submit from './Submit';
 
 export default function ProductForm({ product, usedSlots }) {
-  const [state, action] = useFormState(saveProduct, null);
+  const { state, pending, onSubmit } = useAdminForm(saveProduct);
   const init = state?.values || product;
   const [v, setV] = useState(init);
   const set = (k) => (e) => setV({ ...v, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
@@ -18,7 +18,7 @@ export default function ProductForm({ product, usedSlots }) {
     <label className="a-field" htmlFor={`f-${k}`}><span>{label}</span>{input}{hint && <small>{hint}</small>}{err[k] && <span className="err" role="alert">{err[k]}</span>}</label>
   );
   return (
-    <form action={action} className="a-two" style={{ alignItems: 'start' }}>
+    <form onSubmit={onSubmit} className="a-two" style={{ alignItems: 'start' }}>
       <div className="a-card a-form">
         <input type="hidden" name="id" value={product.id || ''} />
         {field('name', 'Name', <input id="f-name" name="name" type="text" value={v.name} onChange={set('name')} aria-invalid={!!err.name} required maxLength={60} />)}
@@ -40,7 +40,7 @@ export default function ProductForm({ product, usedSlots }) {
           {!soon && <label className="a-check"><input type="checkbox" name="inTour" checked={!!v.inTour} onChange={set('inTour')} /> Include in the plane’s tour</label>}
         </div>
         {Object.keys(err).length > 0 && <div className="a-note err" role="alert">Fix the highlighted fields and save again.</div>}
-        <div className="a-actions"><Submit pendingText="Saving…">{product.id ? 'Save changes' : 'Add to the map'}</Submit><a className="a-btn ghost" href="/admin/products">Cancel</a></div>
+        <div className="a-actions"><Submit pending={pending} pendingText="Saving…">{product.id ? 'Save changes' : 'Add to the map'}</Submit><a className="a-btn ghost" href="/admin/products">Cancel</a></div>
       </div>
       <aside className="a-card" style={{ position: 'sticky', top: 16 }}>
         <h2>Card preview</h2>
