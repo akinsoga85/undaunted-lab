@@ -4,8 +4,8 @@ import Submit from '@/components/admin/Submit';
 export const dynamic = 'force-dynamic';
 
 // A button rather than an automatic sign-in, so email link scanners can't use up the one-time link.
-export default function Verify({ searchParams }) {
-  const token = String(searchParams?.token || '');
+export default async function Verify({ searchParams }) {
+  const token = String((await searchParams)?.token || '');
   return (
     <main className="a-login">
       <div className="a-card">

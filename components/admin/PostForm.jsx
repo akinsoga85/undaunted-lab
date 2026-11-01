@@ -1,6 +1,6 @@
 'use client';
 import { useRef, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useAdminForm } from './useAdminForm';
 import { savePost } from '@/app/admin/actions';
 import { countNotes, readMinutes } from '@/lib/markdown';
 import Submit from './Submit';
@@ -11,7 +11,7 @@ const LINKEDIN_MAX = 3000; // LinkedIn's limit for a post
 const slugOf = (s) => String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
 
 export default function PostForm({ post, version = 0 }) {
-  const [state, action] = useFormState(savePost, null);
+  const { state, pending, onSubmit } = useAdminForm(savePost);
   const [v, setV] = useState(state?.values || post);
   const [slugEdited, setSlugEdited] = useState(!!post.id);
   const intent = useRef(null);
@@ -32,7 +32,7 @@ export default function PostForm({ post, version = 0 }) {
     <label className="a-field" htmlFor={`p-${k}`}><span>{label}</span>{input}{hint && <small>{hint}</small>}{err[k] && <span className="err" role="alert">{err[k]}</span>}</label>
   );
   return (
-    <form action={action} className="a-form">
+    <form onSubmit={onSubmit} className="a-form">
       <input type="hidden" name="id" value={post.id || ''} />
       <input type="hidden" name="intent" ref={intent} defaultValue="save" />
       {notes > 0 && <div className="a-note info">{notes === 1 ? '1 editor’s note' : `${notes} editor’s notes`} [[like this]] left in the article. They’re highlighted in the preview, and the note can’t be published until each is filled in or removed.</div>}
@@ -81,13 +81,13 @@ export default function PostForm({ post, version = 0 }) {
       <div className="a-actions a-savebar">
         {post.published ? (
           <>
-            <Submit pendingText="Saving…" onClick={press('save')}>Save changes</Submit>
-            <Submit className="a-btn ghost" pendingText="Working…" onClick={press('unpublish')}>Unpublish</Submit>
+            <Submit pending={pending} pendingText="Saving…" onClick={press('save')}>Save changes</Submit>
+            <Submit pending={pending} className="a-btn ghost" pendingText="Working…" onClick={press('unpublish')}>Unpublish</Submit>
           </>
         ) : (
           <>
-            <Submit pendingText="Publishing…" onClick={press('publish')}>Publish</Submit>
-            <Submit className="a-btn ghost" pendingText="Saving…" onClick={press('save')}>Save draft</Submit>
+            <Submit pending={pending} pendingText="Publishing…" onClick={press('publish')}>Publish</Submit>
+            <Submit pending={pending} className="a-btn ghost" pendingText="Saving…" onClick={press('save')}>Save draft</Submit>
           </>
         )}
         {post.id && <a className="a-btn ghost" href={`/notes/${post.slug}`} target="_blank" rel="noopener">{post.published ? 'View' : 'Preview'} ↗</a>}

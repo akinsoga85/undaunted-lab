@@ -17,7 +17,7 @@ const load = cache(async (slug) => {
 });
 
 export async function generateMetadata({ params }) {
-  const r = await load(params.slug);
+  const r = await load((await params).slug);
   if (!r) return { title: 'Page not found · Undaunted Lab' };
   const { post, draft } = r;
   // ?v= changes whenever the note is saved, so LinkedIn and others fetch the new cover instead of a cached one.
@@ -37,7 +37,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function Note({ params }) {
-  const r = await load(params.slug);
+  const r = await load((await params).slug);
   if (!r) notFound();
   const { post, draft } = r;
   const date = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : null;

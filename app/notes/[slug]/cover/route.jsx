@@ -60,7 +60,7 @@ function Card({ post, logo, title, kicker, byline, style }) {
 }
 
 export async function GET(req, { params }) {
-  const post = await getPost(params.slug);
+  const post = await getPost((await params).slug);
   const url = new URL(req.url);
   // Admins can also try another scene (?scene=) before saving it; everyone else gets the saved one.
   const asked = url.searchParams.get('scene');

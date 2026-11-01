@@ -63,8 +63,13 @@ const STAMP = 'e2e-' + Date.now();
   await a.click('button:has-text("Save changes")'); await a.waitForURL(/products\?saved/);
   ok('products: edit saves', await a.isVisible('text=Saved. The live site is updated.'));
   // validation
-  await a.goto(BASE + '/admin/products/scamfendr'); await a.fill('#f-url', 'not a link'); await a.click('button:has-text("Save changes")'); await a.waitForTimeout(800);
+  await a.goto(BASE + '/admin/products/scamfendr');
+  const otherStatus = await a.$$eval('#f-status option', (o, cur) => o.map((x) => x.value).find((v) => v !== cur && v !== 'coming_soon'), await a.inputValue('#f-status'));
+  await a.selectOption('#f-status', otherStatus); await a.fill('#f-url', 'not a link'); await a.click('button:has-text("Save changes")'); await a.waitForTimeout(800);
   ok('products: bad link is caught with a clear message', await a.isVisible('text=Use a full link starting with https://'));
+  // React 19 resets a <form action> after the action; the form must keep what was entered, selects included
+  const shownStatus = await a.$eval('#f-status', (s) => s.options[s.selectedIndex].value);
+  ok('products: an error keeps what was entered', shownStatus === otherStatus && (await a.inputValue('#f-url')) === 'not a link', JSON.stringify({ otherStatus, shownStatus }));
   // clear a leftover test product from an interrupted earlier run
   await a.goto(BASE + '/admin/products');
   const left = a.locator('tr', { hasText: 'Testlane' });
@@ -83,6 +88,10 @@ const STAMP = 'e2e-' + Date.now();
   await a.goto(BASE + '/admin/content'); const origTagline = await a.inputValue('[id="c-tagline"]'); await a.fill('[id="c-tagline"]', 'Safety tools for everyday people, built with AI and care.');
   await a.click('button:has-text("Save site text")'); await a.waitForTimeout(1200);
   ok('content: saves', await a.isVisible('text=Saved. The live site is updated.'));
+  // an error only the server catches (the browser allows 20) must not undo what was typed
+  await a.fill('[id="c-hint"]', 'Unsaved hint ' + STAMP); await a.fill('[id="c-settings.tourSeconds"]', '20');
+  await a.click('button:has-text("Save site text")'); await a.waitForTimeout(1000);
+  ok('content: an error keeps what was typed', (await a.isVisible('text=Pick a number between 2 and 15.')) && (await a.inputValue('[id="c-hint"]')) === 'Unsaved hint ' + STAMP && (await a.inputValue('[id="c-settings.tourSeconds"]')) === '20', await a.inputValue('[id="c-hint"]'));
   await a.fill('[id="c-contact.email"]', 'nope'); await a.click('button:has-text("Save site text")'); await a.waitForTimeout(1000);
   ok('content: invalid email is caught', (await a.isVisible('text=Use a valid email address.')) || (await a.locator('[id="c-contact.email"]:invalid').count()) === 1);
 
@@ -133,8 +142,12 @@ const STAMP = 'e2e-' + Date.now();
   {const anon = await (await b.newContext()).newPage();
    ok('notes: starter drafts and their covers are not public', (await anon.goto(BASE + '/notes/spot-a-scam-before-you-pay')).status() === 404 && (await anon.request.get(BASE + '/notes/spot-a-scam-before-you-pay/cover')).status() === 404);
    await a.goto(BASE + '/admin/notes'); await a.locator('tr', { hasText: 'Spot a scam' }).getByRole('link', { name: 'Edit' }).click(); await a.waitForSelector('#p-body');
+   const otherScene = await a.$$eval('input[name=cover]', (r) => r.find((x) => !x.checked).value);
+   await a.click(`label.a-scene:has(input[value="${otherScene}"]) span`);
    await a.getByRole('button', { name: 'Publish' }).click();
    ok('notes: publishing with [[notes]] left is refused', await a.waitForSelector('text=Fill in or remove the [[…]] notes before publishing.', { timeout: 15000 }).then(() => true, () => false));
+   const shownScene = await a.$eval('input[name=cover]:checked', (x) => x.value).catch(() => null);
+   ok('notes: an error keeps the chosen cover', shownScene === otherScene, JSON.stringify({ otherScene, shownScene }));
    const pv = await a.context().newPage(); const r = await pv.goto(BASE + '/notes/spot-a-scam-before-you-pay');
    ok('notes: admins can preview a draft', r.status() === 200 && await pv.isVisible('.ul-note-draft') && (await pv.locator('mark.todo').count()) > 0); await pv.close();
    const slug = 'e2e-note-' + Date.now();

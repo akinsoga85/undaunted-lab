@@ -4,8 +4,9 @@ import { getDb, schema } from '@/lib/db';
 import ProductForm from '@/components/admin/ProductForm';
 
 export default async function EditProduct({ params }) {
+  const { id } = await params;
   const db = await getDb();
-  const [p] = await db.select().from(schema.products).where(eq(schema.products.id, params.id));
+  const [p] = await db.select().from(schema.products).where(eq(schema.products.id, id));
   if (!p) notFound();
   const used = (await db.select({ slot: schema.products.slot }).from(schema.products)).map((r) => r.slot);
   const { updatedAt, sort, ...product } = p;

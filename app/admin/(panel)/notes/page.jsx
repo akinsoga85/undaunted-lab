@@ -5,6 +5,7 @@ import { countNotes } from '@/lib/markdown';
 const day = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 
 export default async function Notes({ searchParams }) {
+  const q = await searchParams;
   const db = await getDb();
   const rows = await db.select().from(schema.posts).orderBy(desc(schema.posts.updatedAt));
   return (
@@ -13,7 +14,7 @@ export default async function Notes({ searchParams }) {
         <div><h1>Lab notes</h1><p>Articles for undauntedlab.com/notes, each with a LinkedIn version. Drafts stay private until you publish them.</p></div>
         <a className="a-btn" href="/admin/notes/new">Write a note</a>
       </div>
-      {searchParams?.removed && <div className="a-note ok" role="status">Note deleted.</div>}
+      {q?.removed &&<div className="a-note ok" role="status">Note deleted.</div>}
       <section className="a-card">
         {rows.length === 0 ? <p className="a-muted">No notes yet. Write one, and it appears in the Lab notes panel once you publish it.</p> : (
           <div className="a-table-wrap"><table className="a-table">

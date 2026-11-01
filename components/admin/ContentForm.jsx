@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useAdminForm } from './useAdminForm';
 import { saveContent } from '@/app/admin/actions';
 import Submit from './Submit';
 
@@ -29,7 +29,7 @@ function ListEditor({ name, rows: initial, fields, addLabel, max = 8 }) {
 }
 
 export default function ContentForm({ content }) {
-  const [state, action] = useFormState(saveContent, null);
+  const { state, pending, onSubmit } = useAdminForm(saveContent);
   const err = state?.errors || {};
   const c = content;
   const F = ({ k, label, def, hint, area, rows = 3, type = 'text' }) => (
@@ -39,7 +39,7 @@ export default function ContentForm({ content }) {
     </label>
   );
   return (
-    <form action={action} className="a-form">
+    <form onSubmit={onSubmit} className="a-form">
       <section className="a-card">
         <h2>On the map</h2>
         <div className="a-row">{F({ k: "tagline", label: "Tagline", def: c.tagline, hint: "Over the map: bottom left on wide screens, under the logo on phones and tablets." })}{F({ k: "hint", label: "Hint under the tagline", def: c.hint, hint: "Shown with a mouse. Touch screens show “Drag to explore. Tap a place to meet it.” instead." })}</div>
@@ -79,7 +79,7 @@ export default function ContentForm({ content }) {
       </section>
       {/* a long form, so the save button and its result stay in view at the bottom of the window */}
       <div className="a-actions a-savebar">
-        <Submit pendingText="Saving…">Save site text</Submit>
+        <Submit pending={pending} pendingText="Saving…">Save site text</Submit>
         <a className="a-btn ghost" href="/" target="_blank" rel="noopener">View live site ↗</a>
         {state?.ok && <span className="a-note ok" role="status">Saved. The live site is updated.</span>}
         {Object.keys(err).length > 0 && <span className="a-note err" role="alert">Some fields need attention. They’re marked above.</span>}

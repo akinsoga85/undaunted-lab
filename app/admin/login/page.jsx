@@ -3,9 +3,10 @@ import Submit from '@/components/admin/Submit';
 
 export const dynamic = 'force-dynamic';
 
-export default function Login({ searchParams }) {
-  const sent = searchParams?.sent === '1';
-  const expired = searchParams?.error === 'expired';
+export default async function Login({ searchParams }) {
+  const q = await searchParams;
+  const sent = q?.sent === '1';
+  const expired = q?.error === 'expired';
   return (
     <main className="a-login">
       <div className="a-card">
